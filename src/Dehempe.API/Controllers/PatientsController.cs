@@ -1,0 +1,39 @@
+using Dehempe.Application.Dmp.DTOs;
+using Dehempe.Application.Dmp.Queries;
+using Dehempe.Domain.ValueObjects;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Dehempe.API.Controllers;
+
+[ApiController]
+[Route("api/patients/{ins}")]
+public sealed class PatientsController : ControllerBase
+{
+    private readonly IMediator _mediator;
+
+    public PatientsController(IMediator mediator) => _mediator = mediator;
+
+    /// <summary>
+    /// TD 0.2 — Vérifie l'existence du DMP d'un patient.
+    /// L'identité du praticien est lue automatiquement depuis la carte CPS branchée.
+    /// </summary>
+    /// <param name="ins">NIR (15 chiffres) ou NIA du patient.</param>
+    /// <param name="insOid">OID de l'INS. Défaut : 1.2.250.1.213.1.4.8 (NIR).</param>
+    /// <returns>Statut du DMP (existant / inexistant), informations patient si DMP trouvé.</returns>
+    /// <response code="200">Test exécuté avec succès — voir <c>exists</c>.</response>
+    /// <response code="400">INS invalide.</response>
+    /// <response code="502">Erreur retournée par le DMP.</response>
+    [HttpGet("dmp")]
+    [ProducesResponseType(typeof(DmpExistenceDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status502BadGateway)]
+    public async Task<IActionResult> CheckDmpExists(
+        string ins,
+        [FromQuery] string insOid = InsOidValues.Nir,
+        CancellationToken ct = default)
+    {
+        var result = await _mediator.Send(new CheckDmpExistsQuery(ins, insOid), ct);
+        return Ok(result);
+    }
+}

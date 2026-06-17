@@ -40,4 +40,38 @@ internal static class XdsConstants
     public const string SlotCreationTimeTo   = "$XDSDocumentEntryCreationTimeTo";
     public const string SlotClassCode        = "$XDSDocumentEntryClassCode";
     public const string SlotFormatCode       = "$XDSDocumentEntryFormatCode";
+
+    // ── TD 0.2 (GestionDossierPatientPartage / GDP) — HL7 V3 PRPA_IN201307UV02 ──
+    public const string Hl7V3Ns                = "urn:hl7-org:v3";
+    public const string GdpServiceNs           = "asip:ci-sis:gdp:2010";
+    public const string Iti0_2Action           = "urn:hl7-org:v3:PRPA_IN201307UV02";
+
+    /// <summary>OID racine utilisée par le DMP pour identifier le patient dans les messages HL7 V3 GDP.</summary>
+    public const string GdpInsRoot             = "1.2.250.1.213.1.4.10";
+
+    /// <summary>OID du système destinataire DMP (champ <c>receiver/device/id</c>).</summary>
+    public const string GdpReceiverDeviceOid   = "1.2.250.1.213.4.1.1.1";
+
+    /// <summary>InteractionId HL7 V3 commun à PRPA_IN201307UV02 / PRPA_IN201308UV02.</summary>
+    public const string Hl7V3InteractionRoot   = "2.16.840.1.113883.1.6";
+
+    // reasonCode TD 0.2
+    public const string ReasonCodeTestExst       = "TEST_EXST";
+    public const string ReasonCodeSystemTestExst = "1.2.250.1.213.1.1.4.11";
+
+    // Codes de réponse queryAck (TD 0.2)
+    public const string QueryResponseOk       = "OK"; // DMP existe
+    public const string QueryResponseNotFound = "NF"; // DMP n'existe pas
+
+    // attentionLine — clés métier renvoyées par TD 0.2
+    public const string AttentionKeyAutorisation = "AUTORISATION";
+    public const string AttentionKeyStatutMt     = "STATUT_MT";
+    public const string AttentionValueValide     = "VALIDE";
+
+    // Codes spécifiques aux subjectOf de la réponse
+    public const string ObsCodeCompteInternet    = "COMPTE_INTERNET_OUVERT";
+    public const string ObsCodeRattachementEns   = "RATTACHEMENT_ENS";
+
+    // OIDs INS utilisés en sortie HL7 V3 (côté DMP)
+    public const string InsCOid                  = "1.2.250.1.213.1.4.2";
 }

@@ -47,18 +47,39 @@ internal abstract class XdsSoapClientBase
 
         Logger.LogDebug("Envoi SOAP {Action} vers {Endpoint}", soapAction, endpoint);
 
-        using var response = await _http.PostAsync(endpoint, content, ct);
-        var responseXml = await response.Content.ReadAsStringAsync(ct);
-
-        if (!response.IsSuccessStatusCode)
+        HttpResponseMessage response;
+        try
+        {
+            response = await _http.PostAsync(endpoint, content, ct);
+        }
+        catch (HttpRequestException ex) when (ex.InnerException is System.Security.Authentication.AuthenticationException)
+        {
+            throw new DmpAuthException(
+                $"Échec du handshake TLS avec le DMP ({endpoint}). " +
+                "Le DMP exige le certificat CPS en mTLS — vérifie que Cps:CertificatePath pointe sur un .p12 valide " +
+                "contenant la clé privée (le cert CTK macOS ne suffit pas pour le mTLS).",
+                ex);
+        }
+        catch (HttpRequestException ex)
+        {
             throw new DmpException(
-                $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}).",
-                response.StatusCode.ToString());
+                $"Erreur réseau vers le DMP ({endpoint}) : {ex.Message}", ex, "NETWORK_ERROR");
+        }
 
-        var doc = new XmlDocument();
-        doc.LoadXml(responseXml);
-        CheckRegistryError(doc);
-        return doc;
+        using (response)
+        {
+            var responseXml = await response.Content.ReadAsStringAsync(ct);
+
+            if (!response.IsSuccessStatusCode)
+                throw new DmpException(
+                    $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). Body: {responseXml}",
+                    response.StatusCode.ToString());
+
+            var doc = new XmlDocument();
+            doc.LoadXml(responseXml);
+            CheckRegistryError(doc);
+            return doc;
+        }
     }
 
     private static string BuildEnvelope(string soapAction, XmlElement body, string vihfAssertion)

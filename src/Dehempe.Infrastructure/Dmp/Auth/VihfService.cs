@@ -30,12 +30,22 @@ internal sealed class VihfService : IVihfService
     public async Task<string> BuildVihfAssertionAsync(VihfContext context, CancellationToken ct = default)
     {
         var cert = await _cpsAuth.GetCertificateAsync(ct);
+        var key  = await _cpsAuth.GetSigningKeyAsync(ct);
         var assertionId = $"_vihf-{Guid.NewGuid():N}";
         var now = DateTimeOffset.UtcNow;
         var notOnOrAfter = now.AddHours(8);
 
         var doc = BuildXmlAssertion(assertionId, now, notOnOrAfter, context, cert);
-        SignAssertion(doc, assertionId, cert);
+
+        try
+        {
+            SignAssertion(doc, assertionId, cert, key);
+        }
+        catch (System.Security.Cryptography.CryptographicException ex)
+        {
+            throw new Dehempe.Domain.Exceptions.DmpAuthException(
+                $"Échec de la signature de l'assertion VIHF : {ex.Message}", ex);
+        }
 
         _logger.LogDebug("VIHF généré pour le praticien {Id}", context.PractitionerIdentifier);
         return doc.OuterXml;
@@ -83,11 +93,11 @@ internal sealed class VihfService : IVihfService
                <saml:AttributeValue>{SecurityElement.Escape(value)}</saml:AttributeValue>
              </saml:Attribute>";
 
-    private static void SignAssertion(XmlDocument doc, string assertionId, X509Certificate2 cert)
+    private static void SignAssertion(XmlDocument doc, string assertionId, X509Certificate2 cert, System.Security.Cryptography.RSA signingKey)
     {
         var signedXml = new SignedXml(doc)
         {
-            SigningKey = cert.GetRSAPrivateKey()
+            SigningKey = signingKey
         };
 
         signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigExcC14NTransformUrl;

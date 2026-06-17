@@ -40,7 +40,7 @@ internal sealed class ExceptionHandlingMiddleware
         catch (DmpAuthException ex)
         {
             _logger.LogError(ex, "Erreur d'authentification DMP");
-            await WriteProblem(context, StatusCodes.Status502BadGateway, "Erreur d'authentification avec le DMP.");
+            await WriteProblem(context, StatusCodes.Status502BadGateway, ex.Message);
         }
         catch (DmpException ex)
         {

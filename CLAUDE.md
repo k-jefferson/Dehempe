@@ -95,6 +95,26 @@ INS OIDs: NIR (15 digits) = `1.2.250.1.213.1.4.8`, NIA = `1.2.250.1.213.1.4.9`. 
 
 `RepositoryUniqueId` and `HomeCommunityId` in `appsettings*.json` are **OIDs imposed by the ANS** for the targeted DMP environment (test or prod). They are not free identifiers to invent — when in doubt, copy from the ANS integration guide rather than generating new values.
 
+## ANS reference documentation
+
+The `docs/package dmp/` folder holds the official Assurance Maladie documentation set — committed in the repo. **Always consult it before implementing or modifying any DMP feature** rather than guessing from sample code or memory:
+
+- **`SEL-MP-037 DMPi v2.10.0 sans MR.pdf`** — the main DMPi specification (DMP interface). The authoritative source for transactions, message shapes, and business rules. The `avec MR` variant is the same spec annotated with revision marks.
+- **`PDT-INF-526 - Matrice des droits fonctionnels v1.8.pdf`** — which transaction is allowed for which CPS profile / access context (normal / urgence / bris-de-glace). Check this before adding a route that calls a new TD.
+- **`PDT-INF-527 - Accès Web au système DMP v1.7.pdf`** — web access flows, useful for cross-referencing the SOAP equivalents.
+- **`PDT-INF-579v4 — Référentiel des suites cryptographiques`** — accepted TLS suites + signature algorithms for VIHF. Reference when touching `VihfService` or HTTPS configuration.
+- **`PDT-INF-606 — Matrice des droits fonctionnels AIR`** — AIR (Accès Inopiné Restreint) variant of the rights matrix.
+- **`PDT-INF-617 — CPE non directement nominatives IGC SANTE`** — CPE card variant of CPS.
+- **`DMP-LPS-Code-Exemple_C#dotNET-v2.06.01/`** — the official C#/WCF reference implementation by ANS. Use it as inspiration when implementing a new transaction (especially `AssertionLibrary/` for VIHF wiring), but do **not** copy WCF-generated code verbatim — this project hand-builds SOAP envelopes (see `XdsSoapClientBase`) and that constraint stays.
+- **`DMP_LPS_Exemple de messages_1.0.1_1 - v02.05.00/`** — real request/response payload examples for each TD. The fastest way to verify the exact XML shape expected by the DMP (slot names, classification UUIDs, etc.).
+- **`annexe-wsdl-schema/wsdl/`** — XDS.b, PatientsSpecific, patientCertif, PDQ WSDLs. Use these to read the contract of any operation; do not regenerate WCF clients from them.
+
+When asked to implement a new DMP transaction (TD-x.y), the canonical workflow is:
+1. Locate the TD in `SEL-MP-037` for the business rules and required fields.
+2. Find a matching request/response pair in `DMP_LPS_Exemple de messages/` to confirm wire format.
+3. Cross-check the matrix in `PDT-INF-526` to know which CPS profile may invoke it.
+4. Look at `DMP-LPS-Code-Exemple_C#dotNET-v2.06.01/` for an implementation pattern, then translate to this project's hand-built SOAP style.
+
 ## Config
 
 Layered via the standard ASP.NET Core mechanism:
