@@ -54,10 +54,16 @@ internal abstract class XdsSoapClientBase
         }
         catch (HttpRequestException ex) when (ex.InnerException is System.Security.Authentication.AuthenticationException)
         {
+            var platformHint = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(
+                System.Runtime.InteropServices.OSPlatform.OSX)
+                ? "Sur macOS, .NET ne peut pas attacher un cert PKCS#11 au handshake mTLS : " +
+                  "AppleCertificatePal.CopyWithPrivateKey impose un export de clé privée, " +
+                  "ce que le token CPS refuse par design. Solutions : déployer sur Windows/Linux, " +
+                  "passer par un proxy mTLS local (stunnel + PKCS#11), ou configurer un .p12 de test."
+                : "Vérifie que Cps:Pkcs11LibraryPath + Cps:Pkcs11Pin sont renseignés et que la carte est insérée.";
+
             throw new DmpAuthException(
-                $"Échec du handshake TLS avec le DMP ({endpoint}). " +
-                "Le DMP exige le certificat CPS en mTLS — vérifie que Cps:CertificatePath pointe sur un .p12 valide " +
-                "contenant la clé privée (le cert CTK macOS ne suffit pas pour le mTLS).",
+                $"Échec du handshake TLS avec le DMP ({endpoint}). {platformHint}",
                 ex);
         }
         catch (HttpRequestException ex)

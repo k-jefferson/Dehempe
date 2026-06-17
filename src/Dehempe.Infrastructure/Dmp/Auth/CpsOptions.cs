@@ -30,4 +30,15 @@ public sealed class CpsOptions
     /// Non présent dans tous les certificats CPS — à renseigner si absent du Subject.
     /// </summary>
     public string OrganizationId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Chemin vers la librairie PKCS#11 du middleware CPS.
+    /// Sur macOS : <c>/usr/local/lib/libcps3_pkcs11_osx.dylib</c>.
+    /// Sur Windows : <c>C:\Windows\System32\cps3_pkcs11_w64.dll</c>.
+    /// Renseigner pour déléguer signature + mTLS au token sans extraction de clé.
+    /// </summary>
+    public string? Pkcs11LibraryPath { get; set; }
+
+    /// <summary>Code PIN à 4 chiffres de la carte CPS (utilisé pour le login PKCS#11).</summary>
+    public string? Pkcs11Pin { get; set; }
 }

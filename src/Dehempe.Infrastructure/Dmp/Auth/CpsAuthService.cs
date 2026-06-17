@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Dehempe.Application.Common.Interfaces;
 using Dehempe.Domain.Exceptions;
+using Dehempe.Infrastructure.Dmp.Auth.Pkcs11;
 using Dehempe.Infrastructure.Dmp.Card;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -15,14 +16,20 @@ internal sealed class CpsAuthService : ICpsAuthService
     private const string CtkTokenIdPrefix = "fr.asip.esante.CPSToken:";
 
     private readonly CpsOptions _options;
+    private readonly Pkcs11CpsKeyStore _pkcs11;
     private readonly ILogger<CpsAuthService> _logger;
 
     private X509Certificate2? _cachedCert;
-    private string?           _ctkTokenId;   // non-null si cert chargé depuis un token CTK macOS
+    private string?           _ctkTokenId;       // non-null si cert chargé depuis un token CTK macOS
+    private Pkcs11RsaKey?     _pkcs11SigningKey; // signature détachée du cert sur macOS (ExportRSAPrivateKey impossible)
 
-    public CpsAuthService(IOptions<CpsOptions> options, ILogger<CpsAuthService> logger)
+    public CpsAuthService(
+        IOptions<CpsOptions> options,
+        Pkcs11CpsKeyStore pkcs11,
+        ILogger<CpsAuthService> logger)
     {
         _options = options.Value;
+        _pkcs11  = pkcs11;
         _logger  = logger;
     }
 
@@ -37,11 +44,14 @@ internal sealed class CpsAuthService : ICpsAuthService
     {
         var cert = await GetCertificateAsync(ct);
 
-        // Cas standard : la clé privée est embarquée (fichier .p12 sur Windows/Linux, store Windows)
+        // 1. macOS PKCS#11 : la clé est détachée du cert (Apple refuse CopyWithPrivateKey sans export)
+        if (_pkcs11SigningKey is not null) return _pkcs11SigningKey;
+
+        // 2. Cert lié à la clé via CopyWithPrivateKey (Windows/Linux PKCS#11, ou .p12)
         var native = cert.GetRSAPrivateKey();
         if (native is not null) return native;
 
-        // Cas macOS CTK : la clé est dans le token, on délègue la signature à Swift / SecKeyCreateSignature
+        // 3. Fallback macOS CTK historique (Swift / SecKeyCreateSignature)
         if (_ctkTokenId is not null)
         {
             var pub = cert.GetRSAPublicKey()
@@ -53,7 +63,8 @@ internal sealed class CpsAuthService : ICpsAuthService
 
         throw new DmpAuthException(
             "Aucune clé privée disponible pour signer avec ce certificat CPS. " +
-            "Configure un .p12 (Cps:CertificatePath) ou utilise un certificat venant d'une carte CPS branchée.");
+            "Configure PKCS#11 (Cps:Pkcs11LibraryPath + Cps:Pkcs11Pin), un .p12 (Cps:CertificatePath) " +
+            "ou utilise un certificat depuis une carte CPS branchée.");
     }
 
     public async Task<byte[]> SignAsync(byte[] data, CancellationToken ct = default)
@@ -66,6 +77,42 @@ internal sealed class CpsAuthService : ICpsAuthService
 
     private X509Certificate2 LoadCertificate()
     {
+        // 0. PKCS#11 prioritaire (binding propre carte → mTLS sans extraction de clé)
+        if (_pkcs11.IsEnabled)
+        {
+            try
+            {
+                var rawCert = _pkcs11.GetAuthCertificate();
+                var pub     = rawCert.GetRSAPublicKey()
+                    ?? throw new DmpAuthException("Le cert d'auth PKCS#11 n'expose pas de clé publique RSA.");
+                var pkcs11Rsa = new Pkcs11RsaKey(pub, _pkcs11);
+
+                // macOS : AppleCertificatePal.CopyWithPrivateKey appelle ExportRSAPrivateKey,
+                // ce qui est incompatible avec une clé non-exportable. On garde la clé séparée
+                // pour la signature SAML ; le mTLS macOS reste à régler via stunnel/proxy.
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    _pkcs11SigningKey = pkcs11Rsa;
+                    _logger.LogInformation(
+                        "PKCS#11 sur macOS : signature VIHF disponible, mTLS NON attaché au handshake " +
+                        "(limitation AppleCertificatePal — déployer sur Windows/Linux ou utiliser un proxy mTLS).");
+                    return rawCert;
+                }
+
+                // Windows / Linux : CopyWithPrivateKey conserve une référence à pkcs11Rsa sans export.
+                var bound = rawCert.CopyWithPrivateKey(pkcs11Rsa);
+                _logger.LogInformation("Cert d'auth PKCS#11 lié à Pkcs11RsaKey (HasPrivateKey={H}).",
+                    bound.HasPrivateKey);
+                return bound;
+            }
+            catch (DmpAuthException) { throw; }
+            catch (Exception ex)
+            {
+                throw new DmpAuthException(
+                    $"Échec de l'initialisation PKCS#11 : {ex.Message}", ex);
+            }
+        }
+
         // 1. Fichier .p12 explicite
         if (!string.IsNullOrWhiteSpace(_options.CertificatePath))
         {

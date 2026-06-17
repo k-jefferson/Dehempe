@@ -2,6 +2,7 @@ using Dehempe.Application.Common.Interfaces;
 using Dehempe.Domain.Interfaces;
 using Dehempe.Infrastructure.Dmp;
 using Dehempe.Infrastructure.Dmp.Auth;
+using Dehempe.Infrastructure.Dmp.Auth.Pkcs11;
 using Dehempe.Infrastructure.Dmp.Card;
 using Dehempe.Infrastructure.Dmp.Soap;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ public static class InfrastructureServiceExtensions
         services.Configure<CpsOptions>(configuration.GetSection(CpsOptions.SectionName));
         services.Configure<DmpOptions>(configuration.GetSection(DmpOptions.SectionName));
 
+        services.AddSingleton<Pkcs11CpsKeyStore>();
         services.AddSingleton<ICpsAuthService, CpsAuthService>();
         services.AddScoped<IVihfService, VihfService>();
 
