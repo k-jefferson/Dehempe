@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:tns="urn:si-dmp-patients" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="PatientCertificationEndPointImplService" targetNamespace="urn:si-dmp-patients" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:si-dmp-patients" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="identityCertification" type="tns:identityCertification" />
+      <xs:element name="identityCertificationResponse" type="tns:identityCertificationResponse" />
+      <xs:complexType name="identityCertification">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="nirOD" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="dateNaissance" type="xs:string" />
+          <xs:element form="qualified" name="rangNaissance" type="xs:int" />
+          <xs:element minOccurs="0" form="qualified" name="nirIndividu" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="identityCertificationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:PatientCertificationResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatientCertificationResponse">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:WebServiceResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" form="qualified" name="nirIndividu" type="xs:string" />
+              <xs:element minOccurs="0" form="qualified" name="prenom" type="xs:string" />
+              <xs:element minOccurs="0" form="qualified" name="nomUsuel" type="xs:string" />
+              <xs:element minOccurs="0" form="qualified" name="nomPatronymique" type="xs:string" />
+              <xs:element minOccurs="0" form="qualified" name="dateNaissance" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="WebServiceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="identityCertificationResponse">
+    <wsdl:part name="parameters" element="tns:identityCertificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="identityCertification">
+    <wsdl:part name="parameters" element="tns:identityCertification" />
+  </wsdl:message>
+  <wsdl:portType name="PatientCertificationEndPoint">
+    <wsdl:operation name="identityCertification">
+      <wsdl:input name="identityCertification" message="tns:identityCertification" />
+      <wsdl:output name="identityCertificationResponse" message="tns:identityCertificationResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PatientCertificationEndPointImplServiceSoapBinding" type="tns:PatientCertificationEndPoint">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="identityCertification">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input name="identityCertification">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="identityCertificationResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PatientCertificationEndPointImplService">
+    <wsdl:port name="PatientCertificationEndPointImplPort" binding="tns:PatientCertificationEndPointImplServiceSoapBinding">
+      <soap12:address location="https://SERVEUR_DMP/si-dmp-server/v2/services/patientCertif" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

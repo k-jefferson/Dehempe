@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="asip:ci-sis:gdp:2010" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hl7="urn:hl7-org:v3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GestionDossierPatientPartage" targetNamespace="asip:ci-sis:gdp:2010" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Gestion dossier patient partage</documentation>
+  <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="asip:ci-sis:gdp:2010">
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201307UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201308UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201311UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201312UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201313UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201314UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201315UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:import schemaLocation="schema/HL7V3/NE2009/multicacheschemas/PRPA_IN201316UV02.xsd" namespace="urn:hl7-org:v3" />
+      <xsd:element name="PRPA_IN201311UV02_Response" type="tns:PRPA_IN201311UV02_ResponseType" />
+      <xsd:element name="PRPA_IN201314UV02_Response" type="tns:PRPA_IN201314UV02_ResponseType" />
+      <xsd:complexType name="PRPA_IN201311UV02_ResponseType">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element ref="hl7:PRPA_IN201312UV02" />
+            <xsd:element ref="hl7:PRPA_IN201313UV02" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PRPA_IN201314UV02_ResponseType">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element ref="hl7:PRPA_IN201315UV02" />
+            <xsd:element ref="hl7:PRPA_IN201316UV02" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="PRPA_IN201307UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201307UV02" />
+  </message>
+  <message name="PRPA_IN201308UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201308UV02" />
+  </message>
+  <message name="PRPA_IN201311UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201311UV02" />
+  </message>
+  <message name="PRPA_IN201312UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201312UV02" />
+  </message>
+  <message name="PRPA_IN201313UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201313UV02" />
+  </message>
+  <message name="PRPA_IN201314UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201314UV02" />
+  </message>
+  <message name="PRPA_IN201315UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201315UV02" />
+  </message>
+  <message name="PRPA_IN201316UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201316UV02" />
+  </message>
+  <message name="PRPA_IN201314UV02_Response_Message">
+    <part name="Body" element="tns:PRPA_IN201314UV02_Response" />
+  </message>
+  <message name="PRPA_IN201311UV02_Response_Message">
+    <part name="Body" element="tns:PRPA_IN201311UV02_Response" />
+  </message>
+  <portType name="GDP_PortType">
+    <operation name="PatientRevise_PRPA_IN201314UV02">
+      <input wsaw:Action="urn:hl7-org:v3:PRPA_IN201314UV02" message="tns:PRPA_IN201314UV02_Message" />
+      <output wsaw:Action="urn:hl7-org:v3:PRPA_IN201314ResponseUV02" message="tns:PRPA_IN201314UV02_Response_Message" />
+    </operation>
+    <operation name="PatientAdd_PRPA_IN201311UV02">
+      <input wsaw:Action="urn:hl7-org:v3:PRPA_IN201311UV02" message="tns:PRPA_IN201311UV02_Message" />
+      <output wsaw:Action="urn:hl7-org:v3:PRPA_IN201311ResponseUV02" message="tns:PRPA_IN201311UV02_Response_Message" />
+    </operation>
+    <operation name="PatientGetDemographics_PRPA_IN201307UV02">
+      <input wsaw:Action="urn:hl7-org:v3:PRPA_IN201307UV02" message="tns:PRPA_IN201307UV02_Message" />
+      <output wsaw:Action="urn:hl7-org:v3:PRPA_IN201308UV02" message="tns:PRPA_IN201308UV02_Message" />
+    </operation>
+  </portType>
+  <binding name="GDP_Binding_Soap12" type="tns:GDP_PortType">
+    <wsoap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="PatientRevise_PRPA_IN201314UV02">
+      <wsoap12:operation soapAction="urn:hl7-org:v3:PRPA_IN201314UV02" />
+      <input>
+        <wsoap12:body use="literal" />
+      </input>
+      <output>
+        <wsoap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="PatientAdd_PRPA_IN201311UV02">
+      <wsoap12:operation soapAction="urn:hl7-org:v3:PRPA_IN201311UV02" />
+      <input>
+        <wsoap12:body use="literal" />
+      </input>
+      <output>
+        <wsoap12:body use="literal" />
+      </output>
+    </operation>
+    <operation name="PatientGetDemographics_PRPA_IN201307UV02">
+      <wsoap12:operation soapAction="urn:hl7-org:v3:PRPA_IN201307UV02" />
+      <input>
+        <wsoap12:body use="literal" />
+      </input>
+      <output>
+        <wsoap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="GDP_Service">
+    <port name="GDP_Binding_Soap12" binding="tns:GDP_Binding_Soap12">
+      <wsoap12:address location="https://dev6.lps-igc-sante.dmp.gouv.fr/si-dmp-server/v2/services/" />
+    </port>
+  </service>
+</definitions>

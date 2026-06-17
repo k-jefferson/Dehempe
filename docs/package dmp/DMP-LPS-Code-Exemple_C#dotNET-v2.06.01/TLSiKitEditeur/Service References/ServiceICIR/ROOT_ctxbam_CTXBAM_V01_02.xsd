@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:ctxbam="urn:siram:bam:ctxbam" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:siram:bam:ctxbam" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <Build xmlns="urn:camelia:info" Host="S000209W" Time="20120223_162301" Location="D:/WS_CAMELIA_ET5" Project="Projet_SIR" Model="CTXBAM" Generation="1" Repository="" Root="true" />
+      <Package xmlns="urn:camelia:info" Timestamp="20120223_162956" Version="01.02" Status="Draft" />
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:element name="ContexteBAM" type="ctxbam:ContexteBAM" />
+  <xsd:simpleType name="DateLunaire">
+    <xsd:restriction base="ctxbam:PATTERN0_DateLunaire" />
+  </xsd:simpleType>
+  <xsd:simpleType name="PATTERN0_DateLunaire">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}-\d{2}-\d{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CodeString">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="IdentiteString">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:complexType name="Beneficiaire">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Nir" type="ctxbam:NIRCertifie" />
+      <xsd:element minOccurs="0" name="DateNai" type="ctxbam:DateLunaire" />
+      <xsd:element minOccurs="0" name="Rang" type="xsd:integer" />
+      <xsd:element minOccurs="0" name="Porteur" type="ctxbam:PATTERN0_CTXBAM_ContexteBAM_Beneficiaire_Porteur" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_ContexteBAM_Beneficiaire_Porteur">
+    <xsd:restriction base="ctxbam:CodeString">
+      <xsd:pattern value="\d{1}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Couverture">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="GrandRegime" type="ctxbam:IdentiteString" />
+      <xsd:element minOccurs="0" name="Organisme" type="ctxbam:IdentiteString" />
+      <xsd:element minOccurs="0" name="CodeCentre" type="ctxbam:IdentiteString" />
+      <xsd:element minOccurs="0" name="ASSURE" type="ctxbam:Assure" />
+      <xsd:element minOccurs="0" name="BENEFICIAIRE" type="ctxbam:Beneficiaire" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContexteBAM">
+    <xsd:sequence>
+      <xsd:element name="Id" type="ctxbam:IdentiteString" />
+      <xsd:element name="Temps" type="xsd:dateTime" />
+      <xsd:element minOccurs="0" name="Emetteur" type="ctxbam:IdentiteString" />
+      <xsd:element minOccurs="0" name="DateRef" type="xsd:dateTime" />
+      <xsd:element name="COUVERTURE" type="ctxbam:Couverture" />
+    </xsd:sequence>
+    <xsd:attribute name="Nature" type="ctxbam:PATTERN0_CTXBAM_ContexteBAM_ContexteBAM_Nature" />
+    <xsd:attribute name="Version" type="ctxbam:CodeString" use="required" />
+  </xsd:complexType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_ContexteBAM_ContexteBAM_Nature">
+    <xsd:restriction base="ctxbam:CodeString">
+      <xsd:pattern value="CTXBAM" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="NIRCertifie">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Num" type="ctxbam:PATTERN0_CTXBAM_TypesComplexes_NIRCertifie_Num" />
+      <xsd:element minOccurs="0" name="Cle" type="ctxbam:PATTERN0_CTXBAM_TypesComplexes_NIRCertifie_Cle" />
+      <xsd:element minOccurs="0" name="DateCertification" type="xsd:date" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_TypesComplexes_NIRCertifie_Num">
+    <xsd:restriction base="ctxbam:IdentiteString">
+      <xsd:pattern value="\d{6}[AB0-9]{1}\d{6}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_TypesComplexes_NIRCertifie_Cle">
+    <xsd:restriction base="ctxbam:IdentiteString">
+      <xsd:pattern value="\d{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Assure">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Id" type="ctxbam:NIR" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="NIR">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Num" type="ctxbam:PATTERN0_CTXBAM_TypesComplexes_NIR_Num" />
+      <xsd:element minOccurs="0" name="Cle" type="ctxbam:PATTERN0_CTXBAM_TypesComplexes_NIR_Cle" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_TypesComplexes_NIR_Num">
+    <xsd:restriction base="ctxbam:IdentiteString">
+      <xsd:pattern value="\d{6}[AB0-9]{1}\d{6}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PATTERN0_CTXBAM_TypesComplexes_NIR_Cle">
+    <xsd:restriction base="ctxbam:IdentiteString">
+      <xsd:pattern value="\d{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

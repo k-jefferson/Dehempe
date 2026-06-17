@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="66620c4d-0b01-41a0-bc60-50b4124c8a12" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="\\ulysse\p_ClasseursProjets\DMP\DMP intégré\6-Realisation\63-Codes exemples\DMP_LPS_Code_Exemple_CSharp_v2.0\kit-editeur-dmp-csharp-LPS\KitEditeur_CSharp\KitEditeur\Resources\wsdl\patientCertif.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PatientCertificationEndPointImplService.wsdl" MetadataType="Wsdl" ID="99888549-b449-47a2-8e08-06bded1a3867" SourceId="1" SourceUrl="file://ulysse/p_ClasseursProjets/DMP/DMP intégré/6-Realisation/63-Codes exemples/DMP_LPS_Code_Exemple_CSharp_v2.0/kit-editeur-dmp-csharp-LPS/KitEditeur_CSharp/KitEditeur/Resources/wsdl/patientCertif.wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

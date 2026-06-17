@@ -1,0 +1,21 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2007:RetrieveDocumentSetResponse</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:28b8f0a8-f539-4b3a-bd07-51068af6e11b</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:2cb4b0d2-683d-4073-9892-6c85cfdfbb43</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns4:RetrieveDocumentSetResponse xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns4="urn:ihe:iti:xds-b:2007" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns6="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0">
+         <ns2:RegistryResponse status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success"/>
+         <ns4:DocumentResponse>
+            <ns4:RepositoryUniqueId>1.2.250.1.213.4.1.1.1.2</ns4:RepositoryUniqueId>
+            <ns4:DocumentUniqueId>1.2.250.1.999.1.1.7898.1.995657292</ns4:DocumentUniqueId>
+            <ns4:mimeType>text/xml</ns4:mimeType>
+            <ns4:Document>
+               <xop:Include href="cid:b857abb7-a2c3-4db8-bd69-d5ff76826e72-2@urn%3Aihe%3Aiti%3Axds-b%3A2007" xmlns:xop="http://www.w3.org/2004/08/xop/include"/>
+            </ns4:Document>
+         </ns4:DocumentResponse>
+      </ns4:RetrieveDocumentSetResponse>
+   </soap:Body>
+</soap:Envelope>

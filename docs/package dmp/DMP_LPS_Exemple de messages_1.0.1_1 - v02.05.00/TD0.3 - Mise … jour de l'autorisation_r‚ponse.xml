@@ -1,0 +1,16 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-habilitations" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:si-dmp-habilitations:HabilitationsEndPoint:setAuthorizationResponse</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:ddb64022-2e36-4159-bded-6b50526946f8</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:008dde1e-2bbb-4580-b055-29a137784a17</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns1:setAuthorizationResponse>
+         <ns1:output>
+            <ns1:status>DMPOk</ns1:status>
+            <ns1:context>Autorisation déjà présente aucune action effectuée</ns1:context>
+         </ns1:output>
+      </ns1:setAuthorizationResponse>
+   </soap:Body>
+</soap:Envelope>

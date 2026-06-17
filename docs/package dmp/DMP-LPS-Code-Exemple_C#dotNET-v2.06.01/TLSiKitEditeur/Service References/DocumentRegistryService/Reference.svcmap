@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="92bcee09-1920-452f-b97d-882fab21cb37" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\KitEditeur_CSharp\61-WSDL\API V2\DMP_LPS_Schemas_et_WSDL_associés_v2.0.0\annexe-wsdl-schema\wsdl\XDS.b_DocumentRegistry.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DocumentRegistry.wsdl" MetadataType="Wsdl" ID="34c721dd-9a84-44d7-8ee5-af3cd7b73e4c" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/wsdl/XDS.b_DocumentRegistry.wsdl" />
+    <MetadataFile FileName="query.xsd" MetadataType="Schema" ID="008a23cf-f93a-4778-a256-194873be9a0c" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/schema/ebRS/query.xsd" />
+    <MetadataFile FileName="xml.xsd" MetadataType="Schema" ID="7fec8507-7f59-485d-a182-0d18cee186b5" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/schema/ebRS/xml.xsd" />
+    <MetadataFile FileName="rim.xsd" MetadataType="Schema" ID="a112c0e2-67a9-43d9-aef6-d8913de380f2" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/schema/ebRS/rim.xsd" />
+    <MetadataFile FileName="rs.xsd" MetadataType="Schema" ID="5d3b79f9-b775-4007-86c6-decaaa9913d9" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/schema/ebRS/rs.xsd" />
+    <MetadataFile FileName="lcm.xsd" MetadataType="Schema" ID="2bea15ba-7349-48ee-a638-bef1e5934203" SourceId="1" SourceUrl="file:///D:/KitEditeur_CSharp/61-WSDL/API V2/DMP_LPS_Schemas_et_WSDL_associés_v2.0.0/annexe-wsdl-schema/schema/ebRS/lcm.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

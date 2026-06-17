@@ -1,0 +1,82 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Header>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:b0a5dd26-3230-4d4f-acfa-d338118185ee</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing"/>
+      <ReplyTo mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">
+         <Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
+      </ReplyTo>
+      <Action mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">urn:hl7-org:v3:PRPA_IN201314UV02</Action>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="_ce088e5a-e31d-42d0-ba37-fda5fcbc889d" IssueInstant="2019-06-26T08:08:55.469Z" Version="2.0"><saml2:Issuer Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">CN=899900038839+2.5.4.4=#14045452414c+2.5.4.42=#14064144454d4953,OU=M?decin,O=TEST,C=FR</saml2:Issuer><saml2:Subject><saml2:NameID>899900063480</saml2:NameID></saml2:Subject><saml2:AuthnStatement AuthnInstant="2019-06-26T08:08:55.482Z"><saml2:AuthnContext><saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI</saml2:AuthnContextClassRef></saml2:AuthnContext></saml2:AuthnStatement><saml2:AttributeStatement><saml2:Attribute Name="Identifiant_Structure"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">499900063480001</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Secteur_Activite"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SA07^1.2.250.1.71.4.2.4</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role"><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="10" codeSystem="1.2.250.1.71.1.2.7" displayName="Médecin" xsi:type="CE"/></saml2:AttributeValue><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="SM26" codeSystem="1.2.250.1.71.4.2.5" displayName="Qualifié en Médecine Générale (SM)" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="VIHF_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">3.0</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Authentification_mode"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DIRECTE</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:resource:resource-id"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Ressource_URN"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">urn:dmp</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse"><saml2:AttributeValue><PurposeOfUse xmlns="urn:hl7-org:v3" code="normal" codeSystem="1.2.250.1.213.1.1.4.248" codeSystemName="mode acces VIHF 2.0" displayName="Acc賠normal" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">01.01.01.01</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Nom"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">LPS GIE-SV</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">1</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID_HOMOLOGATION_DMP"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">NumAutorisation</saml2:AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion>
+      </wsse:Security>
+   </soap:Header>
+   <soap:Body>
+      <PRPA_IN201314UV02 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3">
+       <id root="1.3.6.1.4.1.48364.1.1" extension="1633a409-3d61-4869-aed8-74d92ae20272"/>
+       <creationTime value="20210519174507"/>
+       <interactionId root="2.16.840.1.113883.1.6" extension="PRPA_IN201314UV02"/>
+       <processingCode code="D"/>
+       <processingModeCode code="T"/>
+       <acceptAckCode code="AL"/>
+       <receiver typeCode="RCV">
+         <device classCode="DEV" determinerCode="INSTANCE">
+           <id root="1.2.250.1.213.4.1.1.1"/>
+           <softwareName>DMP</softwareName>
+         </device>
+       </receiver>
+       <sender typeCode="SND">
+         <device classCode="DEV" determinerCode="INSTANCE">
+           <id root="1.3.6.1.4.1.48364"/>
+           <softwareName>LPS GIE-SV</softwareName>
+         </device>
+       </sender>
+
+       <attentionLine xsi:nil="true"/>
+       <controlActProcess classCode="CACT" moodCode="EVN">
+        <reasonCode code="FERM" codeSystem="1.2.250.1.213.1.1.4.11" displayName="Fermeture de dossier"/>
+        <subject typeCode="SUBJ" contextConductionInd="false">
+          <registrationRequest classCode="REG" moodCode="RQO">
+            <statusCode code="active"/>
+            <subject1 typeCode="SBJ">
+              <patient classCode="PAT">
+                <id root="1.2.250.1.213.1.4.10" extension="207058575627097"/>
+                <statusCode code="terminated"/>
+                <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                  <name>
+                    <prefix>M</prefix>
+                    <family qualifier="SP">patb-quatre</family>
+                    <given>LAURENCE</given>
+                  </name>
+                </patientPerson>
+              </patient>
+            </subject1>
+
+            <author typeCode="AUT">
+              <assignedEntity classCode="ASSIGNED">
+                <id root="1.2.250.1.71.4.2.1" extension="899900063480"/>
+                <code code="1.2.250.1.71.4.2.5" displayName="Qualifié en Médecine Générale (SM)"/>
+                <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                  <name>
+                    <family>MAX</family>
+                    <given>LIBRE</given>
+                  </name>
+                </assignedPerson>
+                <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                  <id root="1.2.250.1.71.4.2.2" extension="499900063480001"/>
+                  <name>CABINET DR LIBRE</name>
+                  <contactParty classCode="CON"/>
+                </representedOrganization>
+              </assignedEntity>
+            </author>
+          </registrationRequest>
+        </subject>
+        <reasonOf typeCode="RSON">
+          <detectedIssueEvent classCode="ALRT" moodCode="EVN">
+            <code code="FERMETURE_DEMANDE_PATIENT" codeSystem="1.2.250.1.213.4.1.2.4"/>
+            <text>FERMETURE_DEMANDE_PATIENT</text>
+          </detectedIssueEvent>
+        </reasonOf>
+      </controlActProcess>
+    </PRPA_IN201314UV02>
+   </soap:Body>
+</soap:Envelope>

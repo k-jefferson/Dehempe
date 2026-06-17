@@ -1,0 +1,83 @@
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference Type="http://www.w3.org/2000/09/xmldsig#Manifest" URI="#IHEManifest"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>0w+mODuyVkOb8ijFnRzwgr8BfbY=</DigestValue></Reference><Reference Type="http://uri.etsi.org/01903/v1.1.1#SignedProperties" URI="#S0-SignedProperties"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>CQd/pO5pUqmosTqhD6R6IhF28Uo=</DigestValue></Reference></SignedInfo><SignatureValue>n1W7Jo0EWRtfR9rasjEnDvFH2G5prrIoNDg20WAI0hDUTMjV0nby1Bj/IqZWYbIvL3FFnE1Egqgy
+wChP1YiXu7Osnovzd7VeVExsTc3hWEdR1mqZTwNQjylSEHPz5JvnQVnCQtXcFqca73KuvExC7HBx
+WGcKGMujNFO3iIxsvZKo9JmRcvzn6UP+uoSu947BP8rDR7mSei4eBrHraVkRyBcs7hdWMbAbPKRy
+KOSGz6wfqyNyCoYdOQUTpx3gUX9XxJzHqf/XRKmtk5978gkv4FWkPH5fajto0/uw26Zorb8okWYj
+x7f9TDO+ShgsOZjpW96xJ6OP1gg37wQhWEy0zQ==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIIdTCCBl2gAwIBAgIQeBxz+ipnuxSQZUHGSQoz9zANBgkqhkiG9w0BAQsFADCBhjELMAkGA1UE
+BhMCRlIxEzARBgNVBAoMCkFTSVAtU0FOVEUxFzAVBgNVBAsMDjAwMDIgMTg3NTEyNzUxMRcwFQYD
+VQQLDA5JR0MtU0FOVEUgVEVTVDEwMC4GA1UEAwwnVEVTVCBBQyBJR0MtU0FOVEUgRUxFTUVOVEFJ
+UkUgUEVSU09OTkVTMB4XDTE5MDEyODEwMTM1MloXDTIyMDIyODEwMTM1MlowUTELMAkGA1UEBhMC
+RlIxETAPBgNVBAwMCE3DqWRlY2luMS8wCgYDVQQqDANNQVgwDAYDVQQEDAVMSUJSRTATBgNVBAMM
+DDg5OTkwMDA2MzQ4MDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK5Qh+ukJ2m1yvNA
+BscFijmmNk+2MwBQ3qModlKHIARTXQy/A3doWAikibBg0hfuM1Loei8tRYK/vtehWrj63F+5bGwW
+NqDZh+sd+AEBwxSBEfLttXBB1gJ4zAsP1pcfqrT/EAdjgytrMeOQVEIn9WD+rRartttGPtOVzJef
+ulyP18kw0g9ozL6FkBt2earQ+UyTAZ8IkVRBhxbILX+J2gxeSDqPa2W4Ik5PSJ1Xt9MdXbRKyjT6
+25tSbVpREJZRuz4MqT1xf6oSZhut8S8m8Pxzz41uus6qVreS8AZTNFYKr+9PoN+JNXhbdepKTpJz
+B6AOG6pHVN4KRD/TzMB3CX8CAwEAAaOCBBEwggQNMAkGA1UdEwQCMAAwHQYDVR0OBBYEFNSAfO2w
+oxnfOIg7HnqyhVytylMyMB8GA1UdIwQYMBaAFNCOU2p2Fnd52jq2fiBIbFDEClv+MA4GA1UdDwEB
+/wQEAwIGQDBTBgNVHSAETDBKMEgGDSqBegGBVQEHAgEBAQEwNzA1BggrBgEFBQcCARYpaHR0cDov
+L2lnYy1zYW50ZS5lc2FudGUuZ291di5mci9QQyUyMFRFU1QwEwYDVR0lBAwwCgYIKwYBBQUHAwQw
+KwYDVR0QBCQwIoAPMjAxOTAxMjgxMDEzNTJagQ8yMDIyMDEyODEwMTM1MlowggFPBgNVHR8EggFG
+MIIBQjA8oDqgOIY2aHR0cDovL2lnYy1zYW50ZS5lc2FudGUuZ291di5mci9DUkwvQUNJLUVMLVBQ
+LVRFU1QuY3JsMIIBAKCB/aCB+oaB92xkYXA6Ly9hbm51YWlyZS1pZ2MuZXNhbnRlLmdvdXYuZnIv
+Y249VEVTVCUyMEFDJTIwSUdDLVNBTlRFJTIwRUxFTUVOVEFJUkUlMjBQRVJTT05ORVMsb3U9VEVT
+VCUyMEFDJTIwUkFDSU5FJTIwSUdDLVNBTlRFJTIwRUxFTUVOVEFJUkUsb3U9SUdDLVNBTlRFJTIw
+VEVTVCxvdT0wMDAyJTIwMTg3NTEyNzUxLG89QVNJUC1TQU5URSxjPUZSP2NlcnRpZmljYXRlcmV2
+b2NhdGlvbmxpc3Q7YmluYXJ5P2Jhc2U/b2JqZWN0Q2xhc3M9cGtpQ0EwggEJBgNVHS4EggEAMIH9
+MIH6oIH3oIH0hoHxbGRhcDovL2FubnVhaXJlLWlnYy5lc2FudGUuZ291di5mci9jbj1URVNUJTIw
+QUMlMjBJR0MtU0FOVEUlMjBFTEVNRU5UQUlSRSUyMFBFUlNPTk5FUyxvdT1URVNUJTIwQUMlMjBS
+QUNJTkUlMjBJR0MtU0FOVEUlMjBFTEVNRU5UQUlSRSxvdT1JR0MtU0FOVEUlMjBURVNULG91PTAw
+MDIlMjAxODc1MTI3NTEsbz1BU0lQLVNBTlRFLGM9RlI/ZGVsdGFyZXZvY2F0aW9ubGlzdDtiaW5h
+cnk/YmFzZT9vYmplY3RDbGFzcz1wa2lDQTCBgAYIKwYBBQUHAQEEdDByMCYGCCsGAQUFBzABhhpo
+dHRwOi8vb2NzcC5lc2FudGUuZ291di5mcjBIBggrBgEFBQcwAoY8aHR0cDovL2lnYy1zYW50ZS5l
+c2FudGUuZ291di5mci9BQyUyMFRFU1QvQUNJLUVMLVBQLVRFU1QuY2VyMA8GCCqBegFHAQIFBAME
+AYMwDwYIKoF6AUcBAgcEAwIBCjAUBggqgXoBRwQCBQQIMAYMBFNNMjYwDQYJKoZIhvcNAQELBQAD
+ggIBALEap/Dgb1hzOm7FK5WMwu1a4jlE8UmOOgUPSNyUecop/RitMCa1iD87rcehUvl2dowPIQf9
+ijNm825BTBP9m/VT7aXdIbpgS7REMv+jfBuGyUK0vmFetKYMV7DL8DhBFLW8aTqO1Dy/gZ3gs1vM
+osT3Kvq0XblyzKJ1JLA3ec1thcCFaL8wc4q71OBWUzvtBWC9r78qnbWhW6er0SuH2sWfceXzHLI8
+VTxIJp3rO851QOPYf8hc1B5uszc0KjCD8TyF1klKUN71eKvnC/WX7XCbDVB+vCsMpGaBKQgT0ksy
+VgeW2EW7YSHlxIzJM8lZB7fsNMu2ue6oMiiHZeoFS9aBhglpJUJAita/iBJ6jxHOtW3JnbfUMf1R
+ntTYFqS6CoDNW6b7xEDClClWuk/bNDh9+V8CRZ83ut0MSMoLnQQqjt0pxEy/2YqQ03BltHjZeAxS
+fXT0v4kJu/1nqnhwpqnEXLWsw6ceFNE+78UT1C/mrkTvjeT+QLRwndkmAhT79oP5Ixh+jxD1UBd2
+cSv1rFKHjAWuOB2nNMqgHXlMME1mGW69/BBGCpEL/+WbPfY7wF4n97BlCzukrQjCNV9WqyY2/GPy
+KGv4Mqx1CTTFWc/We58+pdwxHrnN6N4CbPd0is1jvs5Avp7H+rFqX1N1iYG4YjvbjgheBR3qboH/
+fPUh</X509Certificate></X509Data></KeyInfo><Object><Manifest Id="IHEManifest"><Reference URI="urn:oid:1.2.250.1.999.1.1.7898.3.9956570900"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>AA==</DigestValue></Reference><Reference URI="urn:oid:1.2.250.1.999.1.1.7898.4.9956570902"><Transforms><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>ZHdMHCdgcMNU7PIhGp6aYG7cWU0=</DigestValue></Reference></Manifest></Object><Object><SignatureProperties xmlns=""><SignatureProperty Id="purposeOfSignature" Target="#0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6">1.2.840.10065.1.12.1.14</SignatureProperty></SignatureProperties></Object><Object><QualifyingProperties xmlns="http://uri.etsi.org/01903/v1.1.1#" Target="#0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6">
+	<SignedProperties Id="S0-SignedProperties">
+		<SignedSignatureProperties>
+			<SigningTime>2019-04-04T14:20:12.282+02:00</SigningTime>
+			<SigningCertificate>
+			<Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>CLcb8PHSgDr5WgzTW+R/NZVkzhI=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC IGC-SANTE ELEMENTAIRE PERSONNES,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">159655096103497701664027626074020656119</X509SerialNumber>
+	</IssuerSerial>
+</Cert><Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>quweYHAAtWeJTvTdCYzc3QQyAUc=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC RACINE IGC-SANTE ELEMENTAIRE,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">1491811286229485117823892725943611899366047</X509SerialNumber>
+	</IssuerSerial>
+</Cert><Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>V4hCBBxQAhr68G5uMsvf9S5Ul3I=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC RACINE IGC-SANTE ELEMENTAIRE,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">1491942837617061050897817704854421800630814</X509SerialNumber>
+	</IssuerSerial>
+</Cert></SigningCertificate>
+			<SignaturePolicyIdentifier>
+				<SignaturePolicyImplied/>
+			</SignaturePolicyIdentifier>
+		</SignedSignatureProperties>
+		<SignedDataObjectProperties>
+		</SignedDataObjectProperties>
+	</SignedProperties>
+</QualifyingProperties></Object></Signature>

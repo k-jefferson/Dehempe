@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:hl7-org:v3" xmlns:ex="urn:hl7-org/v3-example" elementFormDefault="qualified" targetNamespace="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="../coreschemas/infrastructureRoot.xsd" />
+  <xs:include schemaLocation="COCT_MT150000UV02.xsd" />
+  <xs:annotation>
+    <xs:documentation>Generated using schema builder version 3.2.5. Stylesheets:
+
+StaticMifToXsd.xsl version 2.0</xs:documentation>
+  </xs:annotation>
+  <xs:complexType name="COCT_MT250000UV03.Reagent">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="1" maxOccurs="1" name="manufacturedTestReagent" type="COCT_MT250000UV03.TestReagent" />
+      <xs:element minOccurs="0" maxOccurs="1" name="manufacturerOrganization" nillable="true" type="COCT_MT150000UV02.Organization" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="RoleClassManufacturedProduct" use="required" />
+  </xs:complexType>
+  <xs:complexType name="COCT_MT250000UV03.TestReagent">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="0" maxOccurs="1" name="code" type="CE" />
+      <xs:element minOccurs="1" maxOccurs="1" name="lotNumberText" type="ST" />
+      <xs:element minOccurs="0" maxOccurs="1" name="expirationTime" type="IVL_TS" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="EntityClassManufacturedMaterial" use="required" />
+    <xs:attribute name="determinerCode" type="EntityDeterminerSpecific" use="required" />
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,62 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-patients" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:hl7-org:v3:PRPA_IN201314ResponseUV02</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:f9b8878a-c238-497d-a479-ee489c6bc72a</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:3371ffe7-87a9-4018-b6cd-4dfa808f4420</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns2:PRPA_IN201314UV02_Response xmlns="urn:hl7-org:v3" xmlns:ns2="asip:ci-sis:gdp:2010">
+         <PRPA_IN201315UV02 ITSVersion="XML_1.0">
+            <id extension="524691de-da05-40f3-8fd8-1ce89a571404" root="1.2.250.1.213.4.1.1.1.1"/>
+            <creationTime value="20210601133605"/>
+            <interactionId extension="PRPA_IN201315UV02" root="2.16.840.1.113883.1.6"/>
+            <processingCode code="P"/>
+            <processingModeCode code="T"/>
+            <acceptAckCode code="NE"/>
+            <receiver typeCode="RCV">
+               <device classCode="DEV" determinerCode="INSTANCE">
+                  <id root="1.3.6.1.4.1.48364"/>
+                  <softwareName>LPS GIE-SV</softwareName>
+               </device>
+            </receiver>
+            <sender typeCode="SND">
+               <device classCode="DEV" determinerCode="INSTANCE">
+                  <id root="1.2.250.1.213.4.1.1.1"/>
+                  <softwareName>DMP</softwareName>
+               </device>
+            </sender>
+            <acknowledgement typeCode="AA">
+               <targetMessage>
+                  <id extension="1633a409-3d61-4869-aed8-74d92ae20272" root="1.3.6.1.4.1.48364.1.1"/>
+               </targetMessage>
+            </acknowledgement>
+            <controlActProcess classCode="CACT" moodCode="EVN">
+               <reasonCode code="FERM" codeSystem="1.2.250.1.213.1.1.4.11" displayName="Fermeture de dossier"/>
+               <subject contextConductionInd="false" typeCode="SUBJ">
+                  <registrationEvent classCode="REG" moodCode="EVN">
+                     <statusCode code="completed"/>
+                     <subject1 typeCode="SBJ">
+                        <patient classCode="PAT">
+                           <statusCode code="terminated"/>
+                           <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                              <name>
+                                 <prefix>M</prefix>
+                                 <family qualifier="SP">patb-quatre</family>
+                                 <given>LAURENCE</given>
+                              </name>
+                           </patientPerson>
+                        </patient>
+                     </subject1>
+                     <custodian typeCode="CST">
+                        <assignedEntity classCode="ASSIGNED">
+                           <id root="1.2.250.1.213.4.1.1.1"/>
+                        </assignedEntity>
+                     </custodian>
+                  </registrationEvent>
+               </subject>
+            </controlActProcess>
+         </PRPA_IN201315UV02>
+      </ns2:PRPA_IN201314UV02_Response>
+   </soap:Body>
+</soap:Envelope>

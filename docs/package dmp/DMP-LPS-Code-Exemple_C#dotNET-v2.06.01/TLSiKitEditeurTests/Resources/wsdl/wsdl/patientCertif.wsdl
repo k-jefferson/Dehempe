@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:si-dmp-patients" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="PatientCertificationEndPointImplService" targetNamespace="urn:si-dmp-patients">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:si-dmp-patients" elementFormDefault="unqualified" targetNamespace="urn:si-dmp-patients" version="1.0">
+
+  <xs:element name="identityCertification" type="tns:identityCertification"/>
+
+  <xs:element name="identityCertificationResponse" type="tns:identityCertificationResponse"/>
+
+  <xs:complexType name="identityCertification">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="nirOD" type="xs:string"/>
+      <xs:element form="qualified" minOccurs="0" name="dateNaissance" type="xs:string"/>
+      <xs:element form="qualified" name="rangNaissance" type="xs:int"/>
+      <xs:element form="qualified" minOccurs="0" name="nirIndividu" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="identityCertificationResponse">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="output" type="tns:PatientCertificationResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PatientCertificationResponse">
+    <xs:complexContent>
+      <xs:extension base="tns:WebServiceResponse">
+        <xs:sequence>
+          <xs:element form="qualified" minOccurs="0" name="nirIndividu" type="xs:string"/>
+          <xs:element form="qualified" minOccurs="0" name="prenom" type="xs:string"/>
+          <xs:element form="qualified" minOccurs="0" name="nomUsuel" type="xs:string"/>
+          <xs:element form="qualified" minOccurs="0" name="nomPatronymique" type="xs:string"/>
+          <xs:element form="qualified" minOccurs="0" name="dateNaissance" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WebServiceResponse">
+    <xs:sequence>
+      <xs:element form="qualified" minOccurs="0" name="status" type="xs:string"/>
+      <xs:element form="qualified" minOccurs="0" name="context" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="identityCertificationResponse">
+    <wsdl:part element="tns:identityCertificationResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="identityCertification">
+    <wsdl:part element="tns:identityCertification" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PatientCertificationEndPoint">
+    <wsdl:operation name="identityCertification">
+      <wsdl:input message="tns:identityCertification" name="identityCertification">
+    </wsdl:input>
+      <wsdl:output message="tns:identityCertificationResponse" name="identityCertificationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PatientCertificationEndPointImplServiceSoapBinding" type="tns:PatientCertificationEndPoint">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="identityCertification">
+      <soap12:operation soapAction="" style="document"/>
+      <wsdl:input name="identityCertification">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="identityCertificationResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PatientCertificationEndPointImplService">
+    <wsdl:port binding="tns:PatientCertificationEndPointImplServiceSoapBinding" name="PatientCertificationEndPointImplPort">
+      <soap12:address location="https://SERVEUR_DMP/si-dmp-server/v2/services/patientCertif"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

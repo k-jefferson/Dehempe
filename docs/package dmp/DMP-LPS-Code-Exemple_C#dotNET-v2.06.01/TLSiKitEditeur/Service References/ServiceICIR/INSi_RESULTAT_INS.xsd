@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://www.cnamts.fr/INSiResultat" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.cnamts.fr/INSiResultat" version="00.01" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:appinfo><![CDATA[Status=Travail]]></xsd:appinfo>
+  </xsd:annotation>
+  <xsd:element name="RESULTAT" type="Resultat" />
+  <xsd:simpleType name="CLE">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="COG">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Za-z0-9]{5}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NIR">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{6}[A-Za-z0-9]{1}(\d{6})" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CodSexe">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{1}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DateLunaire">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}-\d{2}-\d{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CompteRendu">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="CodeCR" type="xsd:string" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="LibelleCR" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IdentifiantNationalSante">
+    <xsd:annotation>
+      <xsd:documentation><![CDATA[
+]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="IdIndividu" type="Matricule" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="OID" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DateDeb" type="xsd:date" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DateFin" type="xsd:date" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TraitsDIdentite">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="NomNaissance" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Prenom" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="ListePrenom" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Sexe" type="CodSexe" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DateNaissance" type="DateLunaire" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="LieuNaissance" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Individu">
+    <xsd:annotation>
+      <xsd:documentation><![CDATA[
+
+]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="INSACTIF" type="IdentifiantNationalSante" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="INSHISTO" type="IdentifiantNationalSante" />
+      <xsd:element minOccurs="1" maxOccurs="1" name="TIQ" type="TraitsDIdentite" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Resultat">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="CR" type="CompteRendu" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="INDIVIDU" type="Individu" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Matricule">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="NumIdentifiant" type="NIR" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Cle" type="CLE" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TypeMatricule" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

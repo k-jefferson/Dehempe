@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:si-dmp-habilitations" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" name="HabilitationsEndPointImplService" targetNamespace="urn:si-dmp-habilitations" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:si-dmp-habilitations" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="listAuthorizationByPatient" type="tns:listAuthorizationByPatient" />
+      <xs:element name="listAuthorizationByPatientResponse" type="tns:listAuthorizationByPatientResponse" />
+      <xs:element name="setAuthorization" type="tns:setAuthorization" />
+      <xs:element name="setAuthorizationResponse" type="tns:setAuthorizationResponse" />
+      <xs:complexType name="listAuthorizationByPatient">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="mode" type="tns:modeType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listAuthorizationByPatientResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:AuthorizationByPatientResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AuthorizationByPatientResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="listOfAuthorizationByPatient" type="tns:AuthorizationByPatient" />
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AuthorizationByPatient">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="nationalId" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="nationalIdType" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="firstName" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="lastName" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="codeSpeciality" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="libSpeciality" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="startOfAuthorization" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="lastActionDate" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="mode" type="tns:modeType" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="specificRight" type="tns:roleType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="setAuthorization">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="action" type="tns:actionType" />
+          <xs:element minOccurs="0" form="qualified" name="role" type="tns:roleType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="setAuthorizationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:WebServiceResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="WebServiceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="modeType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ACTIVE" />
+          <xs:enumeration value="INTERDITE" />
+          <xs:enumeration value="TOUTE" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="roleType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MEDECIN_TRAITANT" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="actionType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AJOUT" />
+          <xs:enumeration value="SUPPRESSION" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="setAuthorizationResponse">
+    <wsdl:part name="parameters" element="tns:setAuthorizationResponse" />
+  </wsdl:message>
+  <wsdl:message name="listAuthorizationByPatient">
+    <wsdl:part name="parameters" element="tns:listAuthorizationByPatient" />
+  </wsdl:message>
+  <wsdl:message name="setAuthorization">
+    <wsdl:part name="parameters" element="tns:setAuthorization" />
+  </wsdl:message>
+  <wsdl:message name="listAuthorizationByPatientResponse">
+    <wsdl:part name="parameters" element="tns:listAuthorizationByPatientResponse" />
+  </wsdl:message>
+  <wsdl:portType name="HabilitationsEndPoint">
+    <wsdl:operation name="listAuthorizationByPatient">
+      <wsdl:input name="listAuthorizationByPatient" message="tns:listAuthorizationByPatient" />
+      <wsdl:output name="listAuthorizationByPatientResponse" message="tns:listAuthorizationByPatientResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setAuthorization">
+      <wsdl:input name="setAuthorization" message="tns:setAuthorization" />
+      <wsdl:output name="setAuthorizationResponse" message="tns:setAuthorizationResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HabilitationsEndPointImplServiceSoapBinding" type="tns:HabilitationsEndPoint">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="listAuthorizationByPatient">
+      <soap12:operation soapAction="urn:hl7-org:v3:listAuthorizationByPatient" style="document" />
+      <wsdl:input name="listAuthorizationByPatient">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="listAuthorizationByPatientResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAuthorization">
+      <soap12:operation soapAction="urn:hl7-org:v3:setAuthorization" style="document" />
+      <wsdl:input name="setAuthorization">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="setAuthorizationResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HabilitationsEndPointImplService">
+    <wsdl:port name="HabilitationsEndPointImplPort" binding="tns:HabilitationsEndPointImplServiceSoapBinding">
+      <soap12:address location="https://dev6.lps-igc-sante.dmp.gouv.fr/si-dmp-server/v2/services/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

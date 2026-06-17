@@ -1,0 +1,11 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2010:UpdateDocumentSet-Response</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:adfe4355-b06b-4c85-afb6-9ffa16c3922e</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:68359939-81c7-4fcf-8eb7-f0255896e85a</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns2:RegistryResponse status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success" xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns6="urn:hl7-org:v3"/>
+   </soap:Body>
+</soap:Envelope>

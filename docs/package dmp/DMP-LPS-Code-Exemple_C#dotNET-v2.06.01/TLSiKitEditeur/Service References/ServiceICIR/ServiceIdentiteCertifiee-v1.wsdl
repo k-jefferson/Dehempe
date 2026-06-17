@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.cnamts.fr/webservice" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:insi_recsans_ins="http://www.cnamts.fr/INSiRecSans" xmlns:ctxlps="urn:siram:lps:ctxlps" xmlns:insi="http://www.cnamts.fr/ServiceIdentiteCertifiee/v1" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:insi_recvit_ins="http://www.cnamts.fr/INSiRecVit" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/02/addressing/wsdl" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:insi_resultat_ins="http://www.cnamts.fr/INSiResultat" xmlns:siram="urn:siram" xmlns:ctxbam="urn:siram:bam:ctxbam" jaxb:extensionBindingPrefixes="xjc" jaxb:version="1.0" name="ServiceIdentiteCertifiee-v1" targetNamespace="http://www.cnamts.fr/webservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>service de recherche et de vérification de l’Identifiant National de Santé (INS)</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema>
+      <xs:import schemaLocation="xsd/ServiceIdentiteCertifiee/INSi_RECSANS_INS.xsd" namespace="http://www.cnamts.fr/INSiRecSans" />
+      <xs:import schemaLocation="xsd/ServiceIdentiteCertifiee/INSi_RECVITALE_INS.xsd" namespace="http://www.cnamts.fr/INSiRecVit" />
+      <xs:import schemaLocation="xsd/ServiceIdentiteCertifiee/INSi_RESULTAT_INS.xsd" namespace="http://www.cnamts.fr/INSiResultat" />
+      <xs:import schemaLocation="xsd/WSSE/Security.xsd" namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />
+      <xs:import schemaLocation="http://www.w3.org/2006/03/addressing/ws-addr.xsd" namespace="http://www.w3.org/2005/08/addressing" />
+      <xs:import schemaLocation="xsd/CTX/ROOT_ctxlps_CTXLPS_V01_00.xsd" namespace="urn:siram:lps:ctxlps" />
+      <xs:import schemaLocation="xsd/CTX/ROOT_ctxbam_CTXBAM_V01_02.xsd" namespace="urn:siram:bam:ctxbam" />
+      <xs:import schemaLocation="xsd/schema_faultSOAP_V01_01.xsd" namespace="urn:siram" />
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="rechercherInsAvecCarteVitale">
+    <wsdl:part name="rechercherInsAvecCarteVitale" element="insi_recvit_ins:RECVITALE" />
+    <wsdl:part name="NO1_Security" element="wsse:Security" />
+    <wsdl:part name="NO1_ContexteLPS" element="ctxlps:ContexteLPS" />
+    <wsdl:part name="NO1_MessageID" element="wsa:MessageID" />
+    <wsdl:part name="NO1_ContexteBAM" element="ctxbam:ContexteBAM" />
+  </wsdl:message>
+  <wsdl:message name="rechercherInsAvecCarteVitaleResponse">
+    <wsdl:part name="rechercherInsAvecCarteVitaleResponse" element="insi_resultat_ins:RESULTAT" />
+  </wsdl:message>
+  <wsdl:message name="rechercherInsAvecTraitsIdentite">
+    <wsdl:part name="rechercherInsAvecTraitsIdentite" element="insi_recsans_ins:RECSANSVITALE" />
+    <wsdl:part name="NO1_Security" element="wsse:Security" />
+    <wsdl:part name="NO1_ContexteLPS" element="ctxlps:ContexteLPS" />
+    <wsdl:part name="NO1_MessageID" element="wsa:MessageID" />
+    <wsdl:part name="NO1_ContexteBAM" element="ctxbam:ContexteBAM" />
+  </wsdl:message>
+  <wsdl:message name="rechercherInsAvecTraitsIdentiteResponse">
+    <wsdl:part name="rechercherInsAvecTraitsIdentiteResponse" element="insi_resultat_ins:RESULTAT" />
+  </wsdl:message>
+  <wsdl:message name="Erreur">
+    <wsdl:part name="Erreur" element="siram:Erreur" />
+  </wsdl:message>
+  <wsdl:portType name="ICIRService">
+    <wsdl:operation name="rechercherInsAvecCarteVitale">
+      <wsdl:input wsaw:Action="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecCarteVitale" name="rechercherInsAvecCarteVitale" message="tns:rechercherInsAvecCarteVitale" />
+      <wsdl:output wsaw:Action="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecCarteVitaleResponse" name="rechercherInsAvecCarteVitaleResponse" message="tns:rechercherInsAvecCarteVitaleResponse" />
+      <wsdl:fault name="Erreur" message="tns:Erreur" />
+    </wsdl:operation>
+    <wsdl:operation name="rechercherInsAvecTraitsIdentite">
+      <wsdl:input wsaw:Action="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecTraitsIdentite" name="rechercherInsAvecTraitsIdentite" message="tns:rechercherInsAvecTraitsIdentite" />
+      <wsdl:output wsaw:Action="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecTraitsIdentiteResponse" name="rechercherInsAvecTraitsIdentiteResponse" message="tns:rechercherInsAvecTraitsIdentiteResponse" />
+      <wsdl:fault name="Erreur" message="tns:Erreur" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ICIRServiceBinding" type="tns:ICIRService">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="rechercherInsAvecCarteVitale">
+      <soap12:operation soapAction="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecCarteVitale" />
+      <wsdl:input name="rechercherInsAvecCarteVitale">
+        <soap12:body use="literal" parts="rechercherInsAvecCarteVitale" />
+        <soap12:header message="tns:rechercherInsAvecCarteVitale" part="NO1_Security" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecCarteVitale" part="NO1_ContexteLPS" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecCarteVitale" part="NO1_MessageID" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecCarteVitale" part="NO1_ContexteBAM" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="rechercherInsAvecCarteVitaleResponse">
+        <soap12:body use="literal" parts="rechercherInsAvecCarteVitaleResponse" />
+      </wsdl:output>
+      <wsdl:fault name="Erreur">
+        <soap12:fault use="literal" name="Erreur" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="rechercherInsAvecTraitsIdentite">
+      <soap12:operation soapAction="urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecTraitsIdentite" />
+      <wsdl:input name="rechercherInsAvecTraitsIdentite">
+        <soap12:body use="literal" parts="rechercherInsAvecTraitsIdentite" />
+        <soap12:header message="tns:rechercherInsAvecTraitsIdentite" part="NO1_Security" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecTraitsIdentite" part="NO1_ContexteLPS" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecTraitsIdentite" part="NO1_MessageID" use="literal" />
+        <soap12:header message="tns:rechercherInsAvecTraitsIdentite" part="NO1_ContexteBAM" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="rechercherInsAvecTraitsIdentiteResponse">
+        <soap12:body use="literal" parts="rechercherInsAvecTraitsIdentiteResponse" />
+      </wsdl:output>
+      <wsdl:fault name="Erreur">
+        <soap12:fault use="literal" name="Erreur" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ICIR-v1">
+    <wsdl:documentation>service de recherche et de vérification de l’Identifiant National de Santé (INS)</wsdl:documentation>
+    <wsdl:port name="ICIRService" binding="tns:ICIRServiceBinding">
+      <soap12:address location="https://qualiflps.services-ps.ameli.fr/lps" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

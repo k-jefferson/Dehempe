@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:si-dmp-patients" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" name="PatientSpecificEndPointImplService" targetNamespace="urn:si-dmp-patients" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="urn:si-dmp-patients" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="createPatientAccess" type="tns:createPatientAccess" />
+      <xs:element name="createPatientAccessResponse" type="tns:createPatientAccessResponse" />
+      <xs:element name="patientList" type="tns:patientList" />
+      <xs:element name="patientListResponse" type="tns:patientListResponse" />
+      <xs:element name="patientOTPUpdate" type="tns:patientOTPUpdate" />
+      <xs:element name="patientOTPUpdateResponse" type="tns:patientOTPUpdateResponse" />
+      <xs:element name="updatePatientAccess" type="tns:updatePatientAccess" />
+      <xs:element name="updatePatientAccessResponse" type="tns:updatePatientAccessResponse" />
+      <xs:complexType name="createPatientAccess">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="type" type="tns:otpChannelTypeEnum" />
+          <xs:element minOccurs="0" form="qualified" name="canal" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createPatientAccessResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:PatientAccessResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatientAccessResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="login" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="password" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="patientList">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="startDate" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="dateType" type="tns:dateTypeEnum" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="patientListResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:PatientListDataResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatientListDataResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="patientlistData" type="tns:PatientListData" />
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatientListData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="qualified" name="patientIdentifier" type="tns:PatientIdentifierListData" />
+          <xs:element minOccurs="0" form="qualified" name="lastName" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="patronymicalName" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="firstName" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="civility" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="dateOfBirth" type="xs:string" />
+          <xs:element form="qualified" name="MT" type="xs:boolean" />
+          <xs:element form="qualified" name="message" type="xs:boolean" />
+          <xs:element minOccurs="0" form="qualified" name="lastAccessDate" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="lastUpdateDate" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="lastAddDate" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatientIdentifierListData">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="nationalId" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="nationalIdType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updatePatientAccess">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="updatePatientAccessResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:PatientAccessResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="patientOTPUpdate">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="type" type="tns:otpChannelTypeEnum" />
+          <xs:element minOccurs="0" form="qualified" name="canal" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="action" type="tns:actionTypeEnum" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="patientOTPUpdateResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="output" type="tns:WebServiceResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="WebServiceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" form="qualified" name="status" type="xs:string" />
+          <xs:element minOccurs="0" form="qualified" name="context" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="otpChannelTypeEnum">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SMS" />
+          <xs:enumeration value="EMAIL" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="dateTypeEnum">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="LASTAUTORIZATION" />
+          <xs:enumeration value="LASTDOC" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="actionTypeEnum">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AJOUT" />
+          <xs:enumeration value="MODIFICATION" />
+          <xs:enumeration value="SUPPRESSION" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="patientOTPUpdateResponse">
+    <wsdl:part name="parameters" element="tns:patientOTPUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="updatePatientAccess">
+    <wsdl:part name="parameters" element="tns:updatePatientAccess" />
+  </wsdl:message>
+  <wsdl:message name="patientListResponse">
+    <wsdl:part name="parameters" element="tns:patientListResponse" />
+  </wsdl:message>
+  <wsdl:message name="patientList">
+    <wsdl:part name="parameters" element="tns:patientList" />
+  </wsdl:message>
+  <wsdl:message name="updatePatientAccessResponse">
+    <wsdl:part name="parameters" element="tns:updatePatientAccessResponse" />
+  </wsdl:message>
+  <wsdl:message name="createPatientAccess">
+    <wsdl:part name="parameters" element="tns:createPatientAccess" />
+  </wsdl:message>
+  <wsdl:message name="createPatientAccessResponse">
+    <wsdl:part name="parameters" element="tns:createPatientAccessResponse" />
+  </wsdl:message>
+  <wsdl:message name="patientOTPUpdate">
+    <wsdl:part name="parameters" element="tns:patientOTPUpdate" />
+  </wsdl:message>
+  <wsdl:portType name="PatientSpecificEndPoint">
+    <wsdl:operation name="createPatientAccess">
+      <wsdl:input name="createPatientAccess" message="tns:createPatientAccess" />
+      <wsdl:output name="createPatientAccessResponse" message="tns:createPatientAccessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="patientList">
+      <wsdl:input name="patientList" message="tns:patientList" />
+      <wsdl:output name="patientListResponse" message="tns:patientListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updatePatientAccess">
+      <wsdl:input name="updatePatientAccess" message="tns:updatePatientAccess" />
+      <wsdl:output name="updatePatientAccessResponse" message="tns:updatePatientAccessResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="patientOTPUpdate">
+      <wsdl:input name="patientOTPUpdate" message="tns:patientOTPUpdate" />
+      <wsdl:output name="patientOTPUpdateResponse" message="tns:patientOTPUpdateResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PatientSpecificEndPointImplServiceSoapBinding" type="tns:PatientSpecificEndPoint">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createPatientAccess">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input name="createPatientAccess">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createPatientAccessResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="patientList">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input name="patientList">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="patientListResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePatientAccess">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input name="updatePatientAccess">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updatePatientAccessResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="patientOTPUpdate">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input name="patientOTPUpdate">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="patientOTPUpdateResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PatientSpecificEndPointImplService">
+    <wsdl:port name="PatientSpecificEndPointImplPort" binding="tns:PatientSpecificEndPointImplServiceSoapBinding">
+      <soap:address location="" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

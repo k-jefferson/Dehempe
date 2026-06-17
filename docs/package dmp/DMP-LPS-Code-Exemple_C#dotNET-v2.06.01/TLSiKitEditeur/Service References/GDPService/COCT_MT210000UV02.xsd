@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:hl7-org:v3" xmlns:ex="urn:hl7-org/v3-example" elementFormDefault="qualified" targetNamespace="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="../coreschemas/infrastructureRoot.xsd" />
+  <xs:annotation>
+    <xs:documentation>Generated using schema builder version 3.2.5. Stylesheets:
+
+StaticMifToXsd.xsl version 2.0</xs:documentation>
+  </xs:annotation>
+  <xs:complexType name="COCT_MT210000UV02.AutoRepeatPermission">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="CE" />
+      <xs:element minOccurs="1" maxOccurs="1" name="value" type="BL" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="ActClassObservation" use="required" />
+    <xs:attribute name="moodCode" type="ActMoodRequest" use="required" />
+  </xs:complexType>
+  <xs:complexType name="COCT_MT210000UV02.Dillution">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="CE" />
+      <xs:element minOccurs="1" maxOccurs="1" name="value" type="RTO_QTY_QTY" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="ActClassObservation" use="required" />
+    <xs:attribute name="moodCode" type="ActMoodRequest" use="required" />
+  </xs:complexType>
+  <xs:complexType name="COCT_MT210000UV02.EndogenousContent">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="CE" />
+      <xs:element minOccurs="1" maxOccurs="1" name="value" type="PQ" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="ActClassObservation" use="required" />
+    <xs:attribute name="moodCode" type="ActMoodRequest" use="required" />
+  </xs:complexType>
+  <xs:complexType name="COCT_MT210000UV02.ReflexPermission">
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements" />
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="CE" />
+      <xs:element minOccurs="1" maxOccurs="1" name="value" type="BL" />
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes" />
+    <xs:attribute name="classCode" type="ActClassObservation" use="required" />
+    <xs:attribute name="moodCode" type="ActMoodRequest" use="required" />
+  </xs:complexType>
+</xs:schema>

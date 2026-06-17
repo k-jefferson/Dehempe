@@ -1,0 +1,1418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7B0BFF9-2277-4BCF-A3B4-F8D218206F4C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TLSiKitEditeur</RootNamespace>
+    <AssemblyName>TLSiKitEditeur</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publier\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=3.1.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Console.3.1.0\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.4.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.2.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CertificateHelpers\CertificateHelper.cs" />
+    <Compile Include="CertificateHelpers\Pkcs11\Pkcs11.cs" />
+    <Compile Include="CertificateHelpers\Pkcs12\Pkcs12.cs" />
+    <Compile Include="Dmp.cs" />
+    <Compile Include="Helpers\BigIntegers.cs" />
+    <Compile Include="Helpers\SoapHeaderBuilder.cs" />
+    <Compile Include="Helpers\Time.cs" />
+    <Compile Include="Helpers\UUID.cs" />
+    <Compile Include="Helpers\WebProxyHelper.cs" />
+    <Compile Include="INS\PatientINS.cs" />
+    <Compile Include="Messages\CVAMessageBuilder.cs" />
+    <Compile Include="Messages\MessageBuilder.cs" />
+    <Compile Include="Service References\PDQSupplierService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceICIR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SoapServiceHelpers\Logger\Logger.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\DocumentRegistryService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\DocumentRepositoryService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\GDPService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\HabilitationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PatientCertificationService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PatientSpecificService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SoapServiceHelpers\ClientMessageInspector.cs" />
+    <Compile Include="SoapServiceHelpers\SoapSecureMessageHeader.cs" />
+    <Compile Include="SoapServiceHelpers\SoapServiceInitializer.cs" />
+    <Compile Include="SoapServiceHelpers\XDSb_CVA.cs" />
+    <Compile Include="SoapServiceHelpers\XDSb.cs" />
+    <Compile Include="SoapService\DocumentIdentity.cs" />
+    <Compile Include="SoapService\DocumentRegistryHistoCVASoapService.cs" />
+    <Compile Include="SoapService\DocumentRegistryCVASoapService.cs" />
+    <Compile Include="SoapService\DocumentRegistrySoapService.cs" />
+    <Compile Include="SoapService\DocumentRepositoryCVASoapService.cs" />
+    <Compile Include="SoapService\DocumentRepositorySoapService.cs" />
+    <Compile Include="SoapService\HabilitationSoapService.cs" />
+    <Compile Include="SoapService\PatientSoapService.cs" />
+    <Compile Include="SoapService\RegistryStoredQueryResponse.cs" />
+    <Compile Include="VIHF\PurposeOfUse.cs" />
+    <Compile Include="VIHF\Role.cs" />
+    <Compile Include="VIHF\VIHF.cs" />
+    <Compile Include="VIHF\VihfProvider.cs" />
+    <Compile Include="Xades\ExtendedSignedXml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\wsdl\wsdl\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\GestionDossierPatientPartage.wsdl" />
+    <None Include="Resources\wsdl\wsdl\Habilitations.wsdl" />
+    <None Include="Resources\wsdl\wsdl\patientCertif.wsdl" />
+    <None Include="Resources\wsdl\wsdl\PatientsSpecific.wsdl" />
+    <None Include="Resources\wsdl\wsdl\PDQSupplier.wsdl" />
+    <None Include="Resources\wsdl\wsdl\schema\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\cms.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\lcm.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\query.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\rim.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\rs.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\ebRS\xml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\datatypes-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\datatypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\infrastructureRoot.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\NarrativeBlock.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\coreschemas\voc.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT030000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT030007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT030202UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT030203UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT030207UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT040008UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT040203UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT050000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT060000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT070000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT080000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090003UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090102UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090108UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT090303UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT140007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT150000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT150002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT150003UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT150007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT230100UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT240000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT240003UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT260003UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT280000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT290000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT300000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT310000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT440001UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT490000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT500000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT510000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT530000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT600000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT670000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT710000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT710007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT740000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT810000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT820000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\COCT_MT960000UV05.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MCAI_MT900001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MCCI_IN000002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MCCI_MT000100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MCCI_MT000200UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MCCI_MT000300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MFMI_MT700701UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\MFMI_MT700711UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201301UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201302UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201304UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201305UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201306UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201309UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_IN201310UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201301UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201302UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201303UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201304UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201306UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201307UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\PRPA_MT201310UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\QUQI_IN000003UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\QUQI_MT000001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2008\multicacheschemas\QUQI_MT021001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\datatypes-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\datatypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\infrastructureRoot.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\NarrativeBlock.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\coreschemas\voc.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT030000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT030007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT030202UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT030203UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT030207UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT040008UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT040203UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT050000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT060000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT070000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT080000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090003UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090102UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090108UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT090303UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT140007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT150000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT150002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT150003UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT150007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT210000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT230100UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT240000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT240003UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT250000UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT260003UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT280000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT290000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT300000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT310000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT430000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT440001UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT490000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT500000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT510000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT530000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT590000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT600000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT670000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT710000UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT710007UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT740000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT810000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT820000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\COCT_MT960000UV05.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MCAI_MT900001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MCCI_MT000100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MCCI_MT000300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MFMI_MT700701UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MFMI_MT700711UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\MFMI_MT700721UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201305UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201306UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201307UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201308UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201311UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201312UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201313UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201314UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201315UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_IN201316UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_MT201301UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_MT201302UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_MT201303UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_MT201304UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\PRPA_MT201307UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\HL7V3\NE2009\multicacheschemas\QUQI_MT021001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\IHE\CVS\Entries" />
+    <None Include="Resources\wsdl\wsdl\schema\IHE\CVS\Entries.Extra" />
+    <None Include="Resources\wsdl\wsdl\schema\IHE\CVS\Entries.Old" />
+    <None Include="Resources\wsdl\wsdl\schema\IHE\CVS\Repository" />
+    <None Include="Resources\wsdl\wsdl\schema\IHE\CVS\Root" />
+    <None Include="Resources\wsdl\wsdl\schema\IHE\XDS.b_DocumentRepository-MTOM_CXF.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\schema\IHE\XDS.b_DocumentRepository.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\XDS.b_DocumentRegistry.wsdl">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\wsdl\wsdl\XDS.b_DocumentRepository.wsdl" />
+    <None Include="Service References\DocumentRegistryService\DocumentRegistry.wsdl">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRegistryService\lcm.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRegistryService\query.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRegistryService\rim.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRegistryService\rs.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRegistryService\TLSiKitEditeur.DocumentRegistryService.AdhocQueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRegistryService\TLSiKitEditeur.DocumentRegistryService.DocumentRegistry_RegistryStoredQueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRegistryService\TLSiKitEditeur.DocumentRegistryService.DocumentRegistry_UpdateDocumentSetResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRegistryService\TLSiKitEditeur.DocumentRegistryService.RegistryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRegistryService\xml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\DocumentRepository.wsdl" />
+    <None Include="Service References\DocumentRepositoryService\lcm.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\query.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\rim.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\rs.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\TLSiKitEditeur.DocumentRepositoryService.DocumentRepository_ProvideAndRegisterDocumentSetbResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\TLSiKitEditeur.DocumentRepositoryService.DocumentRepository_RetrieveDocumentSetResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\TLSiKitEditeur.DocumentRepositoryService.RegistryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\TLSiKitEditeur.DocumentRepositoryService.RetrieveDocumentSetResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\XDS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DocumentRepositoryService\xml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT030000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT030007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT030202UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT030203UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT030207UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT040008UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT040203UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT050000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT060000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT070000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT080000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090003UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090102UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090108UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT090303UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT140007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT150000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT150002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT150003UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT150007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT210000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT230100UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT240000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT240003UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT250000UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT260003UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT280000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT290000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT300000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT310000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT430000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT440001UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT490000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT500000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT510000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT530000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT590000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT600000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT670000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT710000UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT710007UV07.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT740000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT810000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT820000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\COCT_MT960000UV05.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\datatypes-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\datatypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\GestionDossierPatientPartage.wsdl" />
+    <None Include="Service References\GDPService\infrastructureRoot.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MCAI_MT900001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MCCI_MT000100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MCCI_MT000300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MFMI_MT700701UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MFMI_MT700711UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\MFMI_MT700721UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201307UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201308UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201311UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201312UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201313UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201314UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201315UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_IN201316UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_MT201301UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_MT201302UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_MT201303UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_MT201304UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\PRPA_MT201307UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\QUQI_MT021001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PatientAdd_PRPA_IN201311UV02Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PatientGetDemographics_PRPA_IN201307UV02Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PatientRevise_PRPA_IN201314UV02Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PRPA_IN201308UV02.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PRPA_IN201311UV02_ResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\TLSiKitEditeur.GDPService.PRPA_IN201314UV02_ResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GDPService\voc.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\HabilitationService\HabilitationsEndPointImplService1.wsdl" />
+    <None Include="Service References\HabilitationService\TLSiKitEditeur.HabilitationService.AuthorizationByPatientResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\HabilitationService\TLSiKitEditeur.HabilitationService.WebServiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PatientCertificationService\PatientCertificationEndPointImplService.wsdl" />
+    <None Include="Service References\PatientCertificationService\TLSiKitEditeur.PatientCertificationService.identityCertificationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PatientCertificationService\TLSiKitEditeur.PatientCertificationService.PatientCertificationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PatientSpecificService\PatientSpecificEndPointImplService.wsdl" />
+    <None Include="Service References\PatientSpecificService\TLSiKitEditeur.PatientSpecificService.PatientAccessResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PatientSpecificService\TLSiKitEditeur.PatientSpecificService.PatientListDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PatientSpecificService\TLSiKitEditeur.PatientSpecificService.WebServiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT030000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT030007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT030202UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT030203UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT030207UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT040008UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT040203UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT050000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT060000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT070000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT080000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090003UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090102UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090108UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT090303UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT140007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT150000UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT150002UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT150003UV03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT150007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT230100UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT240000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT240003UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT260003UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT280000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT290000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT300000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT310000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT440001UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT490000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT500000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT510000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT530000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT600000UV06.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT670000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT710000UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT710007UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT740000UV04.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT810000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT820000UV.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\COCT_MT960000UV05.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\datatypes-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\datatypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\infrastructureRoot.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\MCAI_MT900001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\MCCI_MT000100UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\MCCI_MT000300UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\MFMI_MT700711UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\PDQSupplier.wsdl" />
+    <None Include="Service References\PDQSupplierService\PRPA_IN201305UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\PRPA_IN201306UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\PRPA_MT201306UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\PRPA_MT201310UV02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\QUQI_MT021001UV01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PDQSupplierService\TLSiKitEditeur.PDQSupplierService.findCandidatesQueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PDQSupplierService\TLSiKitEditeur.PDQSupplierService.PRPA_IN201306UV02.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PDQSupplierService\voc.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\INSi_RECSANS_INS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\INSi_RECVITALE_INS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\INSi_RESULTAT_INS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\ROOT_ctxbam_CTXBAM_V01_02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\ROOT_ctxlps_CTXLPS_V01_00.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\saml-schema-assertion-2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\schema_faultSOAP_V01_01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\Security.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\ServiceIdentiteCertifiee-v1.wsdl" />
+    <None Include="Service References\ServiceICIR\TLSiKitEditeur.ServiceICIR.rechercherInsAvecCarteVitaleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceICIR\TLSiKitEditeur.ServiceICIR.rechercherInsAvecTraitsIdentiteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceICIR\TLSiKitEditeur.ServiceICIR.Resultat.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceICIR\ws-addr.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\xenc-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceICIR\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DocumentRegistryService\" />
+    <WCFMetadataStorage Include="Service References\DocumentRepositoryService\" />
+    <WCFMetadataStorage Include="Service References\GDPService\" />
+    <WCFMetadataStorage Include="Service References\HabilitationService\" />
+    <WCFMetadataStorage Include="Service References\PatientCertificationService\" />
+    <WCFMetadataStorage Include="Service References\PatientSpecificService\" />
+    <WCFMetadataStorage Include="Service References\PDQSupplierService\" />
+    <WCFMetadataStorage Include="Service References\ServiceICIR\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientCertificationService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientCertificationService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientCertificationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HabilitationService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HabilitationService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\HabilitationService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientSpecificService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientSpecificService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PatientSpecificService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRegistryService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRegistryService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRegistryService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRepositoryService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRepositoryService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DocumentRepositoryService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GDPService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GDPService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GDPService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PDQSupplierService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PDQSupplierService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PDQSupplierService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AssertionLibrary\TLSi_AssertionLibrary.csproj">
+      <Project>{c590f98a-365c-4fcf-bb82-ccb62268e844}</Project>
+      <Name>TLSi_AssertionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{ee1dc57a-344a-4b0a-82ce-5fd328c14894}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\template_archivage.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\template_CDA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\template_CVA_CDA.xml" />
+    <Content Include="Resources\template_CVA_CDA_Update.xml" />
+    <Content Include="Resources\template_depublicationCVA.xml" />
+    <Content Include="Resources\template_FindDocumentCVA.xml" />
+    <Content Include="Resources\template_depublication.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\template_FindDocument.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\template_masquage.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\template_XDS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Service References\ServiceICIR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceICIR\configuration.svcinfo" />
+    <None Include="Service References\ServiceICIR\configuration91.svcinfo" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

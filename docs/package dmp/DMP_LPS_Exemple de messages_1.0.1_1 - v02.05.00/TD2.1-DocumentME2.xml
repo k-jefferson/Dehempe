@@ -1,0 +1,89 @@
+﻿<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3">
+	<realmCode code="FR" />
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<templateId root="2.16.840.1.113883.2.8.2.1" assigningAuthorityName="HL7 France" />
+	<templateId root="1.2.250.1.213.1.1.1.1" assigningAuthorityName="CI-SIS" />
+	<templateId root="1.3.6.1.4.1.19376.1.2.20" assigningAuthorityName="IHE XDS-SD" />
+	<id root="1.2.250.1.999.1.1.7898.4.9956570902" />
+	<code code="27899-4" displayName="CR d'acte diagnostique (autre)" codeSystem="2.16.840.1.113883.6.1" />
+	<title>Exemple de Document CDA R2 non Structure</title>
+	<effectiveTime value="20190221133445+0100" />
+	<confidentialityCode code="N" displayName="Normal" codeSystem="2.16.840.1.113883.5.25" />
+	<languageCode code="fr-FR" />
+	<recordTarget>
+		<patientRole>
+			<id extension="207058575627097" root="1.2.250.1.213.1.4.10" />
+			<id extension="0456789999" root="1.2.250.1.999.1.1.7898.2" />
+			<addr nullFlavor="NASK" />
+			<telecom nullFlavor="NASK" />
+			<patient>
+				<name>
+					<given>LAURENCE</given>
+					<family qualifier="SP">patb-quatre</family>
+				</name>
+				<administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" />
+				<birthTime value="19790328" />
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20190221133445+0100" />
+		<assignedAuthor>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>LIBRE</given>
+					<family>MAX</family>
+					<prefix>Dr.</prefix>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="1.2.250.1.71.4.2.2" extension="499900063480001" assigningAuthorityName="GIP-CPS" />
+				<name>CABINET DR LIBRE</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<time value="20190221133445+0100" />
+		<signatureCode code="S" />
+		<assignedEntity>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>MAX</given>
+					<family>LIBRE</family>
+					<prefix>Dr.</prefix>
+				</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<documentationOf>
+		<serviceEvent>
+			<code code="BACA008" displayName="suture sourcil" codeSystem="1.2.250.1.213.2.5" />
+			<effectiveTime>
+				<low value="20190221" />
+			</effectiveTime>
+		</serviceEvent>
+	</documentationOf>
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime>
+				<low value="20190221" />
+			</effectiveTime>
+			<location>
+				<healthCareFacility>
+					<code code="SA07" displayName="Cabinet individuel" codeSystem="1.2.250.1.71.4.2.4" codeSystemName="R02" />
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<nonXMLBody>
+			<text mediaType="text/plain" representation="B64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8bnMyOkNPTlRFTlVQUkVTQ1JJUFRJT05NRURJQ0FMIHhtbG5zPSJ1cm46c2lyYW06cHJlc2NyaXB0aW9uIiB4bWxuczpuczI9InVybjppcjpzZV9jb250ZW51cGVtMmQiPgogICAgPFBhdGllbnQ+CiAgICAgICAgPE5vbT5QQVQtVFJPSVM8L05vbT4KICAgICAgICA8UHJlbm9tPkRPTUlOSVFVRTwvUHJlbm9tPgogICAgPC9QYXRpZW50PgogICAgPE5CTT4xPC9OQk0+CiAgICA8TkJETT4wPC9OQkRNPgogICAgPEVsdE1lZGljYW1lbnRldXg+CiAgICAgICAgPE51bUxpZ25lPjE8L051bUxpZ25lPgogICAgICAgIDxUeXBlRWx0UHJlc2NyaXQ+MTwvVHlwZUVsdFByZXNjcml0PgogICAgICAgIDxOYkNvbmRpdGlvbm5lbWVudD4yPC9OYkNvbmRpdGlvbm5lbWVudD4KICAgICAgICA8TmJSZW5vdXY+MDwvTmJSZW5vdXY+CiAgICAgICAgPEVzdEVuUmFwcG9ydEFMRD5mYWxzZTwvRXN0RW5SYXBwb3J0QUxEPgogICAgICAgIDxFc3RFblJhcHBvcnRBY2NpZGVudD5mYWxzZTwvRXN0RW5SYXBwb3J0QWNjaWRlbnQ+CiAgICAgICAgPEVzdE5vblJlbWI+ZmFsc2U8L0VzdE5vblJlbWI+CiAgICAgICAgPENJUD4zNDAwOTU1NDczMzUwPC9DSVA+CiAgICAgICAgPFBvc29sb2dpZT41MDAgw6AgMTAwMCBtZy9wcmlzZSAzIGZvaXMgdG91dGVzIGxlcyAyNCBoZXVyZXM8L1Bvc29sb2dpZT4KICAgICAgICA8RXN0Tm9uU3ViPmZhbHNlPC9Fc3ROb25TdWI+CiAgICAgICAgPEVzdEhvcnNBTU0+ZmFsc2U8L0VzdEhvcnNBTU0+CiAgICA8L0VsdE1lZGljYW1lbnRldXg+CjwvbnMyOkNPTlRFTlVQUkVTQ1JJUFRJT05NRURJQ0FMPg==</text>
+		</nonXMLBody>
+	</component>
+</ClinicalDocument>

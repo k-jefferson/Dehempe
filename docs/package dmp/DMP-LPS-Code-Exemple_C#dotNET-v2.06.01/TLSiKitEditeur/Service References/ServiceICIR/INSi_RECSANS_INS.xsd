@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://www.cnamts.fr/INSiRecSans" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.cnamts.fr/INSiRecSans" version="00.01" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:appinfo><![CDATA[Status=Travail]]></xsd:appinfo>
+  </xsd:annotation>
+  <xsd:element name="RECSANSVITALE" type="TraitsDIdentite" />
+  <xsd:simpleType name="DateLunaire">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="CodSexe">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="CLE">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="COG">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="NIR">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:complexType name="TraitsDIdentite">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="NomNaissance" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="Prenom" type="xsd:string" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Sexe" type="CodSexe" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="DateNaissance" type="DateLunaire" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="LieuNaissance" type="COG" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Matricule">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="1" name="NumIdentifiant" type="NIR" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="Cle" type="CLE" />
+      <xsd:element minOccurs="0" maxOccurs="1" name="TypeMatricule" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

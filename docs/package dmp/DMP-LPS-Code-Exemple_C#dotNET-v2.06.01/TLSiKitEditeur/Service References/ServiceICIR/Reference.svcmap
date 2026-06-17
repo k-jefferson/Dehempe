@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ec8f7347-8f90-4902-a53f-6d31e5191709" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="S:\TLSi\DMP\CONTRAT_ICIR_EXP_1.5.0\ServiceIdentiteCertifieeEXP\DESIR_ICIR_EXP_1.5.0.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="schema_faultSOAP_V01_01.xsd" MetadataType="Schema" ID="94cb634e-30a6-4595-b1a8-2ec83408f4c8" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/schema_faultSOAP_V01_01.xsd" />
+    <MetadataFile FileName="INSi_RESULTAT_INS.xsd" MetadataType="Schema" ID="cacd3d01-941d-4135-a471-f043d51facbb" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/ServiceIdentiteCertifiee/INSi_RESULTAT_INS.xsd" />
+    <MetadataFile FileName="ServiceIdentiteCertifiee-v1.wsdl" MetadataType="Wsdl" ID="eaa15b7f-9eee-4a7c-a3df-ad047f4540e7" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/DESIR_ICIR_EXP_1.5.0.wsdl" />
+    <MetadataFile FileName="INSi_RECSANS_INS.xsd" MetadataType="Schema" ID="61fa1d14-e778-40f8-ac17-ae2d91dcae04" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/ServiceIdentiteCertifiee/INSi_RECSANS_INS.xsd" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="d9e96409-7c2f-4aac-bb7b-4a1e55ec7e3e" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/SAML/xmldsig-core-schema.xsd" />
+    <MetadataFile FileName="saml-schema-assertion-2.xsd" MetadataType="Schema" ID="718e79b4-2c73-44a7-8d19-3188da3bfb37" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/SAML/saml-schema-assertion-2.0.xsd" />
+    <MetadataFile FileName="xenc-schema.xsd" MetadataType="Schema" ID="49a21984-8625-441f-8b2d-c8af4f0d2fd8" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/SAML/xenc-schema.xsd" />
+    <MetadataFile FileName="ROOT_ctxbam_CTXBAM_V01_02.xsd" MetadataType="Schema" ID="70c7a900-3262-45ed-bc51-045d0a1b9d7a" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/CTX/ROOT_ctxbam_CTXBAM_V01_02.xsd" />
+    <MetadataFile FileName="ws-addr.xsd" MetadataType="Schema" ID="a20d17de-e45d-466a-bc3d-5c8fe7f24611" SourceId="1" SourceUrl="http://www.w3.org/2006/03/addressing/ws-addr.xsd" />
+    <MetadataFile FileName="ROOT_ctxlps_CTXLPS_V01_00.xsd" MetadataType="Schema" ID="39c9eda6-1b5b-44c0-a156-e25e25c35673" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/CTX/ROOT_ctxlps_CTXLPS_V01_00.xsd" />
+    <MetadataFile FileName="INSi_RECVITALE_INS.xsd" MetadataType="Schema" ID="69c37878-264c-4642-9d0c-f1524a8bd1d0" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/ServiceIdentiteCertifiee/INSi_RECVITALE_INS.xsd" />
+    <MetadataFile FileName="Security.xsd" MetadataType="Schema" ID="a864735d-2d3b-46f5-a490-74b3b137fdfa" SourceId="1" SourceUrl="file:///S:/TLSi/DMP/CONTRAT_ICIR_EXP_1.5.0/ServiceIdentiteCertifieeEXP/xsd/WSSE/Security.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

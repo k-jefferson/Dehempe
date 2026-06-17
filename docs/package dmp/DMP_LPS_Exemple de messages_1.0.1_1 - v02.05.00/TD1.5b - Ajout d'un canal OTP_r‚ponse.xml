@@ -1,0 +1,16 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-patients" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:si-dmp-patients:PatientSpecificEndPoint:patientOTPUpdateResponse</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:e6362f38-3fd4-420c-8f61-606a10c11a96</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:5fd8e115-3f66-42c5-94d4-379e99d494d4</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns1:patientOTPUpdateResponse xmlns:ns2="urn:com:santeos:dmp:patient:2010">
+         <ns1:output>
+            <ns1:status>DMPOk</ns1:status>
+            <ns1:context>OTP mis à jour</ns1:context>
+         </ns1:output>
+      </ns1:patientOTPUpdateResponse>
+   </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,18 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-patients" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:si-dmp-patients:PatientSpecificEndPoint:updatePatientAccess:Fault:SoapFault</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:7c22b76d-8133-4680-9792-f3838b7256f6</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:a5681367-9ba7-47fe-8a4f-74a84245be88</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns1:updatePatientAccessResponse xmlns:ns2="urn:com:santeos:dmp:patient:2010">
+         <ns1:output>
+            <ns1:login>judj7573</ns1:login>
+            <ns1:password>d=R#B9xi</ns1:password>
+            <ns1:status>DMPOk</ns1:status>
+            <ns1:context/>
+         </ns1:output>
+      </ns1:updatePatientAccessResponse>
+   </soap:Body>
+</soap:Envelope>

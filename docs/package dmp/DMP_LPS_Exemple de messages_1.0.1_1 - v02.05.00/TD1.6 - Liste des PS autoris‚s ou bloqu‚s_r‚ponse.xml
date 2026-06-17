@@ -1,0 +1,27 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-habilitations" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:si-dmp-habilitations:HabilitationsEndPoint:listAuthorizationByPatientResponse</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:be5ffed4-6b34-46c4-a226-891b9e6e4b96</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:13792435-d03f-43b1-8714-7380c9c93a72</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns1:listAuthorizationByPatientResponse>
+         <ns1:output>
+            <ns1:listOfAuthorizationByPatient>
+               <ns1:nationalId>899900063480</ns1:nationalId>
+               <ns1:nationalIdType>1.2.250.1.71.4.2.1</ns1:nationalIdType>
+               <ns1:firstName>MAX</ns1:firstName>
+               <ns1:lastName>LIBRE</ns1:lastName>
+               <ns1:codeSpeciality>G15_10/SM26</ns1:codeSpeciality>
+               <ns1:libSpeciality>Médecin - Qualifié en Médecine générale (SM)</ns1:libSpeciality>
+               <ns1:startOfAuthorization>20210601135804</ns1:startOfAuthorization>
+               <ns1:lastActionDate>20210601140606</ns1:lastActionDate>
+               <ns1:mode>ACTIVE</ns1:mode>
+            </ns1:listOfAuthorizationByPatient>
+            <ns1:status>DMPOk</ns1:status>
+            <ns1:context/>
+         </ns1:output>
+      </ns1:listAuthorizationByPatientResponse>
+   </soap:Body>
+</soap:Envelope>

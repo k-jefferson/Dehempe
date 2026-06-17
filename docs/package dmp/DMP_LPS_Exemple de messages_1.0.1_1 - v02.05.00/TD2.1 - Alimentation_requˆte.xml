@@ -1,0 +1,579 @@
+------=_Part_9_20030738.1554380517598
+Content-Type: application/xop+xml; charset=UTF-8; type="application/soap+xml"; action="DocumentRepository_ProvideAndRegisterDocumentSet-b"
+Content-Transfer-Encoding: 8bit
+Content-ID: <rootpart@soapui.org>
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Header>
+		<MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:b3745a7c-4d1a-4cfd-a752-536197e4ac7a</MessageID>
+		<To xmlns="http://www.w3.org/2005/08/addressing"/>
+		<ReplyTo mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">
+			<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
+		</ReplyTo>
+		<Action mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</Action>
+		<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+			<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="_ce088e5a-e31d-42d0-ba37-fda5fcbc889d" IssueInstant="2019-06-26T08:08:55.469Z" Version="2.0"><saml2:Issuer Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">CN=899900038839+2.5.4.4=#14045452414c+2.5.4.42=#14064144454d4953,OU=M?decin,O=TEST,C=FR</saml2:Issuer><saml2:Subject><saml2:NameID>899900063480</saml2:NameID></saml2:Subject><saml2:AuthnStatement AuthnInstant="2019-06-26T08:08:55.482Z"><saml2:AuthnContext><saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI</saml2:AuthnContextClassRef></saml2:AuthnContext></saml2:AuthnStatement><saml2:AttributeStatement><saml2:Attribute Name="Identifiant_Structure"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">499900063480001</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Secteur_Activite"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SA07^1.2.250.1.71.4.2.4</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role"><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="10" codeSystem="1.2.250.1.71.1.2.7" displayName="Médecin" xsi:type="CE"/></saml2:AttributeValue><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="SM26" codeSystem="1.2.250.1.71.4.2.5" displayName="Qualifié en Médecine Générale (SM)" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="VIHF_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">3.0</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Authentification_mode"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DIRECTE</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:resource:resource-id"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Ressource_URN"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">urn:dmp</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse"><saml2:AttributeValue><PurposeOfUse xmlns="urn:hl7-org:v3" code="normal" codeSystem="1.2.250.1.213.1.1.4.248" codeSystemName="mode acces VIHF 2.0" displayName="Acc賠normal" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">01.01.01.01</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Nom"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">LPS GIE-SV</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">1</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID_HOMOLOGATION_DMP"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">NumAutorisation</saml2:AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body>
+		<ns4:ProvideAndRegisterDocumentSetRequest xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns4="urn:ihe:iti:xds-b:2007" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0">
+			<ns3:SubmitObjectsRequest>
+				<RegistryObjectList>
+					<RegistryPackage id="SubmissionSet01">
+						<Slot name="submissionTime">
+							<ValueList>
+								<Value>20210604135051</Value>
+							</ValueList>
+						</Slot>
+						<Name>
+							<LocalizedString charset="UTF8" value="lot du document originel" xml:lang="FR"/>
+						</Name>
+						<Description>
+							<LocalizedString charset="UTF8" value="Compte rendu test" xml:lang="FR"/>
+						</Description>
+						<Classification classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" classifiedObject="SubmissionSet01" id="cla1">
+							<Slot name="authorPerson">
+								<ValueList>
+									<Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorSpecialty">
+								<ValueList>
+									<Value>G15_10/SM26^Médecin - Qualifié en Médecine Générale (SM)^1.2.250.1.213.1.1.4.5</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorInstitution">
+								<ValueList>
+									<Value>CABINET DR LIBRE^^^^^&amp;1.2.250.1.71.4.2.2&amp;ISO^IDNST^^^499900063480001</Value>
+								</ValueList>
+							</Slot>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" id="cla2" nodeRepresentation="04">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.2.2</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Hospitalisation de jour" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd" classifiedObject="SubmissionSet01" id="cla3"/>
+						<ExternalIdentifier id="ei1" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" registryObject="SubmissionSet01" value="207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20100907">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSSubmissionSet.patientId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+						<ExternalIdentifier id="ei2" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" registryObject="SubmissionSet01" value="1.2.250.1.999.1.1.7898">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSSubmissionSet.sourceId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+						<ExternalIdentifier id="ei3" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" registryObject="SubmissionSet01" value="1.2.250.1.999.1.1.7898.1.1622814651504">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSSubmissionSet.uniqueId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+					</RegistryPackage>
+					<ExtrinsicObject id="DocumentME2" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<Slot name="creationTime">
+							<ValueList>
+								<Value>20100319194535</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="languageCode">
+							<ValueList>
+								<Value>fr-FR</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="legalAuthenticator">
+							<ValueList>
+								<Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="serviceStartTime">
+							<ValueList>
+								<Value>20100319183244</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="serviceStopTime">
+							<ValueList>
+								<Value>20100319183344</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="sourcePatientId">
+							<ValueList>
+								<Value>0456789999^^^&amp;1.2.250.1.999.1.1.7898.2&amp;ISO^PI</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="sourcePatientInfo">
+							<ValueList>
+								<Value>PID-5|patb-quatre^LAURENCE^^^^^L</Value>
+								<Value>PID-7|19070525</Value>
+								<Value>PID-8|F</Value>
+							</ValueList>
+						</Slot>
+						<Name>
+							<LocalizedString charset="UTF8" value="Document 1" xml:lang="FR"/>
+						</Name>
+						<Description>
+							<LocalizedString charset="UTF8" value="commentaire sur document" xml:lang="FR"/>
+						</Description>
+						<Classification classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="DocumentME2" id="cla4">
+							<Slot name="authorPerson">
+								<ValueList>
+									<Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorSpecialty">
+								<ValueList>
+									<Value>G15_10/SM26^Médecin - Qualifié en Médecine Générale (SM)^1.2.250.1.213.1.1.4.5</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorInstitution">
+								<ValueList>
+									<Value>CABINET DR LIBRE^^^^^&amp;1.2.250.1.71.4.2.2&amp;ISO^IDNST^^^499900063480001</Value>
+								</ValueList>
+							</Slot>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="DocumentME2" id="cla5" nodeRepresentation="10">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.1.1.4.1</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Compte rendu" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="DocumentME2" id="cla6" nodeRepresentation="27899-4">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>2.16.840.1.113883.6.1</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="CR d'acte diagnostique (autre)" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="DocumentME2" id="cla7" nodeRepresentation="N">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>2.16.840.1.113883.5.25</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Normal" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="DocumentME2" id="cla8" nodeRepresentation="urn:ihe:iti:xds-sd:text:2008">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.3.6.1.4.1.19376.1.2.3</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Document à corps non structuré en texte brut" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="DocumentME2" id="cla9" nodeRepresentation="SA01">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.71.4.2.4</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Etablissement public de santé" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="DocumentME2" id="cla10" nodeRepresentation="ETABLISSEMENT">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.1.1.4.9</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Etablissement de santé" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<ExternalIdentifier id="ei4" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" registryObject="DocumentME2" value="207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20100907">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSDocumentEntry.patientId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+						<ExternalIdentifier id="ei5" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" registryObject="DocumentME2" value="1.2.250.1.999.1.1.7898.3.1622814651504">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSDocumentEntry.uniqueId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+					</ExtrinsicObject>
+					<ExtrinsicObject id="Signature01" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<Slot name="creationTime">
+							<ValueList>
+								<Value>20210604135051</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="languageCode">
+							<ValueList>
+								<Value>art</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="legalAuthenticator">
+							<ValueList>
+								<Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="serviceStartTime">
+							<ValueList>
+								<Value>20210604135051</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="serviceStopTime">
+							<ValueList>
+								<Value>20210604135051</Value>
+							</ValueList>
+						</Slot>
+						<Slot name="sourcePatientId">
+							<ValueList>
+								<Value>207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20100907</Value>
+							</ValueList>
+						</Slot>
+						<Name>
+							<LocalizedString charset="UTF8" value="Source" xml:lang="FR"/>
+						</Name>
+						<Classification classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="Signature01" id="cla11">
+							<Slot name="authorPerson">
+								<ValueList>
+									<Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorSpecialty">
+								<ValueList>
+									<Value>G15_10/SM26^Médecin - Qualifié en Médecine Générale (SM)^1.2.250.1.213.1.1.4.5</Value>
+								</ValueList>
+							</Slot>
+							<Slot name="authorInstitution">
+								<ValueList>
+									<Value>CABINET DR LIBRE^^^^^&amp;1.2.250.1.71.4.2.2&amp;ISO^IDNST^^^499900063480001</Value>
+								</ValueList>
+							</Slot>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="Signature01" id="cla12" nodeRepresentation="urn:oid:1.3.6.1.4.1.19376.1.2.1.1.1">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>URN</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Digital Signature" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="Signature01" id="cla13" nodeRepresentation="E1762">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>ASTM</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Full Document" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Signature01" id="cla14" nodeRepresentation="N">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>2.16.840.1.113883.5.25</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Normal" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Signature01" id="cla15" nodeRepresentation="MASQUE_PS">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.1.1.4.13</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Masqué aux professionnels de santé" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Signature01" id="cla16" nodeRepresentation="INVISIBLE_PATIENT">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.1.1.4.13</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Non visible par le patient" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="Signature01" id="cla17" nodeRepresentation="http://www.w3.org/2000/09/xmldsig#">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>URN</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Default Signature Style" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="Signature01" id="cla18" nodeRepresentation="SA01">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.71.4.2.4</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Etablissement public de santé" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="Signature01" id="cla19" nodeRepresentation="ETABLISSEMENT">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.250.1.213.1.1.4.9</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Etablissement de santé" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<Classification classificationScheme="urn:uuid:2c6b8cb7-8b2a-4051-b291-b1ae6a575ef4" classifiedObject="Signature01" id="cla20" nodeRepresentation="1.2.840.10065.1.12.1.14">
+							<Slot name="codingScheme">
+								<ValueList>
+									<Value>1.2.840.10065.1.12</Value>
+								</ValueList>
+							</Slot>
+							<Name>
+								<LocalizedString charset="UTF8" value="Source" xml:lang="FR"/>
+							</Name>
+						</Classification>
+						<ExternalIdentifier id="ei6" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" registryObject="Signature01" value="207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20100907">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSDocumentEntry.patientId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+						<ExternalIdentifier id="ei7" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" registryObject="Signature01" value="1.2.250.1.999.1.1.7898.4.1622814651504">
+							<Name>
+								<LocalizedString charset="UTF8" value="XDSDocumentEntry.uniqueId" xml:lang="FR"/>
+							</Name>
+						</ExternalIdentifier>
+					</ExtrinsicObject>
+					<Association associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" id="assoc1" sourceObject="SubmissionSet01" targetObject="DocumentME2">
+						<Slot name="SubmissionSetStatus">
+							<ValueList>
+								<Value>Original</Value>
+							</ValueList>
+						</Slot>
+					</Association>
+					<Association associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" id="assoc2" sourceObject="SubmissionSet01" targetObject="Signature01">
+						<Slot name="SubmissionSetStatus">
+							<ValueList>
+								<Value>Original</Value>
+							</ValueList>
+						</Slot>
+					</Association>
+					<Association associationType="urn:ihe:iti:2007:AssociationType:signs" id="assoc3" sourceObject="Signature01" targetObject="SubmissionSet01">
+						<Slot name="SubmissionSetStatus">
+							<ValueList>
+								<Value>Original</Value>
+							</ValueList>
+						</Slot>
+					</Association>
+				</RegistryObjectList>
+			</ns3:SubmitObjectsRequest>
+			<ns4:Document id="documentME2">
+				<xop:Include xmlns:xop="http://www.w3.org/2004/08/xop/include" href="cid:WS_DMP_TD2.1-DocumentME2.xml"/>
+			</ns4:Document>
+			<ns4:Document id="Signature01">
+				<xop:Include xmlns:xop="http://www.w3.org/2004/08/xop/include" href="cid:WS_DMP_TD2.1-SignatureXades.xml"/>
+			</ns4:Document>
+		</ns4:ProvideAndRegisterDocumentSetRequest>
+	</soap:Body>
+</soap:Envelope>
+------=_Part_9_20030738.1554380517598
+Content-Type: text/xml; charset=Cp1252; name=WS_DMP_TD2.1-DocumentME2.xml
+Content-Transfer-Encoding: binary
+Content-ID: <WS_DMP_TD2.1-DocumentME2.xml>
+Content-Disposition: attachment; name="WS_DMP_TD2.1-DocumentME2.xml"; filename="WS_DMP_TD2.1-DocumentME2.xml"
+
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3">
+	<realmCode code="FR" />
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<templateId root="2.16.840.1.113883.2.8.2.1" assigningAuthorityName="HL7 France" />
+	<templateId root="1.2.250.1.213.1.1.1.1" assigningAuthorityName="CI-SIS" />
+	<templateId root="1.3.6.1.4.1.19376.1.2.20" assigningAuthorityName="IHE XDS-SD" />
+	<id root="1.2.250.1.999.1.1.7898.4.9956570902" />
+	<code code="27899-4" displayName="CR d'acte diagnostique (autre)" codeSystem="2.16.840.1.113883.6.1" />
+	<title>Exemple de Document CDA R2 non Structure</title>
+	<effectiveTime value="20190221133445+0100" />
+	<confidentialityCode code="N" displayName="Normal" codeSystem="2.16.840.1.113883.5.25" />
+	<languageCode code="fr-FR" />
+	<recordTarget>
+		<patientRole>
+			<id extension="207058575627097" root="1.2.250.1.213.1.4.10" />
+			<id extension="0456789999" root="1.2.250.1.999.1.1.7898.2" />
+			<addr nullFlavor="NASK" />
+			<telecom nullFlavor="NASK" />
+			<patient>
+				<name>
+					<given>LAURENCE</given>
+					<family qualifier="SP">patb-quatre</family>
+				</name>
+				<administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" />
+				<birthTime value="19790328" />
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20190221133445+0100" />
+		<assignedAuthor>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>LIBRE</given>
+					<family>MAX</family>
+					<prefix>Dr.</prefix>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="1.2.250.1.71.4.2.2" extension="499900063480001" assigningAuthorityName="GIP-CPS" />
+				<name>CABINET DR LIBRE</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<time value="20190221133445+0100" />
+		<signatureCode code="S" />
+		<assignedEntity>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>MAX</given>
+					<family>LIBRE</family>
+					<prefix>Dr.</prefix>
+				</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+	<documentationOf>
+		<serviceEvent>
+			<code code="BACA008" displayName="suture sourcil" codeSystem="1.2.250.1.213.2.5" />
+			<effectiveTime>
+				<low value="20190221" />
+			</effectiveTime>
+		</serviceEvent>
+	</documentationOf>
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime>
+				<low value="20190221" />
+			</effectiveTime>
+			<location>
+				<healthCareFacility>
+					<code code="SA07" displayName="Cabinet individuel" codeSystem="1.2.250.1.71.4.2.4" codeSystemName="R02" />
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+	<component>
+		<nonXMLBody>
+			<text mediaType="text/plain" representation="B64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8bnMyOkNPTlRFTlVQUkVTQ1JJUFRJT05NRURJQ0FMIHhtbG5zPSJ1cm46c2lyYW06cHJlc2NyaXB0aW9uIiB4bWxuczpuczI9InVybjppcjpzZV9jb250ZW51cGVtMmQiPgogICAgPFBhdGllbnQ+CiAgICAgICAgPE5vbT5QQVQtVFJPSVM8L05vbT4KICAgICAgICA8UHJlbm9tPkRPTUlOSVFVRTwvUHJlbm9tPgogICAgPC9QYXRpZW50PgogICAgPE5CTT4xPC9OQk0+CiAgICA8TkJETT4wPC9OQkRNPgogICAgPEVsdE1lZGljYW1lbnRldXg+CiAgICAgICAgPE51bUxpZ25lPjE8L051bUxpZ25lPgogICAgICAgIDxUeXBlRWx0UHJlc2NyaXQ+MTwvVHlwZUVsdFByZXNjcml0PgogICAgICAgIDxOYkNvbmRpdGlvbm5lbWVudD4yPC9OYkNvbmRpdGlvbm5lbWVudD4KICAgICAgICA8TmJSZW5vdXY+MDwvTmJSZW5vdXY+CiAgICAgICAgPEVzdEVuUmFwcG9ydEFMRD5mYWxzZTwvRXN0RW5SYXBwb3J0QUxEPgogICAgICAgIDxFc3RFblJhcHBvcnRBY2NpZGVudD5mYWxzZTwvRXN0RW5SYXBwb3J0QWNjaWRlbnQ+CiAgICAgICAgPEVzdE5vblJlbWI+ZmFsc2U8L0VzdE5vblJlbWI+CiAgICAgICAgPENJUD4zNDAwOTU1NDczMzUwPC9DSVA+CiAgICAgICAgPFBvc29sb2dpZT41MDAgw6AgMTAwMCBtZy9wcmlzZSAzIGZvaXMgdG91dGVzIGxlcyAyNCBoZXVyZXM8L1Bvc29sb2dpZT4KICAgICAgICA8RXN0Tm9uU3ViPmZhbHNlPC9Fc3ROb25TdWI+CiAgICAgICAgPEVzdEhvcnNBTU0+ZmFsc2U8L0VzdEhvcnNBTU0+CiAgICA8L0VsdE1lZGljYW1lbnRldXg+CjwvbnMyOkNPTlRFTlVQUkVTQ1JJUFRJT05NRURJQ0FMPg==</text>
+		</nonXMLBody>
+	</component>
+</ClinicalDocument>
+
+------=_Part_9_20030738.1554380517598
+Content-Type: text/xml; charset=Cp1252; name=WS_DMP_TD2.1-SignatureXades.xml
+Content-Transfer-Encoding: binary
+Content-ID: <WS_DMP_TD2.1-SignatureXades.xml>
+Content-Disposition: attachment; name="WS_DMP_TD2.1-SignatureXades.xml"; filename="WS_DMP_TD2.1-SignatureXades.xml"
+
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference Type="http://www.w3.org/2000/09/xmldsig#Manifest" URI="#IHEManifest"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>0w+mODuyVkOb8ijFnRzwgr8BfbY=</DigestValue></Reference><Reference Type="http://uri.etsi.org/01903/v1.1.1#SignedProperties" URI="#S0-SignedProperties"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>CQd/pO5pUqmosTqhD6R6IhF28Uo=</DigestValue></Reference></SignedInfo><SignatureValue>n1W7Jo0EWRtfR9rasjEnDvFH2G5prrIoNDg20WAI0hDUTMjV0nby1Bj/IqZWYbIvL3FFnE1Egqgy
+wChP1YiXu7Osnovzd7VeVExsTc3hWEdR1mqZTwNQjylSEHPz5JvnQVnCQtXcFqca73KuvExC7HBx
+WGcKGMujNFO3iIxsvZKo9JmRcvzn6UP+uoSu947BP8rDR7mSei4eBrHraVkRyBcs7hdWMbAbPKRy
+KOSGz6wfqyNyCoYdOQUTpx3gUX9XxJzHqf/XRKmtk5978gkv4FWkPH5fajto0/uw26Zorb8okWYj
+x7f9TDO+ShgsOZjpW96xJ6OP1gg37wQhWEy0zQ==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIIdTCCBl2gAwIBAgIQeBxz+ipnuxSQZUHGSQoz9zANBgkqhkiG9w0BAQsFADCBhjELMAkGA1UE
+BhMCRlIxEzARBgNVBAoMCkFTSVAtU0FOVEUxFzAVBgNVBAsMDjAwMDIgMTg3NTEyNzUxMRcwFQYD
+VQQLDA5JR0MtU0FOVEUgVEVTVDEwMC4GA1UEAwwnVEVTVCBBQyBJR0MtU0FOVEUgRUxFTUVOVEFJ
+UkUgUEVSU09OTkVTMB4XDTE5MDEyODEwMTM1MloXDTIyMDIyODEwMTM1MlowUTELMAkGA1UEBhMC
+RlIxETAPBgNVBAwMCE3DqWRlY2luMS8wCgYDVQQqDANNQVgwDAYDVQQEDAVMSUJSRTATBgNVBAMM
+DDg5OTkwMDA2MzQ4MDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK5Qh+ukJ2m1yvNA
+BscFijmmNk+2MwBQ3qModlKHIARTXQy/A3doWAikibBg0hfuM1Loei8tRYK/vtehWrj63F+5bGwW
+NqDZh+sd+AEBwxSBEfLttXBB1gJ4zAsP1pcfqrT/EAdjgytrMeOQVEIn9WD+rRartttGPtOVzJef
+ulyP18kw0g9ozL6FkBt2earQ+UyTAZ8IkVRBhxbILX+J2gxeSDqPa2W4Ik5PSJ1Xt9MdXbRKyjT6
+25tSbVpREJZRuz4MqT1xf6oSZhut8S8m8Pxzz41uus6qVreS8AZTNFYKr+9PoN+JNXhbdepKTpJz
+B6AOG6pHVN4KRD/TzMB3CX8CAwEAAaOCBBEwggQNMAkGA1UdEwQCMAAwHQYDVR0OBBYEFNSAfO2w
+oxnfOIg7HnqyhVytylMyMB8GA1UdIwQYMBaAFNCOU2p2Fnd52jq2fiBIbFDEClv+MA4GA1UdDwEB
+/wQEAwIGQDBTBgNVHSAETDBKMEgGDSqBegGBVQEHAgEBAQEwNzA1BggrBgEFBQcCARYpaHR0cDov
+L2lnYy1zYW50ZS5lc2FudGUuZ291di5mci9QQyUyMFRFU1QwEwYDVR0lBAwwCgYIKwYBBQUHAwQw
+KwYDVR0QBCQwIoAPMjAxOTAxMjgxMDEzNTJagQ8yMDIyMDEyODEwMTM1MlowggFPBgNVHR8EggFG
+MIIBQjA8oDqgOIY2aHR0cDovL2lnYy1zYW50ZS5lc2FudGUuZ291di5mci9DUkwvQUNJLUVMLVBQ
+LVRFU1QuY3JsMIIBAKCB/aCB+oaB92xkYXA6Ly9hbm51YWlyZS1pZ2MuZXNhbnRlLmdvdXYuZnIv
+Y249VEVTVCUyMEFDJTIwSUdDLVNBTlRFJTIwRUxFTUVOVEFJUkUlMjBQRVJTT05ORVMsb3U9VEVT
+VCUyMEFDJTIwUkFDSU5FJTIwSUdDLVNBTlRFJTIwRUxFTUVOVEFJUkUsb3U9SUdDLVNBTlRFJTIw
+VEVTVCxvdT0wMDAyJTIwMTg3NTEyNzUxLG89QVNJUC1TQU5URSxjPUZSP2NlcnRpZmljYXRlcmV2
+b2NhdGlvbmxpc3Q7YmluYXJ5P2Jhc2U/b2JqZWN0Q2xhc3M9cGtpQ0EwggEJBgNVHS4EggEAMIH9
+MIH6oIH3oIH0hoHxbGRhcDovL2FubnVhaXJlLWlnYy5lc2FudGUuZ291di5mci9jbj1URVNUJTIw
+QUMlMjBJR0MtU0FOVEUlMjBFTEVNRU5UQUlSRSUyMFBFUlNPTk5FUyxvdT1URVNUJTIwQUMlMjBS
+QUNJTkUlMjBJR0MtU0FOVEUlMjBFTEVNRU5UQUlSRSxvdT1JR0MtU0FOVEUlMjBURVNULG91PTAw
+MDIlMjAxODc1MTI3NTEsbz1BU0lQLVNBTlRFLGM9RlI/ZGVsdGFyZXZvY2F0aW9ubGlzdDtiaW5h
+cnk/YmFzZT9vYmplY3RDbGFzcz1wa2lDQTCBgAYIKwYBBQUHAQEEdDByMCYGCCsGAQUFBzABhhpo
+dHRwOi8vb2NzcC5lc2FudGUuZ291di5mcjBIBggrBgEFBQcwAoY8aHR0cDovL2lnYy1zYW50ZS5l
+c2FudGUuZ291di5mci9BQyUyMFRFU1QvQUNJLUVMLVBQLVRFU1QuY2VyMA8GCCqBegFHAQIFBAME
+AYMwDwYIKoF6AUcBAgcEAwIBCjAUBggqgXoBRwQCBQQIMAYMBFNNMjYwDQYJKoZIhvcNAQELBQAD
+ggIBALEap/Dgb1hzOm7FK5WMwu1a4jlE8UmOOgUPSNyUecop/RitMCa1iD87rcehUvl2dowPIQf9
+ijNm825BTBP9m/VT7aXdIbpgS7REMv+jfBuGyUK0vmFetKYMV7DL8DhBFLW8aTqO1Dy/gZ3gs1vM
+osT3Kvq0XblyzKJ1JLA3ec1thcCFaL8wc4q71OBWUzvtBWC9r78qnbWhW6er0SuH2sWfceXzHLI8
+VTxIJp3rO851QOPYf8hc1B5uszc0KjCD8TyF1klKUN71eKvnC/WX7XCbDVB+vCsMpGaBKQgT0ksy
+VgeW2EW7YSHlxIzJM8lZB7fsNMu2ue6oMiiHZeoFS9aBhglpJUJAita/iBJ6jxHOtW3JnbfUMf1R
+ntTYFqS6CoDNW6b7xEDClClWuk/bNDh9+V8CRZ83ut0MSMoLnQQqjt0pxEy/2YqQ03BltHjZeAxS
+fXT0v4kJu/1nqnhwpqnEXLWsw6ceFNE+78UT1C/mrkTvjeT+QLRwndkmAhT79oP5Ixh+jxD1UBd2
+cSv1rFKHjAWuOB2nNMqgHXlMME1mGW69/BBGCpEL/+WbPfY7wF4n97BlCzukrQjCNV9WqyY2/GPy
+KGv4Mqx1CTTFWc/We58+pdwxHrnN6N4CbPd0is1jvs5Avp7H+rFqX1N1iYG4YjvbjgheBR3qboH/
+fPUh</X509Certificate></X509Data></KeyInfo><Object><Manifest Id="IHEManifest"><Reference URI="urn:oid:1.2.250.1.999.1.1.7898.3.9956570900"><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>AA==</DigestValue></Reference><Reference URI="urn:oid:1.2.250.1.999.1.1.7898.4.9956570902"><Transforms><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>ZHdMHCdgcMNU7PIhGp6aYG7cWU0=</DigestValue></Reference></Manifest></Object><Object><SignatureProperties xmlns=""><SignatureProperty Id="purposeOfSignature" Target="#0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6">1.2.840.10065.1.12.1.14</SignatureProperty></SignatureProperties></Object><Object><QualifyingProperties xmlns="http://uri.etsi.org/01903/v1.1.1#" Target="#0421d1cc-b27b-4b0d-bab2-7ebcd54d47f6">
+	<SignedProperties Id="S0-SignedProperties">
+		<SignedSignatureProperties>
+			<SigningTime>2019-04-04T14:20:12.282+02:00</SigningTime>
+			<SigningCertificate>
+			<Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>CLcb8PHSgDr5WgzTW+R/NZVkzhI=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC IGC-SANTE ELEMENTAIRE PERSONNES,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">159655096103497701664027626074020656119</X509SerialNumber>
+	</IssuerSerial>
+</Cert><Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>quweYHAAtWeJTvTdCYzc3QQyAUc=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC RACINE IGC-SANTE ELEMENTAIRE,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">1491811286229485117823892725943611899366047</X509SerialNumber>
+	</IssuerSerial>
+</Cert><Cert>
+	<CertDigest>
+		<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+		<DigestValue>V4hCBBxQAhr68G5uMsvf9S5Ul3I=</DigestValue>
+	</CertDigest>
+	<IssuerSerial>
+		<X509IssuerName xmlns="http://www.w3.org/2000/09/xmldsig#">CN=TEST AC RACINE IGC-SANTE ELEMENTAIRE,OU=IGC-SANTE TEST,OU=0002 187512751,O=ASIP-SANTE,C=FR</X509IssuerName>
+		<X509SerialNumber xmlns="http://www.w3.org/2000/09/xmldsig#">1491942837617061050897817704854421800630814</X509SerialNumber>
+	</IssuerSerial>
+</Cert></SigningCertificate>
+			<SignaturePolicyIdentifier>
+				<SignaturePolicyImplied/>
+			</SignaturePolicyIdentifier>
+		</SignedSignatureProperties>
+		<SignedDataObjectProperties>
+		</SignedDataObjectProperties>
+	</SignedProperties>
+</QualifyingProperties></Object></Signature>
+------=_Part_9_20030738.1554380517598--

@@ -1,0 +1,448 @@
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3">
+	<realmCode code="FR" />
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<templateId root="2.16.840.1.113883.2.8.2.1" assigningAuthorityName="HL7 France" />
+	<templateId root="1.2.250.1.213.1.1.1.1" assigningAuthorityName="CI-SIS" />
+	<templateId root="1.3.6.1.4.1.19376.1.2.20" assigningAuthorityName="IHE XDS-SD" /><templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.18.1.2" />
+  <templateId root="1.2.250.1.213.1.1.1.46" extension="2021.01"/>
+  <id root="1.2.3.4" extension="VAC-NOTE_2021.01_20210409_001_1" />
+  <code code="87273-9" displayName="Note de vaccination" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+  <title>NOTE DE VACCINATION</title>
+  <effectiveTime value="20210409153500+0100" />
+  <confidentialityCode code="N" displayName="Normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" />
+  <languageCode code="fr-FR" />
+  <setId root="1.2.3.4" extension="VAC-NOTE_2021.01_20210409_001" />
+  <versionNumber value="1" />
+	<recordTarget>
+		<patientRole>
+			<id extension="207058575627097" root="1.2.250.1.213.1.4.10" />
+			<id extension="0456789999" root="1.2.250.1.999.1.1.7898.2" />
+			<addr nullFlavor="NASK" />
+			<telecom nullFlavor="NASK" />
+			<patient>
+				<name>
+				  <given>DOMINIQUE</given>
+				  <family qualifier="SP">PAT-TROIS</family>
+				</name>
+				<administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" />
+				<birthTime value="19790328" />
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20190221133445+0100" />
+		<assignedAuthor>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>LIBRE</given>
+					<family>MAX</family>
+					<prefix>DR</prefix>
+				</name>
+			</assignedPerson>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="1.2.250.1.71.4.2.2" extension="499900063480001" assigningAuthorityName="GIP-CPS" />
+				<name>CABINET DR LIBRE</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<time value="20190221133445+0100" />
+		<signatureCode code="S" />
+		<assignedEntity>
+			<id root="1.2.250.1.71.4.2.1" extension="899900063480" assigningAuthorityName="GIP-CPS" />
+			<assignedPerson>
+				<name>
+					<given>MAX</given>
+					<family>LIBRE</family>
+					<prefix>DR</prefix>
+				</name>
+			</assignedPerson>
+		</assignedEntity>
+	</legalAuthenticator>
+  <documentationOf>
+    <serviceEvent classCode="ACT">
+      <code code="87273-9" displayName="Note de vaccination" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+      <effectiveTime>
+        <low value="20210409153500+0100" />
+      </effectiveTime>
+      <performer typeCode="PRF">
+        <assignedEntity>
+          <id root="1.2.250.1.71.4.2.1" extension="801234567897" />
+          <code code="G15_10/SM26" displayName="Médecin - Qualifié en Médecine Générale (SM)" codeSystem="1.2.250.1.213.1.1.4.5" />
+          <addr>
+            <houseNumber>25</houseNumber>
+            <streetName>Rue Pasteur</streetName>
+            <postalCode>92100</postalCode>
+            <city>EVRY</city>
+          </addr>
+          <telecom value="tel:+33-142515151" use="WP" />
+          <assignedPerson>
+            <name>
+              <given>Charles </given>
+              <family>MULLER</family>
+              <prefix>M</prefix>
+              <suffix>DR</suffix>
+            </name>
+          </assignedPerson>
+          <representedOrganization>
+            <id root="1.2.250.1.71.4.2.2" extension="101238887" />
+            <name>Cabinet médical du Dr MULLER</name>
+            <standardIndustryClassCode code="AMBULATOIRE" displayName="Ambulatoire" codeSystem="1.2.250.1.213.1.1.4.9" />
+          </representedOrganization>
+        </assignedEntity>
+      </performer>
+    </serviceEvent>
+  </documentationOf>
+	<componentOf>
+		<encompassingEncounter>
+			<effectiveTime>
+				<low value="20190221" />
+			</effectiveTime>
+			<location>
+				<healthCareFacility>
+					<code code="SA07" displayName="Cabinet individuel" codeSystem="1.2.250.1.71.4.2.4" codeSystemName="R02" />
+				</healthCareFacility>
+			</location>
+		</encompassingEncounter>
+	</componentOf>
+  <component>
+    <structuredBody>
+     <component>
+        <section>
+          <templateId root="2.16.840.1.113883.10.20.1.6" />
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.23" />
+          <templateId root="1.2.250.1.213.1.1.2.147" />
+          <id root="DF6B5534-B28E-499B-968E-2CCAC9B98924" />
+          <code code="11369-6" displayName="Historique des vaccinations" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+          <title>Note de vaccination</title>
+          <text>           
+            <list>
+              <item>
+                <content styleCode="BoldItalics">Vaccination contre la diphtérie, le tétanos, la poliomyélite, la coqueluche (pertussis), l'Haemophilus influenzae b</content>
+              </item>
+            </list>
+            <table border="0">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Vaccin</th>
+                  <th>Lot n°</th>
+                  <th>Rang</th>
+                  <th>Voie</th>
+                  <th>Réaction observée</th>
+                  <th>Région d'administration</th>
+                  <th>Référence prescription</th>
+                  <th>Dose à administrer</th>
+                  <th>Commentaire</th>
+                  <th>Vaccinateur</th>
+                </tr>
+              </thead>
+              <tbody>                
+                <tr ID="uuid-123e8207-a200-41e1-a456-42a12c5400b2">
+                  <td>20090928</td>
+                  <td>
+                    <content ID="uuid-eed73e8a-97be-11eb-a8b3-0242ac130003">VACCIN TETANIQUE PASTEUR, suspension injectable en seringue préremplie vaccin tétanique adsorbé</content>
+                  </td>
+                  <td>4456672</td>
+                  <td>2</td>
+                  <td>injection intramusculaire</td>
+                  <td>
+                    <content ID="vac-01-reac">fièvre due à des médicaments</content>
+                  </td>
+                  <td>
+                    <content ID="uuid-3d8fce4e-97be-11eb-a8b3-0242ac130003">Deltoïde gauche</content>
+                  </td>
+                  <td ID="vac-01-prescription">-</td>
+                  <td>1</td>
+                  <td ID="uuid-38541062-97c2-11eb-a8b3-0242ac130003">Prise récente et ponctuelle de solupred (60mg) en une prise pendant 2 jours</td>
+                  <td>Dr Charles MULLER</td>
+                </tr>
+              </tbody>
+            </table>            
+          </text>
+          <entry>
+            <substanceAdministration classCode="SBADM" moodCode="EVN" negationInd="false">
+              <templateId root="2.16.840.1.113883.10.20.1.24" />
+              <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.12" />
+              <templateId root="1.2.250.1.213.1.1.3.45" />
+              <id root="41DAC707-7C96-47B7-B600-AC63D8002142" />
+              <code code="INITIMMUNIZ" displayName="1ère série vaccinante" codeSystem="2.16.840.1.113883.5.4" codeSystemName="HL7:ActCode" />
+              <text>
+                <reference value="#uuid-123e8207-a200-41e1-a456-42a12c5400b2" />
+              </text>
+              <statusCode code="completed" />
+              <effectiveTime value="20090928" />
+             <routeCode code="IM" displayName="injection intramusculaire" codeSystem="2.16.840.1.113883.5.112" codeSystemName="routeOfAdministration" />
+              <approachSiteCode code="LD" displayName="Deltoïde gauche" codeSystem="2.16.840.1.113883.5.1052" codeSystemName="HumanSubstanceAdministrationSite">  
+                <originalText>
+                  <reference value="#uuid-3d8fce4e-97be-11eb-a8b3-0242ac130003">
+                  </reference>
+                </originalText>
+              </approachSiteCode>
+              <doseQuantity value="1" />
+              <consumable typeCode="CSM">
+                <manufacturedProduct>
+                  <templateId root="2.16.840.1.113883.10.20.1.53" />
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2" />
+                  <templateId root="1.2.250.1.213.1.1.3.43" />
+                  <manufacturedMaterial>
+                    <code code="68747507" displayName="VACCIN TETANIQUE PASTEUR, suspension injectable en seringue préremplie vaccin tétanique adsorbé" codeSystem="1.2.250.1.213.2.3.1" codeSystemName="CIS">
+                      <originalText>
+                        <reference value="#uuid-eed73e8a-97be-11eb-a8b3-0242ac130003" />
+                      </originalText>
+                      <translation code="3400932857241" displayName="1 seringue(s) préremplie(s) en verre de 0,5 ml" codeSystem="1.2.250.1.213.2.3.3" codeSystemName="CIP" />
+                      <translation code="N02BE01" displayName="PARACETAMOL" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC">
+                          <originalText>
+                            <reference value="#medicament-ATC-001" />
+                          </originalText>
+                      </translation>
+                    </code>
+                    <name>vaccin tetanique pasteur</name>
+                    <lotNumberText>4456672</lotNumberText>
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+             <performer typeCode="PRF">
+                <assignedEntity>
+                  <id root="1.2.250.1.71.4.2.1" extension="801234567897" />
+                  <code code="G15_10/SM26" displayName="Médecin - Qualifié en Médecine Générale (SM)" codeSystem="1.2.250.1.213.1.1.4.5" />
+                  <addr>
+                    <houseNumber>25</houseNumber>
+                    <streetName>Rue Pasteur</streetName>
+                    <postalCode>92100</postalCode>
+                    <city>EVRY</city>
+                  </addr>
+                  <telecom value="tel:+33-142515151" use="WP" />
+                  <assignedPerson>
+                    <name>
+                      <given>Charles </given>
+                      <family>MULLER</family>
+                      <prefix>M</prefix>
+                      <suffix>DR</suffix>
+                    </name>
+                  </assignedPerson>
+                  <representedOrganization>
+                    <id root="1.2.250.1.71.4.2.2" extension="101238887" />
+                    <name>Cabinet médical du Dr MULLER</name>
+                    <standardIndustryClassCode code="AMBULATOIRE" displayName="Ambulatoire" codeSystem="1.2.250.1.213.1.1.4.9" />
+                  </representedOrganization>
+                </assignedEntity>
+              </performer>
+              <author contextControlCode="OP" typeCode="AUT">
+                <time value="20090928094914+0100" /> 
+                <assignedAuthor classCode="ASSIGNED">
+                  <id root="1.2.250.1.71.4.2.1" extension="801234567897" />
+                  <code code="G15_10/SM26" displayName="Médecin - Qualifié en Médecine Générale (SM)" codeSystem="1.2.250.1.213.1.1.4.5" />
+                  <addr>
+                    <houseNumber>25</houseNumber>
+                    <streetName>Rue Pasteur</streetName>
+                    <postalCode>92100</postalCode>
+                    <city>EVRY</city>
+                  </addr>
+                  <telecom value="tel:+33-142515151" use="WP" />
+                  <assignedPerson>
+                    <name>
+                      <family>MULLER</family>
+                      <given>Charles</given>
+                      <prefix>M</prefix>
+                      <suffix>DR</suffix>
+                    </name>
+                  </assignedPerson>
+                  <representedOrganization>
+                    <id root="1.2.250.1.71.4.2.2" extension="101238887" />
+                    <name>Cabinet Médical du Dr MULLER</name>
+                  </representedOrganization>
+                </assignedAuthor>
+              </author>
+             <entryRelationship inversionInd="false" typeCode="CAUS">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.28"/>
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+                  <templateId root="2.16.840.1.113883.10.20.1.54"/>
+                  <templateId root="1.2.250.1.213.1.1.3.37"/>
+                  <id root="F9E020E2-D219-43D4-8BF8-6B275E1F726D" />
+                  <code code="F-01000" codeSystem="1.2.250.1.213.2.12" displayName="Problème" />
+                  <text>
+                    <reference value="#vac-01-reac" />
+                  </text>
+                  <statusCode code="completed" />
+                  <effectiveTime>
+                    <low value="20090928" />
+                  </effectiveTime>
+                  <value xsi:type="CD" nullFlavor="NA">
+                    <originalText>
+                      <reference value="#vac-01-reac" />
+                    </originalText>
+                  </value>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="SUBJ">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.46" />
+                  <templateId root="1.2.250.1.213.1.1.3.82" />
+                  <code code="30973-2" displayName="Rang de la vaccination" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+                  <statusCode code="completed" />
+                  <value xsi:type="INT" value="2" />
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="SUBJ">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.40" />
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.2" />
+                  <code code="48767-8" displayName="Commentaire" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+                  <text>
+                    <reference value="#uuid-38541062-97c2-11eb-a8b3-0242ac130003" />
+                  </text>
+                  <statusCode code="completed" />
+                </act>
+              </entryRelationship>
+            </substanceAdministration>
+          </entry>
+         </section>
+       </component>
+    <component>
+        <section>
+          <templateId root="2.16.840.1.113883.10.20.1.8" />
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.19" />
+          <templateId root="1.2.250.1.213.1.1.2.143" />
+          <code code="10160-0" codeSystem="2.16.840.1.113883.6.1" displayName="Historique des traitements" />
+          <title>Traitements</title>
+          <text>
+            <table border="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Début du traitement</th>
+                  <th>Fin du traitement</th>
+                  <th>Médicament (CIS)</th>
+                  <th>Médicament (ATC)</th>
+                  <th>Dose</th>
+                  <th>Fréquence</th>
+                  <th>Voie d'administration</th>
+                  <th>Région anatomique d'administration</th>
+                  <th>Instructions sur la prise du traitement</th>
+                  <th>Motif</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <content>20190725</content>
+                  </td>
+                  <td>
+                    <content>20190730</content>
+                  </td>
+                  <td>
+                    <content ID="medicament-CIS-001">DOLIPRANE 500 mg, gélule</content>
+                  </td>
+                  <td>
+                    <content ID="medicament-ATC-001">PARACETAMOL</content>
+                  </td>
+                  <td>1 à 2<content ID="quantite">gélules</content></td>
+                  <td>
+                    <content>Toutes les 4 heures</content>
+                  </td>
+                  <td>Prendre par la bouche</td>
+                  <td>-</td>
+                  <td>
+                    <content ID="instruction-001">-</content>
+                  </td>
+                  <td>
+                    <content ID="motif-001">fièvre d'origine inconnue</content>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </text>
+          <entry typeCode="DRIV">
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.1.24" />
+              <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7" />
+              <templateId root="1.2.250.1.213.1.1.3.42" />
+              <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.1" />
+              <id root="8609F763-4F75-4FB5-A1A3-A6A269D15F4A" />
+              <text>
+                <reference>
+                </reference>
+              </text>
+              <statusCode code="completed" />
+              <effectiveTime xsi:type="IVL_TS">
+                <low value="20190725" />
+                <high value="20190730" />
+              </effectiveTime>
+              <effectiveTime xsi:type="PIVL_TS" institutionSpecified="false" operator="A">
+                <period value="4" unit="h" />
+              </effectiveTime>
+              <routeCode code="PO" displayName="Prendre par la bouche" codeSystem="2.16.840.1.113883.5.112" codeSystemName="routeOfAdministration" />
+              <doseQuantity>
+                <low value="1">
+                  <translation>
+                    <originalText>
+                      <reference value="#quantite" />
+                    </originalText>
+                  </translation>
+                </low>
+                <high value="2">
+                  <translation>
+                    <originalText>
+                      <reference value="#quantite" />
+                    </originalText>
+                  </translation>
+                </high>
+              </doseQuantity>
+             <consumable>
+                <manufacturedProduct>
+                  <templateId root="2.16.840.1.113883.10.20.1.53" />
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2" />
+                  <templateId root="1.2.250.1.213.1.1.3.43" />
+                  <manufacturedMaterial>
+                    <code code="67119691" displayName="DOLIPRANE 500 mg, gélule" codeSystem="1.2.250.1.213.2.3.1" codeSystemName="CIS">
+                      <originalText mediaType="text/xml">
+                        <reference value="#medicament-CIS-001" />
+                      </originalText>
+                      <translation code="N02BE01" displayName="PARACETAMOL" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC">
+                        <originalText>
+                          <reference value="#medicament-ATC-001" />
+                        </originalText>
+                      </translation>
+                    </code>
+                    <name>DOLIPRANE 500 mg, gélule</name>
+                    <lotNumberText nullFlavor="NA" />
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+              <entryRelationship typeCode="SUBJ" inversionInd="true">
+                <act classCode="ACT" moodCode="INT">
+                  <templateId root="2.16.840.1.113883.10.20.1.49" />
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.3" />
+                  <templateId root="1.2.250.1.213.1.1.3.33" />
+                  <code code="PINSTRUCT" codeSystem="1.3.6.1.4.1.19376.1.5.3.2" codeSystemName="IHEActCode" />
+                  <text>
+                    <reference value="#instruction-001" />
+                  </text>
+                  <statusCode code="completed" />
+                </act>
+              </entryRelationship>
+              <entryRelationship typeCode="RSON">
+                <act classCode="ACT" moodCode="EVN">
+                  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.4.1"/>
+                  <templateId root="1.2.250.1.213.1.1.3.36"/>
+                  <id root="21872220-FBDF-4BCC-85B1-61D1BBB420A5"/>
+                  <code code="R50" displayName="fièvre d'origine inconnue" codeSystem="2.16.840.1.113883.6.3" codeSystemName="CIM-10">
+                    <originalText>
+                      <reference value="#motif-001" />
+                    </originalText>
+                  </code>
+                </act>
+              </entryRelationship>
+            </substanceAdministration>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

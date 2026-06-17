@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d1a7e936-38ea-4a28-961f-733d7f4ac9ed" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="C:\wsdlnew\wsdl\PDQSupplier.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PRPA_MT201310UV02.xsd" MetadataType="Schema" ID="165398cf-c2a1-4bce-babc-b2618f4ee9a5" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/PRPA_MT201310UV02.xsd" />
+    <MetadataFile FileName="COCT_MT050000UV01.xsd" MetadataType="Schema" ID="93ca0ba8-1a01-4f5e-b125-2471f102b033" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT050000UV01.xsd" />
+    <MetadataFile FileName="COCT_MT240000UV01.xsd" MetadataType="Schema" ID="71e55b2c-e7bc-46ac-98f4-cd89b59cecc7" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT240000UV01.xsd" />
+    <MetadataFile FileName="COCT_MT090303UV01.xsd" MetadataType="Schema" ID="88f33d49-fc8c-4354-a98f-4117dbe0fe5a" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090303UV01.xsd" />
+    <MetadataFile FileName="COCT_MT150003UV03.xsd" MetadataType="Schema" ID="ee46d9df-e948-4925-b270-c55e2231b2b5" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT150003UV03.xsd" />
+    <MetadataFile FileName="MCCI_MT000300UV01.xsd" MetadataType="Schema" ID="d39e53ab-e314-4be0-b5d3-acc49c02821c" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/MCCI_MT000300UV01.xsd" />
+    <MetadataFile FileName="COCT_MT150007UV.xsd" MetadataType="Schema" ID="264c61af-af0c-44e6-975b-9bed6be1264d" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT150007UV.xsd" />
+    <MetadataFile FileName="COCT_MT070000UV01.xsd" MetadataType="Schema" ID="e6142138-b5f6-4784-a423-ab27c7b4e8ab" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT070000UV01.xsd" />
+    <MetadataFile FileName="COCT_MT090102UV02.xsd" MetadataType="Schema" ID="5dad611f-94c5-4fd6-9867-181a4fdfd05e" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090102UV02.xsd" />
+    <MetadataFile FileName="COCT_MT080000UV.xsd" MetadataType="Schema" ID="a46f8f82-7b42-48d2-b2f1-832e9b6591f3" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT080000UV.xsd" />
+    <MetadataFile FileName="voc.xsd" MetadataType="Schema" ID="876b8961-233d-434b-9ebc-74b18b5169b5" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/coreschemas/voc.xsd" />
+    <MetadataFile FileName="COCT_MT030000UV04.xsd" MetadataType="Schema" ID="c9d4e5e6-f096-49b1-be92-1919c73926f2" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT030000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT710000UV01.xsd" MetadataType="Schema" ID="55f51067-7bd8-4392-96b5-e22fd205f638" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT710000UV01.xsd" />
+    <MetadataFile FileName="datatypes-base.xsd" MetadataType="Schema" ID="7438490d-8814-4caf-8b9e-43dafdf182ae" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/coreschemas/datatypes-base.xsd" />
+    <MetadataFile FileName="COCT_MT090300UV01.xsd" MetadataType="Schema" ID="99cfe4e1-7946-4025-ba9b-cf3e2794eb75" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090300UV01.xsd" />
+    <MetadataFile FileName="COCT_MT030203UV02.xsd" MetadataType="Schema" ID="eee4eb35-d3fe-4d24-9c53-1bcabe8b5582" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT030203UV02.xsd" />
+    <MetadataFile FileName="COCT_MT030202UV01.xsd" MetadataType="Schema" ID="9ef5b3f7-21fe-48af-8338-d93e9ed4d729" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT030202UV01.xsd" />
+    <MetadataFile FileName="COCT_MT810000UV.xsd" MetadataType="Schema" ID="2c2170a3-f318-4778-81dc-928a4aca259c" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT810000UV.xsd" />
+    <MetadataFile FileName="COCT_MT150000UV02.xsd" MetadataType="Schema" ID="bab8c8d3-6c2b-4636-9864-eb6cae4b48de" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT150000UV02.xsd" />
+    <MetadataFile FileName="COCT_MT090108UV.xsd" MetadataType="Schema" ID="15f674a6-464f-40bc-85f1-169dbd750ab3" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090108UV.xsd" />
+    <MetadataFile FileName="PRPA_IN201306UV02.xsd" MetadataType="Schema" ID="8f6d4429-21f5-4a4e-a156-b512aefd7210" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/PRPA_IN201306UV02.xsd" />
+    <MetadataFile FileName="MFMI_MT700711UV01.xsd" MetadataType="Schema" ID="d7948d8b-d935-48ee-9270-5b4135e7cb07" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/MFMI_MT700711UV01.xsd" />
+    <MetadataFile FileName="COCT_MT030207UV.xsd" MetadataType="Schema" ID="2ae43352-479d-48d3-a7bb-3fc73c4df7c8" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT030207UV.xsd" />
+    <MetadataFile FileName="COCT_MT280000UV04.xsd" MetadataType="Schema" ID="a23a417a-4d9f-4c86-8924-de796f20fd4b" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT280000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT820000UV.xsd" MetadataType="Schema" ID="f855d3c1-aa0e-4f5e-b9cf-e8b0f2feadb5" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT820000UV.xsd" />
+    <MetadataFile FileName="COCT_MT510000UV06.xsd" MetadataType="Schema" ID="da975309-80c4-4cc5-9d88-a57203fb6bd5" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT510000UV06.xsd" />
+    <MetadataFile FileName="COCT_MT240003UV02.xsd" MetadataType="Schema" ID="6cea9b68-0c1b-4e5c-b1f0-4716101c8906" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT240003UV02.xsd" />
+    <MetadataFile FileName="COCT_MT260003UV.xsd" MetadataType="Schema" ID="68609c63-c0d9-476a-ba52-8ba66821bf33" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT260003UV.xsd" />
+    <MetadataFile FileName="COCT_MT150002UV01.xsd" MetadataType="Schema" ID="76ad7510-bfb9-4219-9603-146280d9aa8d" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT150002UV01.xsd" />
+    <MetadataFile FileName="datatypes.xsd" MetadataType="Schema" ID="eeed6c11-9389-411b-a6ba-9f5d4ddf8dd7" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/coreschemas/datatypes.xsd" />
+    <MetadataFile FileName="COCT_MT500000UV04.xsd" MetadataType="Schema" ID="7b0d3564-e541-442b-b812-759e32bd35e8" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT500000UV04.xsd" />
+    <MetadataFile FileName="MCAI_MT900001UV01.xsd" MetadataType="Schema" ID="75215be3-79de-41e3-ad9e-98596f83a3ba" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/MCAI_MT900001UV01.xsd" />
+    <MetadataFile FileName="COCT_MT290000UV06.xsd" MetadataType="Schema" ID="f16aa401-7d27-450d-89d1-b4af2708d219" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT290000UV06.xsd" />
+    <MetadataFile FileName="COCT_MT740000UV04.xsd" MetadataType="Schema" ID="eb415e67-c2b2-40eb-bb62-23f52f1cd862" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT740000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT440001UV.xsd" MetadataType="Schema" ID="b736ce1d-c3d0-45a4-a35d-b3839bd61930" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT440001UV.xsd" />
+    <MetadataFile FileName="PRPA_IN201305UV02.xsd" MetadataType="Schema" ID="158af252-c967-4440-84e1-e4d4bb0e8fe3" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/PRPA_IN201305UV02.xsd" />
+    <MetadataFile FileName="COCT_MT530000UV.xsd" MetadataType="Schema" ID="c5dc6174-3be6-40ab-8016-c23bd134ed2a" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT530000UV.xsd" />
+    <MetadataFile FileName="COCT_MT090002UV01.xsd" MetadataType="Schema" ID="b4bcb17c-6c23-4ed3-a112-c128c49f984e" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090002UV01.xsd" />
+    <MetadataFile FileName="COCT_MT670000UV04.xsd" MetadataType="Schema" ID="61692915-3b6b-4292-b838-7a8801d2427e" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT670000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT710007UV.xsd" MetadataType="Schema" ID="b038032a-1406-4818-af6f-8821ff4f6b2a" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT710007UV.xsd" />
+    <MetadataFile FileName="COCT_MT960000UV05.xsd" MetadataType="Schema" ID="8a645657-2812-424e-b1d3-cbb56f3e8828" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT960000UV05.xsd" />
+    <MetadataFile FileName="COCT_MT040008UV.xsd" MetadataType="Schema" ID="ba1f0437-f0f8-4303-9273-5def31f40c74" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT040008UV.xsd" />
+    <MetadataFile FileName="COCT_MT230100UV.xsd" MetadataType="Schema" ID="c79b3c67-0a5e-4f6b-9c05-6ae15b93e82b" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT230100UV.xsd" />
+    <MetadataFile FileName="COCT_MT090100UV01.xsd" MetadataType="Schema" ID="04a4d63b-f7c9-484c-a455-d3ec9db9b189" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090100UV01.xsd" />
+    <MetadataFile FileName="COCT_MT090000UV01.xsd" MetadataType="Schema" ID="03be1554-04f0-4e7d-9820-8655241bc00e" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090000UV01.xsd" />
+    <MetadataFile FileName="QUQI_MT021001UV01.xsd" MetadataType="Schema" ID="6c9b50ff-34de-4493-81ab-71aec522e1e4" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/QUQI_MT021001UV01.xsd" />
+    <MetadataFile FileName="COCT_MT600000UV06.xsd" MetadataType="Schema" ID="52bbffc4-afff-4f32-a9ba-8f86b0a8cdc1" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT600000UV06.xsd" />
+    <MetadataFile FileName="COCT_MT060000UV01.xsd" MetadataType="Schema" ID="21bd06cc-b8b5-4704-9687-e7e57f9abd99" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT060000UV01.xsd" />
+    <MetadataFile FileName="COCT_MT310000UV04.xsd" MetadataType="Schema" ID="a60cf313-06fa-48a2-9b70-595c1362d811" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT310000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT030007UV.xsd" MetadataType="Schema" ID="ee64879a-9f43-4355-8436-7b59b121c0b9" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT030007UV.xsd" />
+    <MetadataFile FileName="COCT_MT040203UV01.xsd" MetadataType="Schema" ID="a40d1f8e-7f30-4059-bea3-a28e895c5c37" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT040203UV01.xsd" />
+    <MetadataFile FileName="COCT_MT140007UV.xsd" MetadataType="Schema" ID="245c4916-0a40-434d-8948-61685c278ee0" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT140007UV.xsd" />
+    <MetadataFile FileName="PRPA_MT201306UV02.xsd" MetadataType="Schema" ID="204f249c-c46a-4328-9662-77030715308b" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/PRPA_MT201306UV02.xsd" />
+    <MetadataFile FileName="infrastructureRoot.xsd" MetadataType="Schema" ID="fa47f081-0e82-4193-9120-87da947488f2" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/coreschemas/infrastructureRoot.xsd" />
+    <MetadataFile FileName="COCT_MT490000UV04.xsd" MetadataType="Schema" ID="cdaf3ca0-8b76-443b-8bce-b01f2e353e5b" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT490000UV04.xsd" />
+    <MetadataFile FileName="COCT_MT090003UV01.xsd" MetadataType="Schema" ID="6060a1fa-0872-405b-9508-28ad8280dad7" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT090003UV01.xsd" />
+    <MetadataFile FileName="COCT_MT300000UV04.xsd" MetadataType="Schema" ID="2bb9235e-8a93-4fed-b35d-c53a13701f88" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/COCT_MT300000UV04.xsd" />
+    <MetadataFile FileName="MCCI_MT000100UV01.xsd" MetadataType="Schema" ID="24387502-4b18-435f-884b-be8c93b20501" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/schema/HL7V3/NE2008/multicacheschemas/MCCI_MT000100UV01.xsd" />
+    <MetadataFile FileName="PDQSupplier.wsdl" MetadataType="Wsdl" ID="a5dd292b-305c-497e-b976-27da4de19559" SourceId="1" SourceUrl="file:///C:/wsdlnew/wsdl/PDQSupplier.wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

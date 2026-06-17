@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:ctxlps="urn:siram:lps:ctxlps" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:siram:lps:ctxlps" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:appinfo>
+      <Build xmlns="urn:camelia:info" Host="S000210W" Time="20111004_173232" Location="D:/WS_CAMELIA_ET5" Project="Projet_SIR" Model="CTXLPS" Generation="1" Repository="" Root="true" />
+      <Package xmlns="urn:camelia:info" Timestamp="20111004_173551" Version="01.00" Status="Draft" />
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:element name="ContexteLPS" type="ctxlps:ContexteLPS" />
+  <xsd:simpleType name="CodeString">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:simpleType name="IdentiteString">
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:complexType name="IdentiteStringRef">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="R" type="xsd:string" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="LOGICIEL">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IDAM" type="ctxlps:IdentiteStringRef" />
+      <xsd:element minOccurs="0" name="Version" type="ctxlps:CodeString" />
+      <xsd:element minOccurs="0" name="Instance" type="ctxlps:IdentiteString" />
+      <xsd:element minOccurs="0" name="Nom" type="ctxlps:CodeString" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContexteLPS">
+    <xsd:sequence>
+      <xsd:element name="Id" type="ctxlps:IdentiteString" />
+      <xsd:element name="Temps" type="xsd:dateTime" />
+      <xsd:element minOccurs="0" name="Emetteur" type="ctxlps:IdentiteString" />
+      <xsd:element minOccurs="0" name="LPS" type="ctxlps:LOGICIEL" />
+    </xsd:sequence>
+    <xsd:attribute name="Nature" type="ctxlps:PATTERN0_CTXLPS_ContexteLPS_ContexteLPS_Nature" />
+    <xsd:attribute name="Version" type="ctxlps:CodeString" use="required" />
+  </xsd:complexType>
+  <xsd:simpleType name="PATTERN0_CTXLPS_ContexteLPS_ContexteLPS_Nature">
+    <xsd:restriction base="ctxlps:CodeString">
+      <xsd:pattern value="CTXLPS" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.CustomBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;PatientCertificationEndPointImplServiceSoapBinding&quot;&gt;&lt;httpsTransport /&gt;&lt;textMessageEncoding messageVersion=&quot;Soap12&quot; /&gt;&lt;/Data&gt;" bindingType="customBinding" name="PatientCertificationEndPointImplServiceSoapBinding" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;https://SERVEUR_DMP/si-dmp-server/v2/services/patientCertif&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;PatientCertificationEndPointImplServiceSoapBinding&quot; contract=&quot;PatientCertificationService.PatientCertificationEndPoint&quot; name=&quot;PatientCertificationEndPointImplPort&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;https://SERVEUR_DMP/si-dmp-server/v2/services/patientCertif&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;PatientCertificationEndPointImplServiceSoapBinding&quot; contract=&quot;PatientCertificationService.PatientCertificationEndPoint&quot; name=&quot;PatientCertificationEndPointImplPort&quot; /&gt;" contractName="PatientCertificationService.PatientCertificationEndPoint" name="PatientCertificationEndPointImplPort" />
+  </endpoints>
+</configurationSnapshot>

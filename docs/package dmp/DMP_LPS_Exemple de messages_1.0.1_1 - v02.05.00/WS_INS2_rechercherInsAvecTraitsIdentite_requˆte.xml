@@ -1,0 +1,76 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:siram:bam:ctxbam" xmlns:add="http://www.w3.org/2005/08/addressing" xmlns:urn1="urn:siram:lps:ctxlps" xmlns:oas="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:urn2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xd="http://www.w3.org/2000/09/xmldsig#" xmlns:xe="http://www.w3.org/2001/04/xmlenc#" xmlns:ins="http://www.cnamts.fr/INSiRecSans">
+   <soap:Header>
+      <urn:ContexteBAM Version="01_02">
+         <urn:Id>8a689655-1712-4df1-bef8-7a64f8fb5847</urn:Id>
+         <urn:Temps>2021-06-16T09:39:02.0041Z</urn:Temps>
+         <urn:Emetteur>899900063480</urn:Emetteur>
+         <urn:COUVERTURE/>
+      </urn:ContexteBAM>
+      <add:MessageID>0dfb8f66-de74-4f30-ba83-bebde1239ebf</add:MessageID>
+      <add:Action>urn:ServiceIdentiteCertifiee:1.0.0:rechercherInsAvecTraitsIdentite</add:Action>
+      <urn1:ContexteLPS Version="01_00">
+         <urn1:Id>ecd08001-dec9-428a-98a4-3402c5a94a9e</urn1:Id>
+         <urn1:Temps>2021-06-16T09:39:02.0041Z</urn1:Temps>
+         <urn1:Emetteur>899900063480</urn1:Emetteur>
+         <urn1:LPS>
+            <urn1:IDAM R="4">NumAutorisation</urn1:IDAM>
+            <urn1:Version>1.00.00</urn1:Version>
+            <urn1:Instance>791e183f-6f66-4248-a312-5ed5cd4785d4</urn1:Instance>
+            <urn1:Nom>GIE</urn1:Nom>
+         </urn1:LPS>
+      </urn1:ContexteLPS>
+      <oas:Security>
+         <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" ID="_22d4376a-db89-4c33-8dd7-0c5f41ed0438" IssueInstant="2021-06-16T09:23:15.273Z" Version="2.0"><saml2:Issuer Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">SN2=MAX + OID.2.5.4.4=LIBRE + CN=899900063480, OID.2.5.4.12=Médecin, C=FR</saml2:Issuer><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI="#_22d4376a-db89-4c33-8dd7-0c5f41ed0438"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>GixqhXSCDkG+76K+Vnc6PQtcZQk80ZxCsbpbsuIjOdU=</DigestValue></Reference></SignedInfo><SignatureValue>KIuJf6LQGJlJKQzBNkRhDN348hY8HL1mQOlOD9eqdXZexW5m2fjqqz3v2vurwqw5XseivEIkg18S&#xD;
+6lSlnWWY1dIbhO7X3vxmrl+H6pTCM9o+dAB5dcufZGrEqk4LdhgZaSNnI1p1yntrN2X0PRjHuty7&#xD;
+qtcJ3kBg9Pz+Pbakfg592KkvwbRhRJpNDcSx+82JD2/GXwra/GYxzYGpeO2ZxbZbeaJFCk8DVTKR&#xD;
+0EoTj7UVTyheWH0aHmJpXfnsNLVB31/P+5r5z+/2T/7+R7PmlL6I8qJ87VCNr7ks15CUycGdwRoz&#xD;
+hLob6nrd9aoQps8mXhSYz/W3x2tve36FYFopCA==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIIhDCCBmygAwIBAgIQY9r/z8gDS9woBU8ry3Li2jANBgkqhkiG9w0BAQsFADB/MQswCQYDVQQG&#xD;
+EwJGUjETMBEGA1UECgwKQVNJUC1TQU5URTEXMBUGA1UECwwOMDAwMiAxODc1MTI3NTExFzAVBgNV&#xD;
+BAsMDklHQy1TQU5URSBURVNUMSkwJwYDVQQDDCBURVNUIEFDIElHQy1TQU5URSBGT1JUIFBFUlNP&#xD;
+Tk5FUzAeFw0xODA1MTUxMTUxMTlaFw0yMTA1MTUxMTUxMTlaMFExCzAJBgNVBAYTAkZSMREwDwYD&#xD;
+VQQMDAhNw6lkZWNpbjEvMAoGA1UEKgwDTUFYMAwGA1UEBAwFTElCUkUwEwYDVQQDDAw4OTk5MDAw&#xD;
+NjM0ODAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDNfQEiaWi8cXQvX0GDF5K9Xwl1&#xD;
+I9fo4Zp+el8iwozPUPx416j7aVv5pWh4NDG3+hTU65R4jLcCHRkVg7TfVEXW1RdhWd1zLwpsGg3f&#xD;
+fW597/o4ll44HHm8Ur8CdoIPFDRPvt3Hld27m83BEkYPcdDgFk3hccWo+GYW6YIlbaPaPh5eF/l6&#xD;
+J1mVj6MQWkKHIFTX4HAYM/hJsaAiCCi2QMGYpfvMpXjwHyHaEdAAem/g83Vpw/Sg4YYC/LIyW8vi&#xD;
+Gmj2ImW1rdJea+gynoyjM3Ir0YdC4eLYiy+8/U+9tKl2P/ZWadyaqYaXkXmOU1mdIUNTEO+PMkLc&#xD;
+5w8QyY3WSpRbAgMBAAGjggQoMIIEJDAJBgNVHRMEAjAAMB0GA1UdDgQWBBRJWCkOfRDbq6YtWATO&#xD;
+3jNqXog23TAfBgNVHSMEGDAWgBQ68ef1zuvt943JybKf7dRlKdwf/TAOBgNVHQ8BAf8EBAMCBkAw&#xD;
+UwYDVR0gBEwwSjBIBg0qgXoBgVUBBwIBAQEBMDcwNQYIKwYBBQUHAgEWKWh0dHA6Ly9pZ2Mtc2Fu&#xD;
+dGUuZXNhbnRlLmdvdXYuZnIvUEMlMjBURVNUMBMGA1UdJQQMMAoGCCsGAQUFBwMEMCsGA1UdEAQk&#xD;
+MCKADzIwMTgwNTE1MTE1MTE5WoEPMjAyMTA1MTUxMTUxMTlaMIIBQAYDVR0fBIIBNzCCATMwPKA6&#xD;
+oDiGNmh0dHA6Ly9pZ2Mtc2FudGUuZXNhbnRlLmdvdXYuZnIvQ1JML0FDSS1GTy1QUC1URVNULmNy&#xD;
+bDCB8qCB76CB7IaB6WxkYXA6Ly9hbm51YWlyZS1pZ2MuZXNhbnRlLmdvdXYuZnIvY249VEVTVCUy&#xD;
+MEFDJTIwSUdDLVNBTlRFJTIwRk9SVCUyMFBFUlNPTk5FUyxvdT1URVNUJTIwQUMlMjBSQUNJTkUl&#xD;
+MjBJR0MtU0FOVEUlMjBGT1JULG91PUlHQy1TQU5URSUyMFRFU1Qsb3U9MDAwMiUyMDE4NzUxMjc1&#xD;
+MSxvPUFTSVAtU0FOVEUsYz1GUj9jZXJ0aWZpY2F0ZXJldm9jYXRpb25saXN0O2JpbmFyeT9iYXNl&#xD;
+P29iamVjdENsYXNzPXBraUNBMIH6BgNVHS4EgfIwge8wgeyggemggeaGgeNsZGFwOi8vYW5udWFp&#xD;
+cmUtaWdjLmVzYW50ZS5nb3V2LmZyL2NuPVRFU1QlMjBBQyUyMElHQy1TQU5URSUyMEZPUlQlMjBQ&#xD;
+RVJTT05ORVMsb3U9VEVTVCUyMEFDJTIwUkFDSU5FJTIwSUdDLVNBTlRFJTIwRk9SVCxvdT1JR0Mt&#xD;
+U0FOVEUlMjBURVNULG91PTAwMDIlMjAxODc1MTI3NTEsbz1BU0lQLVNBTlRFLGM9RlI/ZGVsdGFy&#xD;
+ZXZvY2F0aW9ubGlzdDtiaW5hcnk/YmFzZT9vYmplY3RDbGFzcz1wa2lDQTCBgAYIKwYBBQUHAQEE&#xD;
+dDByMCYGCCsGAQUFBzABhhpodHRwOi8vb2NzcC5lc2FudGUuZ291di5mcjBIBggrBgEFBQcwAoY8&#xD;
+aHR0cDovL2lnYy1zYW50ZS5lc2FudGUuZ291di5mci9BQyUyMFRFU1QvQUNJLUZPLVBQLVRFU1Qu&#xD;
+Y2VyMA8GCCqBegFHAQIFBAMEAYAwDwYIKoF6AUcBAgIEAwIBADAjBggqgXoBRwECAwQXExU4MDI1&#xD;
+MDAwMDAxLzI2MDA4NTUyMDYwDwYIKoF6AUcBAgcEAwIBCjAUBggqgXoBRwQCBQQIMAYMBFNNMjYw&#xD;
+DQYJKoZIhvcNAQELBQADggIBAJ5V8HA9OqDWJ5ahq6zOxz/FbPDR5/D2YUMqV/1RJ2mgmxC7hWPv&#xD;
+abL9t+EdWsStTL7Y2P91BXb5PwRoNQHLeVKe0Yq6dngVY3Ve0E1YylGpCHTI/1sRtPYOvPAJO1mB&#xD;
+7jdWvLwxTMrY1PBzZxoVfe155ff/jV33kbw0k81/e6nqdDYxFb4n4ZUnO2yXWdTZfGkJhWFLSRFU&#xD;
+TsVhSlfx//KVrvKr5oIGznZ62BeDCcej20lXMkdOu+F+IBdlH7jv0hxlq/Na4DJ1jcjb+i3uhJqF&#xD;
+aV8SELQY7moAgytB0hxAJRzf+9J6OgqNPdPSJG9j+C+C/6tgdn0glKDig48xxtz1oXmkFi8XmZX3&#xD;
+M7lbg2sTxzXIUncUN4zFL5d/oXC5AgTyloBdx/fABrDihiCV+PVPk4fDnVkfdTW5zuqWVLI5MTZC&#xD;
+Jwk324zpC5DdhDX/VUkst7Xe0xLcEQoYMAS8pg2KsjqdcgtmTVdba1/+boyx31vpm3yaqQhkuV69&#xD;
+6Fqpv0ksueS8tVOgEDSfjCX9yBbPW1GaeJZe+0rgQaNeXYOVTYQfpRU6y5hqZtGa3+kvMO/WmrcJ&#xD;
+1vX3YWdrfrHvkkyRw7qoq94barDedSUyaYJOkL/uxkZQNYODq0TI2oRwxShb1rapGeTbr+Pd6WBK&#xD;
+f/HTJbbKzHt4+5wzD3m64+I0</X509Certificate></X509Data></KeyInfo></Signature><saml2:Subject><saml2:NameID NameQualifier="CPS">899900063480</saml2:NameID></saml2:Subject><saml2:AttributeStatement><saml2:Attribute Name="identifiantFacturation"><AttributeValue xmlns="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">991130972</AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion>
+      </oas:Security>
+   </soap:Header>
+   <soap:Body>
+      <ins:RECSANSVITALE>
+         <ins:NomNaissance>PATB-QUATRE</ins:NomNaissance>
+         <ins:Prenom>LAURENCE</ins:Prenom>
+         <ins:Sexe>F</ins:Sexe>
+         <ins:DateNaissance>1907-05-25</ins:DateNaissance>
+      </ins:RECSANSVITALE>
+   </soap:Body>
+</soap:Envelope>

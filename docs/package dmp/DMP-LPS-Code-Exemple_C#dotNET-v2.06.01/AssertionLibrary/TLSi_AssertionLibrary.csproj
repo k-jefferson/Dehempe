@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C590F98A-365C-4FCF-BB82-CCB62268E844}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TLSi_AssertionLibrary</RootNamespace>
+    <AssemblyName>TLSi_AssertionLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\TLSi_AssertionLibrary.XML</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\TLSi_AssertionLibrary.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssertionException.cs" />
+    <Compile Include="cps\cryptoki\Certificate.cs" />
+    <Compile Include="cps\cryptoki\CryptokiException.cs" />
+    <Compile Include="cps\cryptoki\internal\CK.cs" />
+    <Compile Include="cps\cryptoki\internal\CKF.cs" />
+    <Compile Include="cps\cryptoki\internal\CKS.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_ATTRIBUTE.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_CERTIFICATE.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_FLAGS.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_MECHANISM.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_OBJECT.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_RV.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_SESSION.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_SESSION_INFO.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_SLOT.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_TOKEN.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_USER_TYPE.cs" />
+    <Compile Include="cps\cryptoki\internal\CK_VERSION.cs" />
+    <Compile Include="cps\cryptoki\Mechanism.cs" />
+    <Compile Include="cps\cryptoki\NativeMethods.cs" />
+    <Compile Include="cps\cryptoki\Object.cs" />
+    <Compile Include="cps\cryptoki\PKCS11cryptoki.cs" />
+    <Compile Include="cps\cryptoki\Session.cs" />
+    <Compile Include="cps\cryptoki\Signing.cs" />
+    <Compile Include="cps\cryptoki\Slot.cs" />
+    <Compile Include="AssertionMessageInspector.cs" />
+    <Compile Include="cps\Pkcs11.cs" />
+    <Compile Include="structure\INIFile.cs" />
+    <Compile Include="structure\MyXmlWriter.cs" />
+    <Compile Include="structure\RSAPKCS11SHA256SignatureDescription.cs" />
+    <Compile Include="structure\StructureAssertion.cs" />
+    <Compile Include="Vitale\CarteVitale.cs" />
+    <Compile Include="AssertionFactory.cs" />
+    <Compile Include="Vitale\Mica.cs" />
+    <Compile Include="saml\SignatureProvider.cs" />
+    <Compile Include="cps\SamlPsAssertion.cs" />
+    <Compile Include="cps\PsSignatureProvider.cs" />
+    <Compile Include="Vitale\SamlVitaleAssertion.cs" />
+    <Compile Include="Vitale\UnsafeMicaMethods.cs" />
+    <Compile Include="saml\SamlAttribute.cs" />
+    <Compile Include="saml\SamlAttributeStatement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="cps\SaisieCodePorteur.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cps\SaisieCodePorteur.Designer.cs">
+      <DependentUpon>SaisieCodePorteur.cs</DependentUpon>
+    </Compile>
+    <Compile Include="saml\SamlAssertion.cs" />
+    <Compile Include="Vitale\VitaleSignatureProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="cps\SaisieCodePorteur.resx">
+      <DependentUpon>SaisieCodePorteur.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(TargetPath) $(SolutionDir)TLSiKitEditeur\bin\$(Configuration)\$(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

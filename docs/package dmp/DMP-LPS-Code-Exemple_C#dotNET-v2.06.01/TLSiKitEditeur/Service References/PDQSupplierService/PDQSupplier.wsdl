@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="urn:ihe:iti:pdqv3:2007" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsoap11="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:hl7="urn:hl7-org:v3" name="PDQSupplier" targetNamespace="urn:ihe:iti:pdqv3:2007" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Example WSDL for PDQ Patient Demogrpahics Supplier</documentation>
+  <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="urn:hl7-org:v3">
+      <xsd:include schemaLocation="schema/HL7V3/NE2008/multicacheschemas/PRPA_IN201305UV02.xsd" />
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="urn:hl7-org:v3">
+      <xsd:include schemaLocation="schema/HL7V3/NE2008/multicacheschemas/PRPA_IN201306UV02.xsd" />
+    </xsd:schema>
+  </types>
+  <message name="PRPA_IN201305UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201305UV02" />
+  </message>
+  <message name="PRPA_IN201306UV02_Message">
+    <part name="Body" element="hl7:PRPA_IN201306UV02" />
+  </message>
+  <portType name="PDQSupplier_PortType">
+    <operation name="findCandidatesQuery">
+      <input wsaw:Action="urn:hl7-org:v3:PRPA_IN201305UV02" message="tns:PRPA_IN201305UV02_Message" />
+      <output wsaw:Action="urn:hl7-org:v3:PRPA_IN201306UV02" message="tns:PRPA_IN201306UV02_Message" />
+    </operation>
+  </portType>
+  <binding name="PDQSupplier_Binding_Soap12" type="tns:PDQSupplier_PortType">
+    <wsoap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="findCandidatesQuery">
+      <wsoap12:operation soapAction="urn:hl7-org:v3:PRPA_IN201305UV02" />
+      <input>
+        <wsoap12:body use="literal" />
+      </input>
+      <output>
+        <wsoap12:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="PDQSupplier_Service">
+    <port name="PDQSupplier_Port_Soap12" binding="tns:PDQSupplier_Binding_Soap12">
+      <wsoap12:address location="https://servicelocation/PDQ" />
+    </port>
+  </service>
+</definitions>

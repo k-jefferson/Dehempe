@@ -1,0 +1,51 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-patients" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:si-dmp-patients:PatientSpecificEndPoint:patientListResponse</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:880543c5-344b-40be-8061-0095ef815b8d</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:72aaca86-4422-40ca-8e63-3b1e894a5bf6</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <ns1:patientListResponse xmlns:ns2="urn:com:santeos:dmp:patient:2010">
+         <ns1:output>
+            <ns1:patientlistData>
+               <ns1:patientIdentifier>
+                  <ns1:nationalId>0740724093302701701806</ns1:nationalId>
+                  <ns1:nationalIdType>1.2.250.1.213.1.4.2</ns1:nationalIdType>
+               </ns1:patientIdentifier>
+               <ns1:patientIdentifier>
+                  <ns1:nationalId>153078987658513</ns1:nationalId>
+                  <ns1:nationalIdType>1.2.250.1.213.1.4.10</ns1:nationalIdType>
+               </ns1:patientIdentifier>
+               <ns1:lastName>PAT-TROIS</ns1:lastName>
+               <ns1:firstName>DOMINIQUE</ns1:firstName>
+               <ns1:dateOfBirth>19790328</ns1:dateOfBirth>
+               <ns1:MT>false</ns1:MT>
+               <ns1:message>false</ns1:message>
+               <ns1:lastAccessDate>20210601094105</ns1:lastAccessDate>
+               <ns1:lastUpdateDate>20210525134738</ns1:lastUpdateDate>
+               <ns1:lastAddDate>20210525134735</ns1:lastAddDate>
+            </ns1:patientlistData>
+            <ns1:patientlistData>
+               <ns1:patientIdentifier>
+                  <ns1:nationalId>1197854176879056415520</ns1:nationalId>
+                  <ns1:nationalIdType>1.2.250.1.213.1.4.2</ns1:nationalIdType>
+               </ns1:patientIdentifier>
+               <ns1:patientIdentifier>
+                  <ns1:nationalId>207058575627097</ns1:nationalId>
+                  <ns1:nationalIdType>1.2.250.1.213.1.4.10</ns1:nationalIdType>
+               </ns1:patientIdentifier>
+               <ns1:lastName>patb-quatre</ns1:lastName>
+               <ns1:firstName>LAURENCE</ns1:firstName>
+               <ns1:dateOfBirth>19070525</ns1:dateOfBirth>
+               <ns1:MT>true</ns1:MT>
+               <ns1:message>false</ns1:message>
+               <ns1:lastAccessDate>20210521101631</ns1:lastAccessDate>
+               <ns1:lastUpdateDate>20210506124503</ns1:lastUpdateDate>
+               <ns1:lastAddDate>20210521101631</ns1:lastAddDate>
+            </ns1:patientlistData>
+            <ns1:status>DMPOk</ns1:status>
+         </ns1:output>
+      </ns1:patientListResponse>
+   </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,69 @@
+<ns5:SubmitObjectsRequest xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+    <ns3:RegistryObjectList>
+        <ns3:RegistryPackage id="SubmissionSet01">
+            <ns3:Slot name="submissionTime">
+                <ns3:ValueList>
+                    <ns3:Value>20101109155623</ns3:Value>
+                </ns3:ValueList>
+            </ns3:Slot>
+            <ns3:Name>
+                <ns3:LocalizedString value="Compte rendu" charset="UTF8" xml:lang="FR"/>
+            </ns3:Name>
+            <ns3:Classification nodeRepresentation="" classifiedObject="SubmissionSet01" classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" id="cla80">
+                <ns3:Slot name="authorPerson">
+                    <ns3:ValueList>
+                        <ns3:Value>00B1022322^CARDIO-CH2232^FELIX^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</ns3:Value>
+                    </ns3:ValueList>
+                </ns3:Slot>
+                <ns3:Slot name="authorSpecialty">
+                    <ns3:ValueList>
+                        <ns3:Value>G15_10/SM04^Médecin - Cardiologie et maladies vasculaires (SM)^1.2.250.1.213.1.1.4.5</ns3:Value>
+                    </ns3:ValueList>
+                </ns3:Slot>
+                <ns3:Slot name="authorInstitution">
+                    <ns3:ValueList>
+                        <ns3:Value>HOPITAL DES 3 VALLEES00771^^^^^&amp;1.2.250.1.71.4.2.2&amp;ISO^IDNST^^^10B0007712</ns3:Value>
+                    </ns3:ValueList>
+                </ns3:Slot>
+            </ns3:Classification>
+            <ns3:Classification nodeRepresentation="04" classifiedObject="SubmissionSet01" classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" id="cla81">
+                <ns3:Slot name="codingScheme">
+                    <ns3:ValueList>
+                        <ns3:Value>1.2.250.1.213.2.2</ns3:Value>
+                    </ns3:ValueList>
+                </ns3:Slot>
+                <ns3:Name>
+                    <ns3:LocalizedString value="Hospitalisation de jour" charset="UTF8" xml:lang="FR"/>
+                </ns3:Name>
+            </ns3:Classification>
+            <ns3:Classification classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd" classifiedObject="SubmissionSet01" id="cla82"/>
+            <ns3:ExternalIdentifier value="207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20100907" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" id="ei37">
+                <ns3:Name>
+                    <ns3:LocalizedString value="XDSSubmissionSet.patientId" charset="UTF8" xml:lang="FR"/>
+                </ns3:Name>
+            </ns3:ExternalIdentifier>
+            <ns3:ExternalIdentifier value="1.2.250.1.999.1.1.7898" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" id="ei38">
+                <ns3:Name>
+                    <ns3:LocalizedString value="XDSSubmissionSet.sourceId" charset="UTF8" xml:lang="FR"/>
+                </ns3:Name>
+            </ns3:ExternalIdentifier>
+            <ns3:ExternalIdentifier value="1.2.250.1.999.1.1.7898.1.1108569131321" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" id="ei39">
+                <ns3:Name>
+                    <ns3:LocalizedString value="XDSSubmissionSet.uniqueId" charset="UTF8" xml:lang="FR"/>
+                </ns3:Name>
+            </ns3:ExternalIdentifier>
+        </ns3:RegistryPackage>
+        <ns3:Association targetObject="urn:uuid:41b6cd53-a85f-464c-aebe-ed0bf5c2c85a" sourceObject="SubmissionSet01" associationType="urn:ihe:iti:2010:AssociationType:UpdateAvailabilityStatus" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" id="association1">
+            <ns3:Slot name="OriginalStatus">
+                <ns3:ValueList>
+                    <ns3:Value>urn:oasis:names:tc:ebxml-regrep:StatusType:Approved</ns3:Value>
+                </ns3:ValueList>
+            </ns3:Slot>
+            <ns3:Slot name="NewStatus">
+                <ns3:ValueList>
+                    <ns3:Value>urn:asip:ci-sis:2010:StatusType:Deleted</ns3:Value>
+                </ns3:ValueList>
+            </ns3:Slot>
+        </ns3:Association>
+    </ns3:RegistryObjectList>
+</ns5:SubmitObjectsRequest>

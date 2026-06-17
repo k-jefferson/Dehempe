@@ -1,0 +1,101 @@
+<soap:Envelope xmlns:ns1="urn:si-dmp-patients" xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+   <soap:Header>
+      <Action xmlns="http://www.w3.org/2005/08/addressing">urn:hl7-org:v3:PRPA_IN201306UV02</Action>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:44fdd837-e387-4f3c-83a7-5fd8685a031b</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</To>
+      <RelatesTo xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:0bf3c694-f444-4c9e-bdd4-6b72106a691f</RelatesTo>
+   </soap:Header>
+   <soap:Body>
+      <PRPA_IN201306UV02 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3">
+         <id root="152ccd4f-5b37-4401-884e-d4128b9af883"/>
+         <creationTime value="20190404100738"/>
+         <interactionId extension="PRPA_IN201306UV02" root="2.16.840.1.113883.1.6"/>
+         <processingCode code="P"/>
+         <processingModeCode code="T"/>
+         <acceptAckCode code="NE"/>
+         <receiver typeCode="RCV">
+            <device classCode="DEV" determinerCode="INSTANCE">
+               <id root="1.3.6.1.4.1.48364"/>
+               <softwareName>LPS GIE-SV</softwareName>
+            </device>
+         </receiver>
+         <sender typeCode="SND">
+            <device classCode="DEV" determinerCode="INSTANCE">
+               <id root="1.2.250.1.213.4.1.1.1"/>
+               <softwareName>DMP</softwareName>
+            </device>
+         </sender>
+         <acknowledgement>
+            <typeCode code="AA"/>
+            <targetMessage>
+               <id extension="1633a409-3d61-4869-aed8-74d92ae20272" root="1.3.6.1.4.1.48364.1.1"/>
+            </targetMessage>
+         </acknowledgement>
+         <controlActProcess classCode="CACT" moodCode="EVN">
+            <code code="PRPA_TE201306UV02" codeSystem="2.16.840.1.113883.1.6" xsi:type="CS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <subject contextConductionInd="false" typeCode="SUBJ">
+               <registrationEvent classCode="REG" moodCode="EVN">
+                  <statusCode code="active"/>
+                  <subject1 typeCode="SBJ">
+                     <patient classCode="PAT">
+                        <id extension="157069329642881" root="1.2.250.1.213.1.4.10"/>
+                        <id extension="1418878867934420256667" root="1.2.250.1.213.1.4.2"/>
+                        <statusCode code="active"/>
+                        <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                           <name>
+                              <prefix>Mme</prefix>
+                              <given>IRENE</given>
+                              <family qualifier="SP">ENCHAINE</family>
+                              <family qualifier="BR">DECHAINE</family>
+                           </name>
+                           <administrativeGenderCode code="F"/>
+                           <birthTime value="19570628"/>
+                           <addr>
+                              <city>SECLIN</city>
+                              <postalCode>59113</postalCode>
+                           </addr>
+                        </patientPerson>
+                        <subjectOf1 typeCode="SBJ">
+                           <queryMatchObservation classCode="COND" moodCode="EVN">
+                              <code code="POURCENTAGE" xsi:type="CS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                              <value value="100" xsi:type="INT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                           </queryMatchObservation>
+                        </subjectOf1>
+                        <subjectOf2>
+                           <administrativeObservation>
+                              <code code="OPPOSITION_ACCES_URGENCE" codeSystem="1.2.250.1.213.4.1.2.3" displayName="opposition au mode Urgence"/>
+                              <value value="false" xsi:type="BL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                           </administrativeObservation>
+                        </subjectOf2>
+                     </patient>
+                  </subject1>
+                  <custodian typeCode="CST">
+                     <assignedEntity classCode="ASSIGNED">
+                        <id root="1.2.250.1.213.4.1.1.1"/>
+                     </assignedEntity>
+                  </custodian>
+               </registrationEvent>
+            </subject>
+            <queryAck>
+               <queryId extension="654654" root="1.2.250.1.999.1.1.356.4"/>
+               <queryResponseCode code="OK"/>
+               <resultTotalQuantity value="1"/>
+               <resultCurrentQuantity value="1"/>
+               <resultRemainingQuantity value="0"/>
+            </queryAck>
+            <queryByParameter>
+               <queryId extension="4cf69f11-f58c-4a49-8dd3-2cca7c342e40" root="1.3.6.1.4.1.48364.2"/>
+               <statusCode code="new"/>
+               <parameterList>
+                  <livingSubjectName>
+                     <value use="">
+                        <family>DECHAINE</family>
+                     </value>
+                     <semanticsText>LivingSubject.name</semanticsText>
+                  </livingSubjectName>
+               </parameterList>
+            </queryByParameter>
+         </controlActProcess>
+      </PRPA_IN201306UV02>
+   </soap:Body>
+</soap:Envelope>

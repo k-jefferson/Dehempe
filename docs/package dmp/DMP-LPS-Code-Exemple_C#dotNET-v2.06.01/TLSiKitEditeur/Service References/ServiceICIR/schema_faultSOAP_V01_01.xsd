@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:siram="urn:siram" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:siram" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Erreur" type="siram:type_erreur" />
+  <xs:complexType name="type_erreur">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="severite" type="siram:severiteeEnum" use="required" />
+        <xs:attribute name="code" type="xs:string" use="required" />
+        <xs:attribute name="messageID" type="xs:string" use="optional" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="severiteeEnum">
+    <xs:restriction base="xs:QName">
+      <xs:enumeration value="information" />
+      <xs:enumeration value="avertissement" />
+      <xs:enumeration value="erreur" />
+      <xs:enumeration value="fatale" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

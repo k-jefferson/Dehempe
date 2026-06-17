@@ -1,0 +1,84 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Header>
+      <MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:4cab1a4c-d575-467a-a417-44268406a43d</MessageID>
+      <To xmlns="http://www.w3.org/2005/08/addressing"/>
+      <ReplyTo mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">
+         <Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
+      </ReplyTo>
+      <Action mustUnderstand="true" xmlns="http://www.w3.org/2005/08/addressing">urn:ihe:iti:2010:UpdateDocumentSet</Action>
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="_ce088e5a-e31d-42d0-ba37-fda5fcbc889d" IssueInstant="2019-06-26T08:08:55.469Z" Version="2.0"><saml2:Issuer Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">CN=899900038839+2.5.4.4=#14045452414c+2.5.4.42=#14064144454d4953,OU=M?decin,O=TEST,C=FR</saml2:Issuer><saml2:Subject><saml2:NameID>899900063480</saml2:NameID></saml2:Subject><saml2:AuthnStatement AuthnInstant="2019-06-26T08:08:55.482Z"><saml2:AuthnContext><saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI</saml2:AuthnContextClassRef></saml2:AuthnContext></saml2:AuthnStatement><saml2:AttributeStatement><saml2:Attribute Name="Identifiant_Structure"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">499900063480001</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Secteur_Activite"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SA07^1.2.250.1.71.4.2.4</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role"><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="10" codeSystem="1.2.250.1.71.1.2.7" displayName="Médecin" xsi:type="CE"/></saml2:AttributeValue><saml2:AttributeValue><Role xmlns="urn:hl7-org:v3" code="SM26" codeSystem="1.2.250.1.71.4.2.5" displayName="Qualifié en Médecine Générale (SM)" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="VIHF_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">3.0</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Authentification_mode"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DIRECTE</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:resource:resource-id"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="Ressource_URN"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">urn:dmp</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="urn:oasis:names:tc:xspa:1.0:subject:purposeofuse"><saml2:AttributeValue><PurposeOfUse xmlns="urn:hl7-org:v3" code="normal" codeSystem="1.2.250.1.213.1.1.4.248" codeSystemName="mode acces VIHF 2.0" displayName="Acc賠normal" xsi:type="CE"/></saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">01.01.01.01</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Nom"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">LPS GIE-SV</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_Version"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">1</saml2:AttributeValue></saml2:Attribute><saml2:Attribute Name="LPS_ID_HOMOLOGATION_DMP"><saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">NumAutorisation</saml2:AttributeValue></saml2:Attribute></saml2:AttributeStatement></saml2:Assertion>
+      </wsse:Security>
+   </soap:Header>
+   <soap:Body>
+      <ns4:SubmitObjectsRequest xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+         <RegistryObjectList>
+            <RegistryPackage id="SubmissionSet01">
+               <Slot name="submissionTime">
+                  <ValueList>
+                     <Value>20210604092415</Value>
+                  </ValueList>
+               </Slot>
+               <Name>
+                  <LocalizedString charset="UTF8" value="Compte rendu" xml:lang="FR"/>
+               </Name>
+               <Classification classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" id="cla25" nodeRepresentation="">
+                  <Slot name="authorPerson">
+                     <ValueList>
+                        <Value>899900063480^MAX^LIBRE^^^^^^&amp;1.2.250.1.71.4.2.1&amp;ISO^D^^^IDNPS</Value>
+                     </ValueList>
+                  </Slot>
+                  <Slot name="authorSpecialty">
+                     <ValueList>
+                        <Value>G15_10/SM26^Médecin - Qualifié en Médecine Générale (SM)^1.2.250.1.213.1.1.4.5</Value>
+                     </ValueList>
+                  </Slot>
+                  <Slot name="authorInstitution">
+                     <ValueList>
+                        <Value>CABINET DR LIBRE^^^^^&amp;1.2.250.1.71.4.2.2&amp;ISO^IDNST^^^499900063480001</Value>
+                     </ValueList>
+                  </Slot>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" id="cla26" nodeRepresentation="04">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>1.2.250.1.213.2.2</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString charset="UTF8" value="Hospitalisation de jour" xml:lang="FR"/>
+                  </Name>
+               </Classification>
+               <Classification classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd" classifiedObject="SubmissionSet01" id="cla27"/>
+               <ExternalIdentifier id="ei11" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" value="207058575627097^^^&amp;1.2.250.1.213.1.4.10&amp;ISO^NH^^20210604092415">
+                  <Name>
+                     <LocalizedString charset="UTF8" value="XDSSubmissionSet.patientId" xml:lang="FR"/>
+                  </Name>
+               </ExternalIdentifier>
+               <ExternalIdentifier id="ei12" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" value="1.2.250.1.999.1.1.7898">
+                  <Name>
+                     <LocalizedString charset="UTF8" value="XDSSubmissionSet.sourceId" xml:lang="FR"/>
+                  </Name>
+               </ExternalIdentifier>
+               <ExternalIdentifier id="ei13" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" value="1.2.250.1.999.1.1.7898.1.11086546546895">
+                  <Name>
+                     <LocalizedString charset="UTF8" value="XDSSubmissionSet.uniqueId" xml:lang="FR"/>
+                  </Name>
+               </ExternalIdentifier>
+            </RegistryPackage>
+            <Association associationType="urn:ihe:iti:2010:AssociationType:UpdateAvailabilityStatus" id="association1" objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Association" sourceObject="SubmissionSet01" targetObject="urn:uuid:fe5287a2-ae6a-11eb-8f5d-0050569e422e">
+               <Slot name="OriginalStatus">
+                  <ValueList>
+                     <Value>urn:oasis:names:tc:ebxml-regrep:StatusType:Approved</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="NewStatus">
+                  <ValueList>							
+                     <Value>urn:asip:ci-sis:2010:StatusType:Archived</Value>
+                  </ValueList>
+               </Slot>
+            </Association>
+         </RegistryObjectList>
+      </ns4:SubmitObjectsRequest>
+   </soap:Body>
+</soap:Envelope>
