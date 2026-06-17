@@ -65,7 +65,7 @@ internal sealed class VihfService : IVihfService
             ID=""{assertionId}""
             IssueInstant=""{issueInstant:yyyy-MM-ddTHH:mm:ssZ}""
             Version=""2.0"">
-          <saml:Issuer>{cert.Subject}</saml:Issuer>
+          <saml:Issuer Format=""urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName"">{cert.Subject}</saml:Issuer>
           <saml:Subject>
             <saml:NameID Format=""urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName"">{ctx.PractitionerIdentifier}</saml:NameID>
           </saml:Subject>

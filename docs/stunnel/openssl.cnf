@@ -1,0 +1,22 @@
+# openssl.cnf utilisée par stunnel pour charger le provider pkcs11prov de libp11.
+# Syntaxe officielle : cf. /opt/homebrew/Cellar/libp11/<v>/README.md (§ provider).
+
+openssl_conf = openssl_init
+
+[openssl_init]
+providers = providers_sect
+
+[providers_sect]
+default = default_sect
+pkcs11  = pkcs11_sect
+
+[default_sect]
+activate = 1
+
+[pkcs11_sect]
+identity      = pkcs11prov
+module        = /opt/homebrew/lib/ossl-modules/pkcs11prov.dylib
+pkcs11_module = /usr/local/lib/libcps3_pkcs11_osx.dylib
+pin           = 1234
+force_login   = 1
+activate      = 1

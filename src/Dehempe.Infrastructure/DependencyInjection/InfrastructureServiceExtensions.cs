@@ -7,6 +7,8 @@ using Dehempe.Infrastructure.Dmp.Card;
 using Dehempe.Infrastructure.Dmp.Soap;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Dehempe.Infrastructure.DependencyInjection;
 
@@ -27,12 +29,22 @@ public static class InfrastructureServiceExtensions
         services.AddHttpContextAccessor();
         services.AddSingleton<IVihfContextAccessor, CpsVihfContextAccessor>();
 
-        // Handler factory qui attache le cert CPS au handshake mTLS (quand il a une clé privée extractable).
-        // Sur macOS avec cert CTK, la clé n'est pas extractable → le handshake mTLS ratera côté .NET runtime,
-        // l'erreur est interceptée dans XdsSoapClientBase et remontée en DmpAuthException.
+        // Détermine en avance si on utilise le tunnel stunnel : ça change la wiring de tous les HttpClients.
+        var tunnelEndpoint = configuration.GetSection(DmpOptions.SectionName)[nameof(DmpOptions.TunnelEndpoint)];
+        var useTunnel = !string.IsNullOrWhiteSpace(tunnelEndpoint);
+
+        services.AddTransient<DmpTunnelHandler>(sp => new DmpTunnelHandler(
+            tunnelEndpoint!,
+            sp.GetRequiredService<ILoggerFactory>().CreateLogger<DmpTunnelHandler>()));
+
+        // Quand le tunnel est actif, stunnel s'occupe du mTLS : .NET ne doit PAS
+        // tenter d'attacher de cert client (et on parle en HTTP loopback simple).
+        // Sinon : on attache le cert CPS au handshake mTLS direct (Windows/Linux PKCS#11 ou .p12).
         HttpClientHandler BuildClientHandler(IServiceProvider sp)
         {
             var handler = new HttpClientHandler { ClientCertificateOptions = ClientCertificateOption.Manual };
+            if (useTunnel) return handler;
+
             try
             {
                 var cpsAuth = sp.GetRequiredService<ICpsAuthService>();
@@ -43,19 +55,21 @@ public static class InfrastructureServiceExtensions
             catch
             {
                 // L'auto-détection est différée à la première vraie requête.
-                // Ici on est dans la factory du HttpClient (lazy), pas grave si ça rate.
             }
             return handler;
         }
 
-        services.AddHttpClient<XdsRegistryClient>()
-            .ConfigurePrimaryHttpMessageHandler(BuildClientHandler);
+        IHttpClientBuilder ConfigureDmpClient<TClient>() where TClient : class
+        {
+            var b = services.AddHttpClient<TClient>()
+                .ConfigurePrimaryHttpMessageHandler(BuildClientHandler);
+            if (useTunnel) b = b.AddHttpMessageHandler<DmpTunnelHandler>();
+            return b;
+        }
 
-        services.AddHttpClient<XdsRepositoryClient>()
-            .ConfigurePrimaryHttpMessageHandler(BuildClientHandler);
-
-        services.AddHttpClient<GdpExistenceClient>()
-            .ConfigurePrimaryHttpMessageHandler(BuildClientHandler);
+        ConfigureDmpClient<XdsRegistryClient>();
+        ConfigureDmpClient<XdsRepositoryClient>();
+        ConfigureDmpClient<GdpExistenceClient>();
 
         services.AddScoped<IDmpDocumentRepository, DmpDocumentRepository>();
         services.AddScoped<IDmpExistenceRepository>(sp => sp.GetRequiredService<GdpExistenceClient>());

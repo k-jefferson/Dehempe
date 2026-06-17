@@ -74,19 +74,43 @@ internal abstract class XdsSoapClientBase
 
         using (response)
         {
-            var responseXml = await response.Content.ReadAsStringAsync(ct);
+            var responseBody = await response.Content.ReadAsStringAsync(ct);
+            var contentType  = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+            var isXmlish     = contentType.Contains("xml", StringComparison.OrdinalIgnoreCase)
+                               || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)
+                               || responseBody.TrimStart().StartsWith("<soap", StringComparison.OrdinalIgnoreCase)
+                               || responseBody.TrimStart().StartsWith("<s:", StringComparison.OrdinalIgnoreCase);
 
             if (!response.IsSuccessStatusCode)
+            {
+                Logger.LogWarning("Réponse non-2xx du DMP ({Action}) — body complet :\n{Body}",
+                    soapAction, responseBody);
+
+                // Un SOAP Fault est aussi du SOAP : on continue le parse pour CheckRegistryError
+                // s'il a du XML, sinon on remonte tel quel.
+                if (!isXmlish)
+                    throw new DmpException(
+                        $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). " +
+                        $"Content-Type={contentType}. Body={Truncate(responseBody, 500)}",
+                        response.StatusCode.ToString());
+            }
+
+            if (!isXmlish)
                 throw new DmpException(
-                    $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). Body: {responseXml}",
-                    response.StatusCode.ToString());
+                    $"Le DMP a répondu en HTTP {(int)response.StatusCode} avec un Content-Type « {contentType} » " +
+                    $"(non-SOAP). Probable : mauvais path d'endpoint pour {soapAction}. " +
+                    $"Body[0..400]={Truncate(responseBody, 400)}",
+                    "NON_SOAP_RESPONSE");
 
             var doc = new XmlDocument();
-            doc.LoadXml(responseXml);
+            doc.LoadXml(responseBody);
             CheckRegistryError(doc);
             return doc;
         }
     }
+
+    private static string Truncate(string s, int max)
+        => s.Length <= max ? s : s[..max] + "…";
 
     private static string BuildEnvelope(string soapAction, XmlElement body, string vihfAssertion)
     {

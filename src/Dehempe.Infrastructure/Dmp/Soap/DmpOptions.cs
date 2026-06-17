@@ -27,4 +27,12 @@ public sealed class DmpOptions
 
     /// <summary>Délai d'expiration des requêtes SOAP en secondes.</summary>
     public int TimeoutSeconds { get; set; } = 30;
+
+    /// <summary>
+    /// URL d'un proxy mTLS local (stunnel + PKCS#11) qui termine le mTLS côté carte CPS.
+    /// Quand renseigné, toutes les requêtes DMP sont redirigées vers ce proxy en HTTP simple,
+    /// avec le Host header de l'URL DMP d'origine préservé pour la routage côté DMP.
+    /// Format : <c>http://127.0.0.1:5443</c>. Vide = pas de tunnel (mTLS direct natif).
+    /// </summary>
+    public string? TunnelEndpoint { get; set; }
 }
