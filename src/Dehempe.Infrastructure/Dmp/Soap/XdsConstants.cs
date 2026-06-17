@@ -1,0 +1,43 @@
+namespace Dehempe.Infrastructure.Dmp.Soap;
+
+internal static class XdsConstants
+{
+    // Namespaces SOAP / XDS
+    public const string EbRim3Ns   = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0";
+    public const string EbRs3Ns    = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0";
+    public const string EbQ3Ns     = "urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0";
+    public const string IheXdsNs   = "urn:ihe:iti:xds-b:2007";
+    public const string WsaNs      = "http://www.w3.org/2005/08/addressing";
+    public const string WssNs      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+    public const string WsuNs      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
+    public const string SoapNs     = "http://www.w3.org/2003/05/soap-envelope";
+
+    // ITI-18 — actions SOAP
+    public const string Iti18Action  = "urn:ihe:iti:2007:RegistryStoredQuery";
+    public const string Iti43Action  = "urn:ihe:iti:2007:RetrieveDocumentSet";
+    public const string Iti41Action  = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b";
+
+    // Stored Queries UUIDs (ITI-18)
+    public const string FindDocumentsQuery   = "urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d";
+    public const string FindSubmissionSets   = "urn:uuid:f26abbcb-ac74-4422-8a30-edb644bbc1a9";
+    public const string GetDocuments         = "urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4";
+
+    // Classification schemes (métadonnées XDS)
+    public const string ClassCodeScheme              = "urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a";
+    public const string TypeCodeScheme               = "urn:uuid:f0306f51-975f-434e-a61c-c59651d33983";
+    public const string FormatCodeScheme             = "urn:uuid:a09d5840-386c-46f2-b5ad-9fdf87b75cc4";
+    public const string PracticeSettingCodeScheme    = "urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead";
+    public const string HealthcareFacilityTypeScheme = "urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1";
+
+    // Statuts document
+    public const string StatusApproved   = "urn:oasis:names:tc:ebxml-regrep:StatusType:Approved";
+    public const string StatusDeprecated = "urn:oasis:names:tc:ebxml-regrep:StatusType:Deprecated";
+
+    // Slot names (ITI-18 query params)
+    public const string SlotPatientId        = "$XDSDocumentEntryPatientId";
+    public const string SlotStatus           = "$XDSDocumentEntryStatus";
+    public const string SlotCreationTimeFrom = "$XDSDocumentEntryCreationTimeFrom";
+    public const string SlotCreationTimeTo   = "$XDSDocumentEntryCreationTimeTo";
+    public const string SlotClassCode        = "$XDSDocumentEntryClassCode";
+    public const string SlotFormatCode       = "$XDSDocumentEntryFormatCode";
+}

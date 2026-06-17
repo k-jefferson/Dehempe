@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Dehempe API (http)",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/Dehempe.API", "--launch-profile", "http"],
+      "port": 5012
+    },
+    {
+      "name": "Dehempe API (https)",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/Dehempe.API", "--launch-profile", "https"],
+      "port": 7270
+    }
+  ]
+}
