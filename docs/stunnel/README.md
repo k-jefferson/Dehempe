@@ -34,27 +34,38 @@ export OPENSSL_ENGINES=/opt/homebrew/lib/engines-3
 openssl engine -t pkcs11   # → "(pkcs11) pkcs11 engine [ available ]"
 ```
 
-## Lancer
+## Lancer (recommandé)
 
-Depuis la racine du repo, **avec** `OPENSSL_ENGINES` exporté :
+Depuis la racine du repo :
 
 ```bash
-OPENSSL_ENGINES=/opt/homebrew/lib/engines-3 stunnel docs/stunnel/dehempe-cps.conf
+docs/stunnel/start-tunnel.sh
 ```
 
-Vérifier qu'il écoute :
+Le script lance stunnel en mode **foreground détaché** (`nohup ... & disown`).
+Il survit à la fermeture du shell appelant, mais reste un process simple à
+killer. Vérifier :
 
 ```bash
 lsof -nP -iTCP:5443 | grep LISTEN
+tail -f /tmp/dehempe-stunnel.log
 ```
 
-Logs : `/tmp/dehempe-stunnel.log` (`tail -f` utile en cas de souci).
-
-## Arrêter
+Pour arrêter :
 
 ```bash
-kill "$(cat /tmp/dehempe-stunnel.pid)"
+docs/stunnel/stop-tunnel.sh
 ```
+
+### Pourquoi foreground et pas daemon
+
+`foreground = no` (mode daemon classique) fait que stunnel `fork()` un child
+process **par connexion entrante**. Sur macOS + libcps3 + libp11, le child
+forké perd l'état PIN-verified de la session PKCS#11 héritée du parent →
+la signature du `CertificateVerify` échoue avec
+`error:42000101:PKCS#11 module::User not logged in`.
+
+En foreground, le single process garde son état de carte et signe correctement.
 
 ## Configurer Déhempé pour utiliser le tunnel
 
