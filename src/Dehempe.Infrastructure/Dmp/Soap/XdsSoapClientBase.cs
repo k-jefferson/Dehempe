@@ -128,10 +128,20 @@ internal abstract class XdsSoapClientBase
 
     private static string BuildEnvelope(string soapAction, XmlElement body, string vihfAssertion)
     {
+        // WS-Addressing requis par le DMP (cf. exemple TD 0.2 ANS) : MessageID + To + ReplyTo + Action.
+        // L'absence d'un seul de ces headers provoque le SOAP Fault
+        // « A required header representing a Message Addressing Property is not present ».
+        var messageId = $"urn:uuid:{Guid.NewGuid()}";
+
         return $@"<s:Envelope xmlns:s=""{XdsConstants.SoapNs}"" xmlns:wsa=""{XdsConstants.WsaNs}"">
   <s:Header>
+    <wsa:MessageID>{messageId}</wsa:MessageID>
+    <wsa:To/>
+    <wsa:ReplyTo s:mustUnderstand=""1"">
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
     <wsa:Action s:mustUnderstand=""1"">{soapAction}</wsa:Action>
-    <wsse:Security xmlns:wsse=""{XdsConstants.WssNs}"" s:mustUnderstand=""1"">
+    <wsse:Security xmlns:wsse=""{XdsConstants.WssNs}"">
       {vihfAssertion}
     </wsse:Security>
   </s:Header>
