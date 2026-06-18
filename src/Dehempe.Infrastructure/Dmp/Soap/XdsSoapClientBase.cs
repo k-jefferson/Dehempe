@@ -40,72 +40,86 @@ internal abstract class XdsSoapClientBase
         CancellationToken ct)
     {
         var vihfAssertion = await _vihf.BuildVihfAssertionAsync(vihfCtx, ct);
-        var envelope = BuildEnvelope(soapAction, body, vihfAssertion);
+        var envelope      = BuildEnvelope(soapAction, body, vihfAssertion);
+        string? responseBody = null;
 
-        var content = new StringContent(envelope, Encoding.UTF8, "application/soap+xml");
-        content.Headers.Add("SOAPAction", $"\"{soapAction}\"");
-
-        Logger.LogDebug("Envoi SOAP {Action} vers {Endpoint}", soapAction, endpoint);
-
-        HttpResponseMessage response;
         try
         {
-            response = await _http.PostAsync(endpoint, content, ct);
-        }
-        catch (HttpRequestException ex) when (ex.InnerException is System.Security.Authentication.AuthenticationException)
-        {
-            var platformHint = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(
-                System.Runtime.InteropServices.OSPlatform.OSX)
-                ? "Sur macOS, .NET ne peut pas attacher un cert PKCS#11 au handshake mTLS : " +
-                  "AppleCertificatePal.CopyWithPrivateKey impose un export de clé privée, " +
-                  "ce que le token CPS refuse par design. Solutions : déployer sur Windows/Linux, " +
-                  "passer par un proxy mTLS local (stunnel + PKCS#11), ou configurer un .p12 de test."
-                : "Vérifie que Cps:Pkcs11LibraryPath + Cps:Pkcs11Pin sont renseignés et que la carte est insérée.";
+            var content = new StringContent(envelope, Encoding.UTF8, "application/soap+xml");
+            content.Headers.Add("SOAPAction", $"\"{soapAction}\"");
 
-            throw new DmpAuthException(
-                $"Échec du handshake TLS avec le DMP ({endpoint}). {platformHint}",
-                ex);
-        }
-        catch (HttpRequestException ex)
-        {
-            throw new DmpException(
-                $"Erreur réseau vers le DMP ({endpoint}) : {ex.Message}", ex, "NETWORK_ERROR");
-        }
+            Logger.LogDebug("Envoi SOAP {Action} vers {Endpoint}", soapAction, endpoint);
 
-        using (response)
-        {
-            var responseBody = await response.Content.ReadAsStringAsync(ct);
-            var contentType  = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
-            var isXmlish     = contentType.Contains("xml", StringComparison.OrdinalIgnoreCase)
-                               || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)
-                               || responseBody.TrimStart().StartsWith("<soap", StringComparison.OrdinalIgnoreCase)
-                               || responseBody.TrimStart().StartsWith("<s:", StringComparison.OrdinalIgnoreCase);
-
-            if (!response.IsSuccessStatusCode)
+            HttpResponseMessage response;
+            try
             {
-                Logger.LogWarning("Réponse non-2xx du DMP ({Action}) — body complet :\n{Body}",
-                    soapAction, responseBody);
+                response = await _http.PostAsync(endpoint, content, ct);
+            }
+            catch (HttpRequestException ex) when (ex.InnerException is System.Security.Authentication.AuthenticationException)
+            {
+                var platformHint = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(
+                    System.Runtime.InteropServices.OSPlatform.OSX)
+                    ? "Sur macOS, .NET ne peut pas attacher un cert PKCS#11 au handshake mTLS : " +
+                      "AppleCertificatePal.CopyWithPrivateKey impose un export de clé privée, " +
+                      "ce que le token CPS refuse par design. Solutions : déployer sur Windows/Linux, " +
+                      "passer par un proxy mTLS local (stunnel + PKCS#11), ou configurer un .p12 de test."
+                    : "Vérifie que Cps:Pkcs11LibraryPath + Cps:Pkcs11Pin sont renseignés et que la carte est insérée.";
 
-                // Un SOAP Fault est aussi du SOAP : on continue le parse pour CheckRegistryError
-                // s'il a du XML, sinon on remonte tel quel.
-                if (!isXmlish)
-                    throw new DmpException(
-                        $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). " +
-                        $"Content-Type={contentType}. Body={Truncate(responseBody, 500)}",
-                        response.StatusCode.ToString());
+                throw new DmpAuthException(
+                    $"Échec du handshake TLS avec le DMP ({endpoint}). {platformHint}",
+                    ex);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new DmpException(
+                    $"Erreur réseau vers le DMP ({endpoint}) : {ex.Message}", ex, "NETWORK_ERROR");
             }
 
-            if (!isXmlish)
-                throw new DmpException(
-                    $"Le DMP a répondu en HTTP {(int)response.StatusCode} avec un Content-Type « {contentType} » " +
-                    $"(non-SOAP). Probable : mauvais path d'endpoint pour {soapAction}. " +
-                    $"Body[0..400]={Truncate(responseBody, 400)}",
-                    "NON_SOAP_RESPONSE");
+            using (response)
+            {
+                responseBody     = await response.Content.ReadAsStringAsync(ct);
+                var contentType  = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+                var isXmlish     = contentType.Contains("xml", StringComparison.OrdinalIgnoreCase)
+                                   || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)
+                                   || responseBody.TrimStart().StartsWith("<soap", StringComparison.OrdinalIgnoreCase)
+                                   || responseBody.TrimStart().StartsWith("<s:", StringComparison.OrdinalIgnoreCase);
 
-            var doc = new XmlDocument();
-            doc.LoadXml(responseBody);
-            CheckRegistryError(doc);
-            return doc;
+                if (!response.IsSuccessStatusCode)
+                {
+                    Logger.LogWarning("Réponse non-2xx du DMP ({Action}) — body complet :\n{Body}",
+                        soapAction, responseBody);
+
+                    // Un SOAP Fault est aussi du SOAP : on continue le parse pour CheckRegistryError
+                    // s'il a du XML, sinon on remonte tel quel.
+                    if (!isXmlish)
+                        throw new DmpException(
+                            $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). " +
+                            $"Content-Type={contentType}. Body={Truncate(responseBody, 500)}",
+                            response.StatusCode.ToString());
+                }
+
+                if (!isXmlish)
+                    throw new DmpException(
+                        $"Le DMP a répondu en HTTP {(int)response.StatusCode} avec un Content-Type « {contentType} » " +
+                        $"(non-SOAP). Probable : mauvais path d'endpoint pour {soapAction}. " +
+                        $"Body[0..400]={Truncate(responseBody, 400)}",
+                        "NON_SOAP_RESPONSE");
+
+                var doc = new XmlDocument();
+                doc.LoadXml(responseBody);
+                CheckRegistryError(doc);
+                return doc;
+            }
+        }
+        catch (DmpException ex)
+        {
+            // Décore l'exception avec le contexte SOAP pour que l'API renvoie
+            // les détails (request envoyé, réponse brute, endpoint) dans le body d'erreur.
+            ex.Endpoint     ??= endpoint;
+            ex.SoapAction   ??= soapAction;
+            ex.RequestBody  ??= envelope;
+            ex.ResponseBody ??= responseBody;
+            throw;
         }
     }
 

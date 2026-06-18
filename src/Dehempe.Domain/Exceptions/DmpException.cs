@@ -4,6 +4,18 @@ public class DmpException : Exception
 {
     public string? ErrorCode { get; }
 
+    /// <summary>URL DMP appelée (utile pour débogger un mauvais routage).</summary>
+    public string? Endpoint    { get; set; }
+
+    /// <summary>SOAPAction transmise dans le header HTTP.</summary>
+    public string? SoapAction  { get; set; }
+
+    /// <summary>Enveloppe SOAP envoyée au DMP (incluant le header VIHF signé).</summary>
+    public string? RequestBody { get; set; }
+
+    /// <summary>Réponse brute du DMP, si reçue (SOAP Fault, HTML d'erreur, etc.).</summary>
+    public string? ResponseBody { get; set; }
+
     public DmpException(string message, string? errorCode = null)
         : base(message)
     {
