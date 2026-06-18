@@ -25,6 +25,18 @@ public sealed class DmpOptions
     /// <summary>Nom du logiciel LPS publié dans les messages HL7 V3.</summary>
     public string LpsSoftwareName { get; set; } = "Déhempé";
 
+    /// <summary>Identifiant ANS du LPS (attribut <c>LPS_ID</c> du VIHF). Ex: "01.01.01.01".</summary>
+    public string LpsId { get; set; } = "01.01.01.01";
+
+    /// <summary>Version applicative du LPS (attribut <c>LPS_Version</c> du VIHF).</summary>
+    public string LpsVersion { get; set; } = "1.0";
+
+    /// <summary>Numéro d'homologation DMP du LPS (attribut <c>LPS_ID_HOMOLOGATION_DMP</c>).</summary>
+    public string LpsAuthorizationId { get; set; } = "NumAutorisation";
+
+    /// <summary>Secteur d'activité du PS au format ANS « SAxx^1.2.250.1.71.4.2.4 ». Ex: SA07 = libéral.</summary>
+    public string OrganizationSector { get; set; } = "SA07^1.2.250.1.71.4.2.4";
+
     /// <summary>Délai d'expiration des requêtes SOAP en secondes.</summary>
     public int TimeoutSeconds { get; set; } = 30;
 

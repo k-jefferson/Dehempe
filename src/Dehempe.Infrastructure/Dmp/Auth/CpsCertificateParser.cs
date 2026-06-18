@@ -11,6 +11,7 @@ public sealed class CpsPractitionerIdentity
     public string Identifier { get; init; } = string.Empty;  // RPPS (12 chiffres) ou ADELI (9)
     public string Name       { get; init; } = string.Empty;  // "DOC0073574 KIT"
     public string RoleCode   { get; init; } = string.Empty;  // "10" (Médecin) ou "MEDECIN" selon format
+    public string RoleLabel  { get; init; } = string.Empty;  // "Médecin" — displayName HL7
     public string OrgName    { get; init; } = string.Empty;  // nom de la structure (si présent dans le cert)
 }
 
@@ -84,8 +85,17 @@ internal static class CpsCertificateParser
             Identifier = ResolveIdentifier(cn, serial, ouRole),
             Name       = ResolveName(sn, gn, cn),
             RoleCode   = ResolveRoleCode(title, ouRole),
+            RoleLabel  = ResolveRoleLabel(title, ouRole),
             OrgName    = orgName
         };
+    }
+
+    private static string ResolveRoleLabel(string title, string ouRole)
+    {
+        if (!string.IsNullOrWhiteSpace(title)) return title;
+        if (!string.IsNullOrWhiteSpace(ouRole) && ouRole.All(c => char.IsLetter(c) || c == ' ' || c == '-'))
+            return ouRole;
+        return string.Empty;
     }
 
     // ─── Walk Subject DN as DER ──────────────────────────────────────────────
