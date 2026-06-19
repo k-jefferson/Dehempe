@@ -42,8 +42,11 @@ internal sealed class VihfService : IVihfService
 
     public async Task<string> BuildVihfAssertionAsync(VihfContext context, CancellationToken ct = default)
     {
-        var cert = await _cpsAuth.GetCertificateAsync(ct);
-        var key  = await _cpsAuth.GetSigningKeyAsync(ct);
+        // Le DMP exige que le VIHF soit signé avec le cert de SIGNATURE (CKA_ID 0x10) —
+        // PAS le cert d'authentification (CKA_ID 0x20). Sinon : « Le certificat ayant signé
+        // le VIHF est invalide : Not a valid signature certificate ». Voir CLAUDE.md.
+        var cert = await _cpsAuth.GetSignatureCertificateAsync(ct);
+        var key  = await _cpsAuth.GetSignatureKeyAsync(ct);
 
         var assertionId = $"_vihf-{Guid.NewGuid():N}";
         var issueInstant = DateTimeOffset.UtcNow;

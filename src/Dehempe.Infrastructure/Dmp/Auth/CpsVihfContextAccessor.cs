@@ -81,7 +81,10 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
     {
         if (_identity is not null) return _identity;
 
-        var cert = _cpsAuth.GetCertificateAsync().GetAwaiter().GetResult();
+        // L'identité praticien (RPPS, nom, prénom, profession) est encodée à l'identique
+        // dans le DN du cert d'auth et du cert de signature ; on lit l'auth (toujours
+        // chargé en premier et utilisé aussi par le wiring mTLS).
+        var cert = _cpsAuth.GetAuthenticationCertificateAsync().GetAwaiter().GetResult();
         _identity = CpsCertificateParser.Parse(cert);
 
         _logger.LogInformation(

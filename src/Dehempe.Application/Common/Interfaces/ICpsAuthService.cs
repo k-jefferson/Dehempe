@@ -4,21 +4,38 @@ using System.Security.Cryptography.X509Certificates;
 namespace Dehempe.Application.Common.Interfaces;
 
 /// <summary>
-/// Fournit l'accès au certificat CPS et à sa clé privée (réelle ou déléguée via token).
+/// Fournit l'accès aux DEUX paires (cert, clé) d'une carte CPS3 :
+/// la paire d'<b>authentification</b> (mTLS / ClientCertVerify) et la paire de
+/// <b>signature</b> (assertions VIHF, documents). Ces deux usages sont distincts —
+/// les utiliser à mauvais escient fait rejeter la requête par le DMP. Voir
+/// <c>CLAUDE.md</c> § « Paires de clés CPS3 ».
 /// </summary>
 public interface ICpsAuthService
 {
-    /// <summary>Retourne le certificat X.509 du praticien.</summary>
-    Task<X509Certificate2> GetCertificateAsync(CancellationToken ct = default);
+    /// <summary>
+    /// Certificat d'<b>authentification</b> du praticien (CPS3 : <c>CKA_ID</c> terminant par <c>0x20</c>).
+    /// Destiné au handshake mTLS uniquement. À NE PAS utiliser pour signer le VIHF.
+    /// </summary>
+    Task<X509Certificate2> GetAuthenticationCertificateAsync(CancellationToken ct = default);
 
     /// <summary>
-    /// Retourne une instance <see cref="RSA"/> utilisable pour signer.
-    /// Sur Windows / .p12 : la clé privée embarquée dans le cert.
-    /// Sur macOS avec CTK : un adaptateur qui délègue à <c>SecKeyCreateSignature</c>
-    /// sans exposer la clé privée (qui reste verrouillée dans le token).
+    /// Clé privée d'<b>authentification</b> du praticien, sous la forme d'une RSA déléguée
+    /// (la clé reste verrouillée dans le token PKCS#11 / CTK).
+    /// Destinée au handshake mTLS uniquement.
     /// </summary>
-    Task<RSA> GetSigningKeyAsync(CancellationToken ct = default);
+    Task<RSA> GetAuthenticationKeyAsync(CancellationToken ct = default);
 
-    /// <summary>Signe des données arbitraires avec la clé privée de la CPS (SHA-256 / PKCS#1).</summary>
-    Task<byte[]> SignAsync(byte[] data, CancellationToken ct = default);
+    /// <summary>
+    /// Certificat de <b>signature</b> du praticien (CPS3 : <c>CKA_ID</c> terminant par <c>0x10</c>).
+    /// À utiliser pour signer le VIHF et les documents — c'est ce que le DMP exige.
+    /// Le DN porte le même praticien que le cert d'auth mais les usages X.509 diffèrent
+    /// (<c>digitalSignature, nonRepudiation</c> vs <c>digitalSignature, keyEncipherment</c>).
+    /// </summary>
+    Task<X509Certificate2> GetSignatureCertificateAsync(CancellationToken ct = default);
+
+    /// <summary>
+    /// Clé privée de <b>signature</b>, sous la forme d'une RSA déléguée. À utiliser pour
+    /// <c>SignedXml.SigningKey</c> dans la construction du VIHF.
+    /// </summary>
+    Task<RSA> GetSignatureKeyAsync(CancellationToken ct = default);
 }

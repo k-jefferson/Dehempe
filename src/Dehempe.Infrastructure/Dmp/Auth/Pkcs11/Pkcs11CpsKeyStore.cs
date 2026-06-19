@@ -27,10 +27,15 @@ namespace Dehempe.Infrastructure.Dmp.Auth.Pkcs11;
 internal sealed class Pkcs11CpsKeyStore : IDisposable
 {
     /// <summary>
-    /// Suffixe de <c>CKA_ID</c> identifiant la clé d'AUTHENTIFICATION sur une carte CPS3
-    /// (convention IAS-ECC : <c>…1020</c> = AUT, <c>…1010</c> = SIG).
+    /// Suffixes de <c>CKA_ID</c> identifiant les paires (cert, clé) sur une carte CPS3.
+    /// Convention IAS-ECC : dernier octet = <c>0x20</c> pour la paire d'AUTHENTIFICATION
+    /// (mTLS, ClientCertVerify), <c>0x10</c> pour la paire de SIGNATURE
+    /// (assertions VIHF, documents). Les deux paires sont obligatoirement présentes sur
+    /// une CPS3 personnelle ; ne jamais signer le VIHF avec la clé d'auth — le DMP rejette
+    /// avec « Le certificat ayant signé le VIHF est invalide : Not a valid signature certificate ».
     /// </summary>
-    private const byte AuthCkaIdLastByte = 0x20;
+    private const byte AuthCkaIdLastByte      = 0x20;
+    private const byte SignatureCkaIdLastByte = 0x10;
 
     /// <summary>
     /// Emplacements connus de la librairie PKCS#11 du middleware CPS de l'ANS,
@@ -67,8 +72,11 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
     private ISlot?           _slot;
     private Net.Pkcs11Interop.HighLevelAPI.ISession? _session;
     private IObjectHandle?   _authPrivateKey;
+    private IObjectHandle?   _signaturePrivateKey;
     private X509Certificate2? _authCertificate;
+    private X509Certificate2? _signatureCertificate;
     private byte[]?           _authCkaId;       // CKA_ID du cert d'auth, utilisé pour apparier la clé privée après login
+    private byte[]?           _signatureCkaId;  // idem pour le cert de signature
     private readonly object   _initLock  = new();
     private readonly object   _loginLock = new();
     private bool              _libraryLoaded;
@@ -93,16 +101,24 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
     /// </summary>
     public bool IsEnabled => _resolvedLibraryPath is not null;
 
+    /// <summary>Certificat d'AUTHENTIFICATION (mTLS / ClientCertVerify). À NE PAS utiliser pour signer le VIHF.</summary>
     public X509Certificate2 GetAuthCertificate()
     {
         EnsureLibraryLoaded();
         return _authCertificate!;
     }
 
+    /// <summary>Certificat de SIGNATURE (assertions VIHF, documents). À utiliser pour toute signature applicative.</summary>
+    public X509Certificate2 GetSignatureCertificate()
+    {
+        EnsureLibraryLoaded();
+        return _signatureCertificate!;
+    }
+
     /// <summary>
-    /// Signe un DigestInfo SHA-256 (préfixe ASN.1 + 32 octets de hash) avec la clé privée
-    /// d'authentification du token. Déclenche le login PKCS#11 à la première signature ;
-    /// le PIN est fourni par <see cref="ICpsPinProvider"/> (UI / tunnel mTLS), pas par la config.
+    /// Signe un DigestInfo SHA-256 avec la clé privée d'AUTHENTIFICATION du token.
+    /// Réservé au handshake mTLS (ClientCertVerify). N'utilise PAS cette méthode pour
+    /// la signature applicative — le DMP rejette le VIHF signé avec la clé d'auth.
     /// </summary>
     public byte[] SignWithAuthKey(byte[] digestInfo)
     {
@@ -110,6 +126,18 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         EnsureLoggedIn();
         using var mech = _factories.MechanismFactory.Create(CKM.CKM_RSA_PKCS);
         return _session!.Sign(mech, _authPrivateKey!, digestInfo);
+    }
+
+    /// <summary>
+    /// Signe un DigestInfo SHA-256 avec la clé privée de SIGNATURE du token.
+    /// À utiliser pour signer le VIHF et les documents — c'est ce que le DMP attend.
+    /// </summary>
+    public byte[] SignWithSignatureKey(byte[] digestInfo)
+    {
+        EnsureLibraryLoaded();
+        EnsureLoggedIn();
+        using var mech = _factories.MechanismFactory.Create(CKM.CKM_RSA_PKCS);
+        return _session!.Sign(mech, _signaturePrivateKey!, digestInfo);
     }
 
     /// <summary>
@@ -188,11 +216,17 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
 
         _session = _slot.OpenSession(SessionType.ReadOnly);
 
-        var (cert, ckaId) = FindAuthCertificate();
-        _authCertificate  = cert;
-        _authCkaId        = ckaId;
+        var (authCert, authId) = FindCertificateByCkaIdSuffix(AuthCkaIdLastByte, "authentification");
+        _authCertificate       = authCert;
+        _authCkaId             = authId;
 
-        _logger.LogInformation("PKCS#11 prêt (session publique) — cert d'authentification : {Subject}", cert.Subject);
+        var (signCert, signId) = FindCertificateByCkaIdSuffix(SignatureCkaIdLastByte, "signature");
+        _signatureCertificate  = signCert;
+        _signatureCkaId        = signId;
+
+        _logger.LogInformation(
+            "PKCS#11 prêt (session publique) — cert d'auth : {Auth}, cert de signature : {Sign}",
+            authCert.Subject, signCert.Subject);
     }
 
     // ── Init — phase 2 : login (PIN requis, déclenché à la 1re signature) ───
@@ -248,8 +282,9 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         }
 
         // Les clés privées sont des objets CKA_PRIVATE=true, donc invisibles avant le login.
-        _authPrivateKey = FindAuthPrivateKey(_authCkaId!);
-        _logger.LogInformation("Login PKCS#11 effectué — signature avec la clé d'authentification disponible.");
+        _authPrivateKey      = FindPrivateKeyByCkaId(_authCkaId!,      "authentification");
+        _signaturePrivateKey = FindPrivateKeyByCkaId(_signatureCkaId!, "signature");
+        _logger.LogInformation("Login PKCS#11 effectué — clés d'authentification et de signature disponibles.");
     }
 
     /// <summary>
@@ -265,12 +300,11 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
     }
 
     /// <summary>
-    /// Phase publique : retrouve le certificat d'authentification de la CPS3.
-    /// Deux paires (cert, clé) coexistent sur la carte ; la paire d'auth est repérée
-    /// par un <c>CKA_ID</c> dont le dernier octet vaut <c>0x20</c> (la signature porte <c>0x10</c>).
-    /// On retourne aussi le <c>CKA_ID</c> pour pouvoir apparier la clé privée après login.
+    /// Phase publique : retrouve un certificat sur la CPS3 par le dernier octet de son <c>CKA_ID</c>
+    /// (<c>0x20</c> pour la paire d'auth, <c>0x10</c> pour la paire de signature). Renvoie le cert
+    /// ET son <c>CKA_ID</c> complet — nécessaire pour apparier la clé privée correspondante après login.
     /// </summary>
-    private (X509Certificate2 cert, byte[] ckaId) FindAuthCertificate()
+    private (X509Certificate2 cert, byte[] ckaId) FindCertificateByCkaIdSuffix(byte suffix, string usageLabel)
     {
         var certs = _session!.FindAllObjects(new List<IObjectAttribute>
         {
@@ -285,10 +319,10 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
             var attrs = _session.GetAttributeValue(c, new List<CKA> { CKA.CKA_ID, CKA.CKA_LABEL });
             var id    = attrs[0].GetValueAsByteArray();
             var label = Encoding.UTF8.GetString(attrs[1].GetValueAsByteArray());
-            if (id.Length > 0 && id[^1] == AuthCkaIdLastByte)
+            if (id.Length > 0 && id[^1] == suffix)
             {
-                _logger.LogDebug("Cert d'auth retenu : label='{Label}' CKA_ID={Hex}",
-                    label, Convert.ToHexString(id));
+                _logger.LogDebug("Cert de {Usage} retenu : label='{Label}' CKA_ID={Hex}",
+                    usageLabel, label, Convert.ToHexString(id));
                 var certAttrs = _session.GetAttributeValue(c, new List<CKA> { CKA.CKA_VALUE });
                 var cert      = new X509Certificate2(certAttrs[0].GetValueAsByteArray());
                 return (cert, id);
@@ -296,15 +330,15 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         }
 
         throw new DmpAuthException(
-            "Aucun certificat d'authentification trouvé sur la carte CPS (CKA_ID terminant par 0x20).");
+            $"Aucun certificat de {usageLabel} trouvé sur la carte CPS (CKA_ID terminant par 0x{suffix:X2}).");
     }
 
     /// <summary>
-    /// Phase post-login : retrouve la clé privée d'auth en appariant les <c>CKA_ID</c>.
+    /// Phase post-login : retrouve une clé privée en appariant les <c>CKA_ID</c>.
     /// Doit être appelée APRÈS <c>C_Login</c> car les objets <c>CKO_PRIVATE_KEY</c> portent
     /// <c>CKA_PRIVATE=true</c> et restent invisibles tant que le PIN n'a pas été présenté.
     /// </summary>
-    private IObjectHandle FindAuthPrivateKey(byte[] authCkaId)
+    private IObjectHandle FindPrivateKeyByCkaId(byte[] ckaId, string usageLabel)
     {
         var privKeys = _session!.FindAllObjects(new List<IObjectAttribute>
         {
@@ -318,12 +352,12 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         foreach (var k in privKeys)
         {
             var attrs = _session.GetAttributeValue(k, new List<CKA> { CKA.CKA_ID });
-            if (attrs[0].GetValueAsByteArray().AsSpan().SequenceEqual(authCkaId))
+            if (attrs[0].GetValueAsByteArray().AsSpan().SequenceEqual(ckaId))
                 return k;
         }
 
         throw new DmpAuthException(
-            $"Clé privée d'authentification introuvable (CKA_ID={Convert.ToHexString(authCkaId)}).");
+            $"Clé privée de {usageLabel} introuvable (CKA_ID={Convert.ToHexString(ckaId)}).");
     }
 
     // ── Auto-détection du chemin de la librairie ─────────────────────────────
@@ -366,6 +400,7 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         _session?.Dispose();
         _library?.Dispose();
         _authCertificate?.Dispose();
+        _signatureCertificate?.Dispose();
         _logger.LogDebug("Session PKCS#11 fermée.");
     }
 }

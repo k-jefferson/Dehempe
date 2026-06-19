@@ -83,6 +83,49 @@ Two parsers coexist for CPS certs and they are **not interchangeable**:
 
 The CTK/Swift provider (`MacOsCtkTokenCertificateProvider`) is now a **transitional fallback only**. The primary path for VIHF signing AND speciality extraction is PKCS#11 (see next section). Do not invest in CTK unless PKCS#11 stops working.
 
+## Paires de clés CPS3 — auth vs signature (NE PAS confondre)
+
+Une carte CPS3 personnelle porte **deux paires (cert, clé)** distinctes et leur usage
+est strict :
+
+| Usage | `CKA_ID` (dernier octet) | À utiliser pour | À NE PAS utiliser pour |
+|---|---|---|---|
+| **Authentification** | `0x20` | Handshake mTLS / `ClientCertVerify` | Signature applicative |
+| **Signature** | `0x10` | Assertion VIHF, signature de documents | Handshake mTLS |
+
+Les deux certs portent le **même DN** (même praticien), mais des `KeyUsage` X.509 différents
+(`digitalSignature, keyEncipherment` pour auth ; `digitalSignature, nonRepudiation` pour signature).
+Le DMP vérifie cette distinction côté serveur — utiliser le cert d'auth pour signer le VIHF
+fait remonter le SOAP Fault :
+
+```
+soap:Sender / soap:DMPInvalidCertificate
+Le certificat ayant signé le VIHF est invalide : Not a valid signature certificate
+```
+
+**Implémentation** :
+- `Pkcs11CpsKeyStore` expose `GetAuthCertificate()` / `SignWithAuthKey(...)` ET
+  `GetSignatureCertificate()` / `SignWithSignatureKey(...)`. Les deux paires sont
+  recherchées en phase publique par `FindCertificateByCkaIdSuffix(0x20|0x10, ...)`,
+  les clés privées en phase post-login par `FindPrivateKeyByCkaId(...)`.
+- `ICpsAuthService` a 4 méthodes : `GetAuthenticationCertificateAsync` / `GetAuthenticationKeyAsync`
+  (mTLS) et `GetSignatureCertificateAsync` / `GetSignatureKeyAsync` (VIHF, docs).
+- `VihfService.BuildVihfAssertionAsync` appelle **uniquement** les méthodes signature.
+- `InfrastructureServiceExtensions.BuildClientHandler` attache **uniquement** le cert d'auth
+  au `HttpClientHandler.ClientCertificates` pour le mTLS direct (Windows / Linux non-tunnel).
+- `Pkcs11RsaKey` prend un délégué `Func<byte[], byte[]>` en constructeur (pas un appel
+  hardcodé) pour pouvoir wrapper l'une ou l'autre clé.
+
+**Quand modifier ces fichiers** : ne **jamais** passer le cert/clé d'auth à `VihfService`
+ni au signataire de documents. Ne **jamais** passer le cert/clé de signature au handshake
+mTLS. Si tu ajoutes un nouveau service de signature (XAdES, CMS, etc.), il doit prendre
+ses dépendances via `GetSignature*Async` — pas via `GetAuthentication*Async`.
+
+**Fallback sans PKCS#11** (`.p12`, magasin système, CTK macOS legacy) : on ne dispose que
+d'UNE paire, donc `CpsAuthService` retourne la même paire pour les deux usages avec un
+warning explicite. Suffisant en dev avec un `.p12` ANS combiné ; **insuffisant en prod** sur
+carte CPS3 réelle — PKCS#11 est alors obligatoire.
+
 ## CPS via PKCS#11 — pipeline complet
 
 C'est le chemin principal pour tout ce qui nécessite la **clé privée** ou des **données privées** de la carte CPS (signature VIHF, mTLS, etc.). Implémenté dans `Dehempe.Infrastructure/Dmp/Auth/Pkcs11/`.
@@ -101,8 +144,8 @@ C'est le chemin principal pour tout ce qui nécessite la **clé privée** ou des
 
 `Pkcs11CpsKeyStore` est **singleton** dans la DI. Sa session reste ouverte pour toute la vie du process. Init découpée pour ne demander le PIN qu'au dernier moment :
 
-1. **Phase publique** (`EnsureLibraryLoaded`, sans PIN) — charge la lib, ouvre la session, trouve le **certificat d'authentification** par `CKA_ID` (dernier octet = `0x20` ; la clé de signature porte `0x10`), mémorise le `CKA_ID` pour appariement ultérieur. Lit aussi les objets `CKO_DATA` publics (`CKA_PRIVATE=false`), dont `CPS_INFO_PS`.
-2. **Phase login** (`EnsureLoggedIn`, PIN requis) — déclenchée par `SignWithAuthKey` à la première signature uniquement. Recherche ensuite la **clé privée** correspondante. Les `CKO_PRIVATE_KEY` portent `CKA_PRIVATE=true` et sont **invisibles tant qu'on n'est pas logué** — d'où la séparation.
+1. **Phase publique** (`EnsureLibraryLoaded`, sans PIN) — charge la lib, ouvre la session, trouve les **DEUX certificats** (auth `CKA_ID` se terminant par `0x20` et signature par `0x10` — voir section précédente), mémorise leurs `CKA_ID` pour appariement ultérieur. Lit aussi les objets `CKO_DATA` publics (`CKA_PRIVATE=false`), dont `CPS_INFO_PS`.
+2. **Phase login** (`EnsureLoggedIn`, PIN requis) — déclenchée par `SignWithAuthKey` / `SignWithSignatureKey` à la première signature uniquement. Recherche ensuite les **DEUX clés privées** correspondantes. Les `CKO_PRIVATE_KEY` portent `CKA_PRIVATE=true` et sont **invisibles tant qu'on n'est pas logué** — d'où la séparation.
 
 **Ne JAMAIS** rechercher `CKO_PRIVATE_KEY` dans la phase publique : l'appel renvoie 0 objet sans erreur, ce qui produit un message d'erreur trompeur. Le test fait passer le build, pas le runtime.
 

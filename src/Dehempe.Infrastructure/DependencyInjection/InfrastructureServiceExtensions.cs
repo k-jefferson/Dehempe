@@ -53,7 +53,9 @@ public static class InfrastructureServiceExtensions
             try
             {
                 var cpsAuth = sp.GetRequiredService<ICpsAuthService>();
-                var cert    = cpsAuth.GetCertificateAsync().GetAwaiter().GetResult();
+                // mTLS direct : c'est le cert d'AUTHENTIFICATION qu'on attache au handshake,
+                // PAS le cert de signature. La paire signature est réservée au VIHF / docs.
+                var cert    = cpsAuth.GetAuthenticationCertificateAsync().GetAwaiter().GetResult();
                 if (cert.HasPrivateKey)
                     handler.ClientCertificates.Add(cert);
             }

@@ -22,13 +22,21 @@ internal sealed class Pkcs11RsaKey : RSA
     };
 
     private readonly RSA _publicView;
-    private readonly Pkcs11CpsKeyStore _store;
+    private readonly Func<byte[], byte[]> _signDigestInfo;
+    private readonly string _label;
 
-    public Pkcs11RsaKey(RSA publicView, Pkcs11CpsKeyStore store)
+    /// <summary>
+    /// Construit une RSA délégant la signature à un token PKCS#11.
+    /// </summary>
+    /// <param name="publicView">RSA publique correspondante (pour <c>VerifyHash</c> et <c>ExportParameters(false)</c>).</param>
+    /// <param name="signDigestInfo">Fonction qui signe un DigestInfo PKCS#1 v1.5 SHA-256 via le token.</param>
+    /// <param name="label">Étiquette pour les messages d'erreur (« auth » ou « signature »).</param>
+    public Pkcs11RsaKey(RSA publicView, Func<byte[], byte[]> signDigestInfo, string label)
     {
-        _publicView  = publicView;
-        _store       = store;
-        KeySizeValue = publicView.KeySize;
+        _publicView     = publicView;
+        _signDigestInfo = signDigestInfo;
+        _label          = label;
+        KeySizeValue    = publicView.KeySize;
     }
 
     public override KeySizes[] LegalKeySizes => _publicView.LegalKeySizes;
@@ -37,9 +45,9 @@ internal sealed class Pkcs11RsaKey : RSA
     {
         if (hashAlgorithm != HashAlgorithmName.SHA256)
             throw new DmpAuthException(
-                $"PKCS#11 CPS ne supporte ici que SHA-256 ; reçu {hashAlgorithm.Name}.");
+                $"PKCS#11 CPS ({_label}) ne supporte ici que SHA-256 ; reçu {hashAlgorithm.Name}.");
         if (padding != RSASignaturePadding.Pkcs1)
-            throw new DmpAuthException("PKCS#11 CPS ne supporte que le padding PKCS#1 v1.5.");
+            throw new DmpAuthException($"PKCS#11 CPS ({_label}) ne supporte que le padding PKCS#1 v1.5.");
         if (hash.Length != 32)
             throw new ArgumentException("Hash SHA-256 attendu (32 octets).", nameof(hash));
 
@@ -48,7 +56,7 @@ internal sealed class Pkcs11RsaKey : RSA
         Buffer.BlockCopy(Sha256DigestInfoPrefix, 0, digestInfo, 0, Sha256DigestInfoPrefix.Length);
         Buffer.BlockCopy(hash, 0, digestInfo, Sha256DigestInfoPrefix.Length, hash.Length);
 
-        return _store.SignWithAuthKey(digestInfo);
+        return _signDigestInfo(digestInfo);
     }
 
     public override bool VerifyHash(byte[] hash, byte[] signature, HashAlgorithmName hashAlgorithm, RSASignaturePadding padding)
