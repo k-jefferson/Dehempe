@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Dehempe.Application.Common.Interfaces;
 using Dehempe.Application.Dmp.DTOs;
 using Dehempe.Application.Dmp.Queries;
@@ -31,11 +32,12 @@ public sealed class PatientsController : ControllerBase
     /// <response code="400">INS invalide.</response>
     /// <response code="502">Erreur retournée par le DMP.</response>
     [HttpGet("dmp")]
+    [Tags("TD0.2 - test d'existence")]
     [ProducesResponseType(typeof(DmpExistenceDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status502BadGateway)]
     public async Task<IActionResult> CheckDmpExists(
-        string ins,
+        [DefaultValue("277076322082910")] string ins,
         [FromQuery] string insOid = InsOidValues.Nir,
         CancellationToken ct = default)
     {
