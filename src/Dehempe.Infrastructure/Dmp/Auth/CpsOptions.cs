@@ -51,4 +51,15 @@ public sealed class CpsOptions
     /// </para>
     /// </summary>
     public string? Pkcs11Pin { get; set; }
+
+    /// <summary>
+    /// Si <c>true</c>, l'API affiche un <b>dialog natif</b> sur le poste (osascript sur macOS,
+    /// WinForms sur Windows) pour demander le PIN quand le header <c>X-Cps-Pin</c> est absent.
+    /// Pratique pour tester via Swagger sur le poste du praticien, sans frontend.
+    /// <para>
+    /// En production avec un frontend, laisser <c>false</c> : le PIN vient du header
+    /// <c>X-Cps-Pin</c> et l'API répond <c>401 CpsPinRequired</c> sinon (le frontend prompte).
+    /// </para>
+    /// </summary>
+    public bool InteractivePinPrompt { get; set; }
 }

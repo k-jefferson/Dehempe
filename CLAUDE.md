@@ -217,6 +217,16 @@ Côté .NET, `Pkcs11CpsKeyStore` lit le header via `IHttpContextAccessor`. Il ac
 
 `DmpPinRequiredException` est mappée par `ExceptionHandlingMiddleware` en `401`. Toute nouvelle exception d'auth doit s'aligner sur ce contrat pour rester compatible avec le frontend.
 
+**Ordre de résolution du PIN** dans `Pkcs11CpsKeyStore.Login()` : (1) header `X-Cps-Pin`, (2) `Cps:Pkcs11Pin` (fallback dev), (3) **dialog natif** si `Cps:InteractivePinPrompt = true`, sinon (4) `DmpPinRequiredException` → 401.
+
+### Dialog PIN natif (test local / Swagger)
+
+Pour tester l'API depuis Swagger sur le poste du praticien (pas de frontend pour fournir le header), activer `Cps:InteractivePinPrompt = true`. Quand le header est absent, `NativePinPrompt.TryPrompt` affiche un dialog OS à saisie masquée — **osascript** (`display dialog … with hidden answer`) sur macOS, **WinForms via PowerShell** sur Windows — et le PIN saisi est utilisé pour le login. Annulation / timeout (3 min) / plateforme non supportée → on retombe sur le `401 CpsPinRequired`.
+
+- C'est un confort de **dev** : laisser `false` en production (le frontend gère la saisie via le header, contrat 401 inchangé). Activé dans `appsettings.Development.json`.
+- Swagger expose en plus un champ d'en-tête optionnel `X-Cps-Pin` sur chaque opération (`CpsPinHeaderOperationFilter`) : on peut saisir le PIN directement dans Swagger au lieu d'attendre le dialog.
+- Le dialog s'affiche bien depuis le process Kestrel (session GUI de l'utilisateur). Il **bloque** le thread de la requête le temps de la saisie — acceptable pour une API locale mono-utilisateur.
+
 ## Tunnel mTLS local (macOS dev) — démarrage automatique
 
 Sur macOS dev, .NET ne peut pas attacher un cert client PKCS#11 au handshake TLS

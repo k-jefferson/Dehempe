@@ -353,9 +353,16 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
             }
             else
             {
-                // Le middleware CPS ne sait pas afficher de dialog — le PIN doit être fourni
-                // par le frontend via le header X-Cps-Pin. Fallback dev sur Cps:Pkcs11Pin.
+                // Le middleware CPS ne sait pas afficher de dialog PKCS#11 natif — le PIN vient
+                // du frontend via le header X-Cps-Pin (1), ou d'un fallback dev en config (2),
+                // ou, si activé, d'un dialog natif sur le poste (3, test local / Swagger).
                 var pin = ResolvePinFromRequest() ?? _options.Pkcs11Pin;
+
+                if (string.IsNullOrWhiteSpace(pin) && _options.InteractivePinPrompt)
+                {
+                    _logger.LogInformation("PIN absent du header — ouverture du dialog PIN natif (InteractivePinPrompt).");
+                    pin = NativePinPrompt.TryPrompt(_logger);
+                }
 
                 if (string.IsNullOrWhiteSpace(pin))
                 {

@@ -1,4 +1,5 @@
 using Dehempe.API.Middleware;
+using Dehempe.API.Swagger;
 using Dehempe.Application;
 using Dehempe.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -39,6 +40,7 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+    c.OperationFilter<CpsPinHeaderOperationFilter>();
     var xmlPath = Path.Combine(AppContext.BaseDirectory,
         $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml");
     if (File.Exists(xmlPath)) c.IncludeXmlComments(xmlPath);
