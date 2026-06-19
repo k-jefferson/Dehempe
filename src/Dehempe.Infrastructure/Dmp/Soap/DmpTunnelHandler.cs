@@ -14,16 +14,22 @@ namespace Dehempe.Infrastructure.Dmp.Soap;
 internal sealed class DmpTunnelHandler : DelegatingHandler
 {
     private readonly Uri _tunnel;
+    private readonly StunnelManager _stunnel;
     private readonly ILogger<DmpTunnelHandler> _logger;
 
-    public DmpTunnelHandler(string tunnelEndpoint, ILogger<DmpTunnelHandler> logger)
+    public DmpTunnelHandler(string tunnelEndpoint, StunnelManager stunnel, ILogger<DmpTunnelHandler> logger)
     {
         _tunnel  = new Uri(tunnelEndpoint);
+        _stunnel = stunnel;
         _logger  = logger;
     }
 
-    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
+        // S'assure que stunnel écoute avant d'envoyer la requête — démarre le tunnel
+        // automatiquement à la première utilisation si nécessaire (singleton, idempotent).
+        await _stunnel.EnsureRunningAsync(ct);
+
         if (request.RequestUri is { } original && original.Host != _tunnel.Host)
         {
             var rewritten = new UriBuilder(original)
@@ -42,6 +48,6 @@ internal sealed class DmpTunnelHandler : DelegatingHandler
                 original, rewritten, original.Authority);
         }
 
-        return base.SendAsync(request, ct);
+        return await base.SendAsync(request, ct);
     }
 }

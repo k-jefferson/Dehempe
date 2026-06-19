@@ -160,6 +160,35 @@ Côté .NET, `Pkcs11CpsKeyStore` lit le header via `IHttpContextAccessor`. Il ac
 
 `DmpPinRequiredException` est mappée par `ExceptionHandlingMiddleware` en `401`. Toute nouvelle exception d'auth doit s'aligner sur ce contrat pour rester compatible avec le frontend.
 
+## Tunnel mTLS local (macOS dev) — démarrage automatique
+
+Sur macOS dev, .NET ne peut pas attacher un cert client PKCS#11 au handshake TLS
+(limitation `AppleCertificatePal.CopyWithPrivateKey`). On contourne avec `stunnel`
+qui termine le mTLS côté carte et expose un endpoint HTTP loopback (cf.
+`docs/stunnel/README.md` pour le détail). Quand `Dmp:TunnelEndpoint` est renseigné :
+
+1. `StunnelManager` (singleton DI, `Dmp/Soap/StunnelManager.cs`) est instancié.
+2. À la première requête XDS sortante, `DmpTunnelHandler.SendAsync` appelle
+   `EnsureRunningAsync` AVANT de réécrire l'URL :
+   - Test TCP rapide (`TcpClient.ConnectAsync` 500 ms) sur `Dmp:TunnelEndpoint`.
+   - Si le port est fermé → exécute `docs/stunnel/start-tunnel.sh` via
+     `/bin/bash` en sous-process, attend que le port LISTEN apparaisse (max 15 s).
+3. Les requêtes suivantes court-circuitent le check (`_verified = true`).
+
+**L'utilisateur n'a plus à lancer stunnel manuellement** — l'API s'en occupe.
+Si stunnel meurt en cours de route, le manager ne ré-évalue pas automatiquement
+(évite un cycle infini lance/crash si la conf est cassée) ; un redémarrage de
+l'API ou un appel à `StunnelManager.Invalidate()` est nécessaire pour rouvrir
+le tunnel.
+
+Auto-détection du script : `StunnelManager` remonte depuis `AppContext.BaseDirectory`
+en cherchant `docs/stunnel/start-tunnel.sh`. Override via `Dmp:StunnelStartScript`
+si le binaire .NET est exécuté hors du repo source.
+
+**Quand modifier `DmpTunnelHandler` ou `StunnelManager`** : ne pas retirer l'appel
+`EnsureRunningAsync` du handler — sinon les utilisateurs auront `Connection refused`
+au premier appel après un reboot.
+
 ## DMP SOAP conventions
 
 Every outbound XDS request is built by `XdsSoapClientBase`:

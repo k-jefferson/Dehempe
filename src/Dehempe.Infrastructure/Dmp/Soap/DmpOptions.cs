@@ -47,4 +47,11 @@ public sealed class DmpOptions
     /// Format : <c>http://127.0.0.1:5443</c>. Vide = pas de tunnel (mTLS direct natif).
     /// </summary>
     public string? TunnelEndpoint { get; set; }
+
+    /// <summary>
+    /// Override optionnel du chemin du script de démarrage stunnel. Vide = auto-détection
+    /// depuis <c>AppContext.BaseDirectory</c> en remontant jusqu'à <c>docs/stunnel/start-tunnel.sh</c>.
+    /// Renseigner uniquement si le binaire .NET est exécuté hors du repo source.
+    /// </summary>
+    public string? StunnelStartScript { get; set; }
 }

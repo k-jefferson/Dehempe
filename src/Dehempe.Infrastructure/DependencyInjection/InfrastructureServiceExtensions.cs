@@ -34,8 +34,12 @@ public static class InfrastructureServiceExtensions
         var tunnelEndpoint = configuration.GetSection(DmpOptions.SectionName)[nameof(DmpOptions.TunnelEndpoint)];
         var useTunnel = !string.IsNullOrWhiteSpace(tunnelEndpoint);
 
+        if (useTunnel)
+            services.AddSingleton<StunnelManager>();
+
         services.AddTransient<DmpTunnelHandler>(sp => new DmpTunnelHandler(
             tunnelEndpoint!,
+            sp.GetRequiredService<StunnelManager>(),
             sp.GetRequiredService<ILoggerFactory>().CreateLogger<DmpTunnelHandler>()));
 
         // Quand le tunnel est actif, stunnel s'occupe du mTLS : .NET ne doit PAS
