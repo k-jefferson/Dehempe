@@ -43,12 +43,19 @@ internal static class NativePinPrompt
 
     private static string? RunMacOs(ILogger logger)
     {
-        // Deux -e : on récupère uniquement le texte saisi (pas l'enregistrement complet).
-        // `with hidden answer` masque la saisie. Annulation → osascript sort en code ≠ 0.
+        // Le dialog est affiché PAR « System Events » et celui-ci est `activate` → fenêtre au
+        // PREMIER PLAN (sinon, lancé depuis un process Kestrel sans app GUI, le dialog passe
+        // derrière). `with hidden answer` masque la saisie ; annulation → osascript sort ≠ 0.
+        // (Peut déclencher un consentement TCC « osascript veut contrôler System Events » au
+        // tout premier appel — à approuver une fois.)
         const string script =
-            "set r to display dialog \"Saisissez le code porteur de votre carte CPS\" " +
+            "tell application \"System Events\"\n" +
+            "\tactivate\n" +
+            "\tset r to display dialog \"Saisissez le code porteur de votre carte CPS\" " +
             "with title \"Déhempé — Carte CPS\" default answer \"\" with hidden answer " +
-            "buttons {\"Annuler\", \"OK\"} default button \"OK\" cancel button \"Annuler\"";
+            "buttons {\"Annuler\", \"OK\"} default button \"OK\" cancel button \"Annuler\"\n" +
+            "\treturn text returned of r\n" +
+            "end tell";
 
         var psi = new ProcessStartInfo("/usr/bin/osascript")
         {
@@ -59,8 +66,6 @@ internal static class NativePinPrompt
         };
         psi.ArgumentList.Add("-e");
         psi.ArgumentList.Add(script);
-        psi.ArgumentList.Add("-e");
-        psi.ArgumentList.Add("text returned of r");
 
         return RunPrompt(psi, logger);
     }
