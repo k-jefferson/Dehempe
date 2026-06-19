@@ -164,7 +164,21 @@ Convention CPS3 confirmée par le code exemple ANS (`PsSignatureProvider.getCode
 
 Le code est injecté dans `VihfContext.PractitionerSpecialityCode` par `CpsVihfContextAccessor` (cache local — lecture une seule fois par durée de vie de la requête HTTP) et utilisé dans le VIHF (voir section suivante).
 
-Le **secteur d'activité** vit dans `CPS_ACTIVITY_01_PS` à `CPS_ACTIVITY_15_PS` (4 derniers caractères aussi) — non implémenté à ce jour, le projet utilise `SA07` (libéral) en config. Ces objets sont `CKA_PRIVATE=true` et nécessitent donc le login.
+### Structure d'exercice & secteur — objets `CPS_ACTIVITY_xx_PS` (LUS SUR LA CARTE, PAS EN CONFIG)
+
+**Règle DMP critique** : en authentification **directe** par CPS, le champ `Identifiant_Structure` du VIHF doit être le `Struct_IdNat` **lu sur la carte** (SEL-MP-037 §VIHF, p.156 : « Pour les CPS hors remplaçant : Struct_IdNat de la CPS »). Le mettre en config produit l'erreur DMP **« Impossible d'effectuer un test d'existence : Structure introuvable ou Inactive »** (ou « PS et Structure non liés »). Le DMP vérifie en plus la **cohérence** structure ↔ secteur ↔ carte : les deux doivent venir du **même exercice**.
+
+Un praticien a une ou plusieurs **situations d'exercice**, une par objet `CPS_ACTIVITY_01_PS` … `CPS_ACTIVITY_15_PS`. Ces objets sont **`CKA_PRIVATE=true`** → login requis (donc PIN). Format BER-TLV, conteneur `0xEE` englobant :
+
+```
+0x84 (len)  raison sociale     ex: "CABINET M DOC0073574"
+0x85 (len)  Struct_IdNat       ex: "499700735741008"   ← Identifiant_Structure du VIHF
+0x86 (len=4) secteur d'activité ex: "SA07"             ← (le getSecteurActivite ANS prend ces 4 derniers chars)
+```
+
+`Pkcs11CpsKeyStore.ReadActivities()` lit et décode tous les exercices (cache process). `CpsVihfContextAccessor.ResolveStructure()` **sélectionne l'exercice dont le secteur correspond** à `Dmp:OrganizationSector` (sélecteur, ex: `SA07` = libéral), puis dérive `Identifiant_Structure` ET `Secteur_Activite` de CE MÊME exercice → cohérents par construction. Exemple réel de la carte de test : exercice 1 = `HOPITAL GENERIQUE` / `10B0307377` / `SA01`, exercice 2 = `CABINET M…` / `499700735741008` / `SA07`.
+
+**Ne JAMAIS** remettre `Identifiant_Structure` en dur dans la config pour le chemin PKCS#11. `Cps:OrganizationId` n'est plus qu'un **fallback** pour le mode dégradé sans PKCS#11 (.p12). `Dmp:OrganizationSector` n'est plus la valeur émise telle quelle mais le **sélecteur de secteur** (on en extrait le code `SAxx` avant le `^`).
 
 ### Format du `<Role>` dans le VIHF (très strict)
 
@@ -269,11 +283,11 @@ When asked to implement a new DMP transaction (TD-x.y), the canonical workflow i
 Layered via the standard ASP.NET Core mechanism. **Tous les `src/Dehempe.API/appsettings*.json` sont gitignored** car ils contiennent des données sensibles (OID de structure / FINESS, endpoints DMP par environnement, éventuellement un PIN de dev). Le `.gitignore` ne laisse passer qu'un futur `appsettings.template.json` (sans secret). À l'installation, chaque poste doit reconstituer ses fichiers `appsettings.json`, `appsettings.Development.json` et éventuellement `appsettings.Local.json` localement — soit à la main, soit via env vars (préfixe ASP.NET Core standard : `Dmp__RegistryEndpoint`, `Cps__OrganizationId`, etc.).
 
 Key sections:
-- `Cps` — `CertificatePath` + `CertificatePassword` (.p12) OR `CertificateThumbprint` (store lookup). `OrganizationId` is the OID of the structure, format `1.2.250.1.71.4.2.2/<FINESS>`. **`Pkcs11LibraryPath` and `Pkcs11Pin` must stay empty in normal usage** — the library path is auto-detected (see PKCS#11 section), and the PIN comes from the frontend via the `X-Cps-Pin` header at runtime. Renseigner `Pkcs11Pin` est un fallback de dev ; en production cela bypasse l'UI de saisie et ne doit jamais être committé.
-- `Dmp` — endpoint URLs, `RepositoryUniqueId`, `HomeCommunityId`.
+- `Cps` — `CertificatePath` + `CertificatePassword` (.p12) OR `CertificateThumbprint` (store lookup). **`OrganizationId`, `Pkcs11LibraryPath` and `Pkcs11Pin` doivent rester vides en usage normal** : avec PKCS#11 la librairie est auto-détectée, le PIN vient du frontend via `X-Cps-Pin`, et la structure (`Identifiant_Structure`) est lue sur la carte (objets `CPS_ACTIVITY_xx_PS`) — pas en config. `OrganizationId` n'est qu'un fallback pour le mode dégradé sans PKCS#11 ; `Pkcs11Pin` un fallback dev (ne jamais committer).
+- `Dmp` — endpoint URLs, `RepositoryUniqueId`, `HomeCommunityId`. `OrganizationSector` (ex: `SA07^1.2.250.1.71.4.2.4`) sert de **sélecteur d'exercice** avec PKCS#11 (voir § Structure d'exercice).
 - `ApiKey` — leave empty to disable API key auth in dev.
 
-`appsettings.Development.json` ships with `OrganizationId` set to `<placeholder>`. `/api/cps/card` still works (it doesn't build a VIHF), but **any DMP route** (`/api/patients/{ins}/documents`, etc.) will fail VIHF generation until a real value is set via `appsettings.Local.json` or env vars.
+Avec PKCS#11 (cas normal), aucune valeur de structure n'est requise en config : `/api/cps/card` comme les routes DMP fonctionnent dès que la carte est insérée et le PIN fourni. Le fallback `Cps:OrganizationId` n'entre en jeu que sans PKCS#11 (.p12 dev).
 
 ## NuGet caveat
 

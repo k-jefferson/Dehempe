@@ -24,6 +24,9 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
     /// </summary>
     private const string DmpInsOid = "1.2.250.1.213.1.4.10";
 
+    /// <summary>OID de la nomenclature « secteur d'activité » (TRE_R03). Suffixe du champ Secteur_Activite.</summary>
+    private const string SectorOid = "1.2.250.1.71.4.2.4";
+
     private readonly ICpsAuthService _cpsAuth;
     private readonly Pkcs11CpsKeyStore _pkcs11;
     private readonly CpsOptions _cpsOptions;
@@ -33,6 +36,7 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
 
     private CpsPractitionerIdentity? _identity;
     private string? _cachedSpecialityCode;
+    private (string structureId, string sector)? _cachedStructure;
 
     public CpsVihfContextAccessor(
         ICpsAuthService cpsAuth,
@@ -55,7 +59,8 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
         var identity = GetIdentity();
         var ins      = ResolvePatientIns(patientIns);
 
-        var specialityCode = GetSpecialityCode();
+        var specialityCode          = GetSpecialityCode();
+        var (structureId, sector)   = ResolveStructure();
 
         return new VihfContext(
             PractitionerRole:             identity.RoleCode,
@@ -64,9 +69,9 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
             PractitionerSpecialityLabel:  specialityCode,
             PractitionerIdentifier:       identity.Identifier,
             PractitionerName:       identity.Name,
-            OrganizationId:         _cpsOptions.OrganizationId,
+            OrganizationId:         structureId,
             OrganizationName:       identity.OrgName,
-            OrganizationSector:     _dmpOptions.OrganizationSector,
+            OrganizationSector:     sector,
             PatientIns:             ins.Value,
             PatientInsOid:          DmpInsOid,
             LpsId:                  _dmpOptions.LpsId,
@@ -99,6 +104,56 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
         if (_cachedSpecialityCode is not null) return _cachedSpecialityCode;
         _cachedSpecialityCode = _pkcs11.ReadSpecialityCode();
         return _cachedSpecialityCode;
+    }
+
+    /// <summary>
+    /// Détermine le couple (Identifiant_Structure, Secteur_Activite) du VIHF.
+    ///
+    /// En authentification directe par CPS, ces deux valeurs DOIVENT être lues sur la carte
+    /// et provenir du MÊME exercice, sinon le DMP rejette (« Structure introuvable ou Inactive »
+    /// / « PS et Structure non liés »). On lit les <c>CPS_ACTIVITY_xx_PS</c>, on sélectionne
+    /// l'exercice dont le secteur correspond à <see cref="DmpOptions.OrganizationSector"/>
+    /// (sélecteur, ex: SA07 = libéral), et on dérive structure + secteur de cet exercice.
+    ///
+    /// Sans PKCS#11 (.p12 dev), on retombe sur les valeurs de config.
+    /// </summary>
+    private (string structureId, string sector) ResolveStructure()
+    {
+        if (_cachedStructure is not null) return _cachedStructure.Value;
+
+        var activities = _pkcs11.ReadActivities();
+        if (activities.Count > 0)
+        {
+            var preferred = ExtractSectorCode(_dmpOptions.OrganizationSector);
+            var chosen = activities.FirstOrDefault(a =>
+                             string.Equals(a.SectorCode, preferred, StringComparison.OrdinalIgnoreCase))
+                         ?? activities[0];
+
+            if (!string.Equals(chosen.SectorCode, preferred, StringComparison.OrdinalIgnoreCase))
+                _logger.LogWarning(
+                    "Aucun exercice CPS pour le secteur {Preferred} — fallback sur l'exercice {Index} (secteur {Sector}, structure {Struct}).",
+                    preferred, chosen.Index, chosen.SectorCode, chosen.StructureId);
+
+            var sector = $"{chosen.SectorCode}^{SectorOid}";
+            _logger.LogInformation(
+                "Structure VIHF lue sur la carte : {Struct} '{Name}' (secteur {Sector})",
+                chosen.StructureId, chosen.StructureName, sector);
+            _cachedStructure = (chosen.StructureId, sector);
+            return _cachedStructure.Value;
+        }
+
+        _logger.LogWarning(
+            "Aucun exercice CPS lisible (PKCS#11 indisponible ?) — fallback sur la config Cps:OrganizationId / Dmp:OrganizationSector.");
+        _cachedStructure = (_cpsOptions.OrganizationId, _dmpOptions.OrganizationSector);
+        return _cachedStructure.Value;
+    }
+
+    /// <summary>Extrait le code secteur (« SA07 ») d'une valeur « SA07^1.2.250.1.71.4.2.4 » ou « SA07 ».</summary>
+    private static string ExtractSectorCode(string configured)
+    {
+        if (string.IsNullOrWhiteSpace(configured)) return "SA07";
+        var caret = configured.IndexOf('^');
+        return (caret >= 0 ? configured[..caret] : configured).Trim();
     }
 
     private Ins ResolvePatientIns(Ins? patientIns)

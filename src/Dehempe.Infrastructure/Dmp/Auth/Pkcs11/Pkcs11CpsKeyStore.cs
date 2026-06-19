@@ -12,6 +12,15 @@ using Net.Pkcs11Interop.HighLevelAPI;
 namespace Dehempe.Infrastructure.Dmp.Auth.Pkcs11;
 
 /// <summary>
+/// Situation d'exercice du praticien lue depuis un objet <c>CPS_ACTIVITY_xx_PS</c> de la carte.
+/// </summary>
+/// <param name="Index">Numéro d'exercice (1..15).</param>
+/// <param name="StructureId">Identifiant national de la structure (<c>Struct_IdNat</c>) — valeur du <c>Identifiant_Structure</c> VIHF.</param>
+/// <param name="StructureName">Raison sociale de la structure.</param>
+/// <param name="SectorCode">Code secteur d'activité (ex: <c>SA07</c> = libéral, <c>SA01</c> = salarié hospitalier).</param>
+public sealed record CpsActivity(int Index, string StructureId, string StructureName, string SectorCode);
+
+/// <summary>
 /// Charge la librairie PKCS#11 du middleware CPS, ouvre une session sur le slot du token
 /// et expose :
 ///
@@ -77,6 +86,7 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
     private X509Certificate2? _signatureCertificate;
     private byte[]?           _authCkaId;       // CKA_ID du cert d'auth, utilisé pour apparier la clé privée après login
     private byte[]?           _signatureCkaId;  // idem pour le cert de signature
+    private IReadOnlyList<CpsActivity>? _activities; // situations d'exercice lues sur la carte (cache)
     private readonly object   _initLock  = new();
     private readonly object   _loginLock = new();
     private bool              _libraryLoaded;
@@ -179,6 +189,90 @@ internal sealed class Pkcs11CpsKeyStore : IDisposable
         {
             _logger.LogWarning("Lecture de CPS_INFO_PS échouée : {Msg}", ex.Message);
             return string.Empty;
+        }
+    }
+
+    /// <summary>
+    /// Lit les situations d'exercice du praticien depuis les objets <c>CPS_ACTIVITY_01_PS</c>
+    /// à <c>CPS_ACTIVITY_15_PS</c> (objets <b>privés</b> — login requis). Chaque activité porte
+    /// la structure d'exercice (raison sociale + <c>Struct_IdNat</c>) et le secteur d'activité.
+    ///
+    /// En authentification directe, le DMP impose que <c>Identifiant_Structure</c> du VIHF soit
+    /// le <c>Struct_IdNat</c> lu sur la carte (SEL-MP-037 §VIHF, p.156) ; le mettre en config
+    /// fait remonter « Structure introuvable ou Inactive ».
+    ///
+    /// Résultat mis en cache pour la durée de vie du process (la carte ne change pas à chaud).
+    /// </summary>
+    public IReadOnlyList<CpsActivity> ReadActivities()
+    {
+        if (!IsEnabled) return Array.Empty<CpsActivity>();
+        if (_activities is not null) return _activities;
+
+        EnsureLibraryLoaded();
+        EnsureLoggedIn(); // CPS_ACTIVITY_xx_PS sont CKA_PRIVATE=true
+
+        var list = new List<CpsActivity>();
+        for (int i = 1; i <= 15; i++)
+        {
+            var label = $"CPS_ACTIVITY_{i:00}_PS";
+            var objects = _session!.FindAllObjects(new List<IObjectAttribute>
+            {
+                _factories.ObjectAttributeFactory.Create(CKA.CKA_CLASS, CKO.CKO_DATA),
+                _factories.ObjectAttributeFactory.Create(CKA.CKA_LABEL, label),
+            });
+            if (objects.Count == 0) continue;
+
+            var raw = _session.GetAttributeValue(objects[0], new List<CKA> { CKA.CKA_VALUE })[0].GetValueAsByteArray();
+            var parsed = ParseActivity(i, raw);
+            if (parsed is not null)
+            {
+                list.Add(parsed);
+                _logger.LogInformation(
+                    "Exercice CPS {Index} : structure '{Name}' (Struct_IdNat={Id}), secteur {Sector}",
+                    parsed.Index, parsed.StructureName, parsed.StructureId, parsed.SectorCode);
+            }
+        }
+
+        _activities = list;
+        return _activities;
+    }
+
+    /// <summary>
+    /// Décode un objet <c>CPS_ACTIVITY_xx_PS</c> (BER-TLV). Conteneur <c>0xEE</c> englobant des
+    /// TLV simples : <c>0x84</c> = raison sociale, <c>0x85</c> = Struct_IdNat, <c>0x86</c> = secteur.
+    /// </summary>
+    private CpsActivity? ParseActivity(int index, byte[] raw)
+    {
+        try
+        {
+            if (raw.Length < 2 || raw[0] != 0xEE) return null;
+
+            // Saute le tag conteneur 0xEE + son octet de longueur, parcourt les TLV internes.
+            int pos = 2;
+            string name = string.Empty, structId = string.Empty, sector = string.Empty;
+            while (pos + 2 <= raw.Length)
+            {
+                byte tag = raw[pos++];
+                int len  = raw[pos++];
+                if (pos + len > raw.Length) break;
+                var value = Encoding.UTF8.GetString(raw, pos, len).Trim();
+                pos += len;
+
+                switch (tag)
+                {
+                    case 0x84: name     = value; break;
+                    case 0x85: structId = value; break;
+                    case 0x86: sector   = value; break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(structId)) return null;
+            return new CpsActivity(index, structId, name, sector);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Décodage de CPS_ACTIVITY_{Index:00}_PS échoué : {Msg}", index, ex.Message);
+            return null;
         }
     }
 

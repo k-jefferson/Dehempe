@@ -26,8 +26,11 @@ public sealed class CpsOptions
     public string StoreLocation { get; set; } = "CurrentUser";
 
     /// <summary>
-    /// OID de la structure d'exercice au format ANS : "1.2.250.1.71.4.2.2/&lt;FINESS&gt;".
-    /// Non présent dans tous les certificats CPS — à renseigner si absent du Subject.
+    /// Identifiant de structure d'exercice (Struct_IdNat), valeur BRUTE sans préfixe OID
+    /// (ex: "499700735741008"). <b>Fallback uniquement</b> : avec PKCS#11 (cas normal), la
+    /// structure est lue sur la carte depuis les objets CPS_ACTIVITY_xx_PS — laisser vide.
+    /// En authentification directe, le DMP exige le Struct_IdNat de la carte, pas une valeur
+    /// de config. Voir CLAUDE.md § « Structure d'exercice & secteur ».
     /// </summary>
     public string OrganizationId { get; set; } = string.Empty;
 

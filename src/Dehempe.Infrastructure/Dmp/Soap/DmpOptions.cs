@@ -34,7 +34,12 @@ public sealed class DmpOptions
     /// <summary>Numéro d'homologation DMP du LPS (attribut <c>LPS_ID_HOMOLOGATION_DMP</c>).</summary>
     public string LpsAuthorizationId { get; set; } = "NumAutorisation";
 
-    /// <summary>Secteur d'activité du PS au format ANS « SAxx^1.2.250.1.71.4.2.4 ». Ex: SA07 = libéral.</summary>
+    /// <summary>
+    /// Secteur d'activité du PS au format ANS « SAxx^1.2.250.1.71.4.2.4 ». Ex: SA07 = libéral.
+    /// Avec PKCS#11, sert de <b>sélecteur</b> : on en extrait le code SAxx pour choisir l'exercice
+    /// CPS correspondant, puis structure ET secteur sont dérivés de cet exercice (carte). Sans
+    /// PKCS#11, cette valeur est émise telle quelle. Voir CLAUDE.md § « Structure d'exercice & secteur ».
+    /// </summary>
     public string OrganizationSector { get; set; } = "SA07^1.2.250.1.71.4.2.4";
 
     /// <summary>Délai d'expiration des requêtes SOAP en secondes.</summary>
