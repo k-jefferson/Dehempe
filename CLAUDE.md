@@ -194,10 +194,7 @@ When asked to implement a new DMP transaction (TD-x.y), the canonical workflow i
 
 ## Config
 
-Layered via the standard ASP.NET Core mechanism:
-- `src/Dehempe.API/appsettings.json` — committed defaults.
-- `src/Dehempe.API/appsettings.Development.json` — test endpoints, dev cert paths.
-- `appsettings.Local.json` (gitignored) or env vars override everything — use this for real CPS credentials.
+Layered via the standard ASP.NET Core mechanism. **Tous les `src/Dehempe.API/appsettings*.json` sont gitignored** car ils contiennent des données sensibles (OID de structure / FINESS, endpoints DMP par environnement, éventuellement un PIN de dev). Le `.gitignore` ne laisse passer qu'un futur `appsettings.template.json` (sans secret). À l'installation, chaque poste doit reconstituer ses fichiers `appsettings.json`, `appsettings.Development.json` et éventuellement `appsettings.Local.json` localement — soit à la main, soit via env vars (préfixe ASP.NET Core standard : `Dmp__RegistryEndpoint`, `Cps__OrganizationId`, etc.).
 
 Key sections:
 - `Cps` — `CertificatePath` + `CertificatePassword` (.p12) OR `CertificateThumbprint` (store lookup). `OrganizationId` is the OID of the structure, format `1.2.250.1.71.4.2.2/<FINESS>`. **`Pkcs11LibraryPath` and `Pkcs11Pin` must stay empty in normal usage** — the library path is auto-detected (see PKCS#11 section), and the PIN comes from the frontend via the `X-Cps-Pin` header at runtime. Renseigner `Pkcs11Pin` est un fallback de dev ; en production cela bypasse l'UI de saisie et ne doit jamais être committé.

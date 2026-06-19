@@ -475,3 +475,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# ─── Déhempé ──────────────────────────────────────────────────────────────
+# Configurations ASP.NET Core contenant des secrets (OIDs structure, PIN,
+# chemins de cert, etc.). Aucun appsettings.*.json ne doit être committé —
+# seul un appsettings.template.json (sans secret) peut servir de référence.
+src/Dehempe.API/appsettings.json
+src/Dehempe.API/appsettings.Development.json
+src/Dehempe.API/appsettings.Local.json
+src/Dehempe.API/appsettings.*.json
+!src/Dehempe.API/appsettings.template.json
