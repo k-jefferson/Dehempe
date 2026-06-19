@@ -37,6 +37,12 @@ internal sealed class ExceptionHandlingMiddleware
         {
             await WriteDmpProblem(context, StatusCodes.Status404NotFound, ex.Message, ex);
         }
+        catch (DmpPinRequiredException ex)
+        {
+            _logger.LogInformation("PIN CPS requis — le frontend doit prompter l'utilisateur.");
+            context.Response.Headers["WWW-Authenticate"] = "CpsPin realm=\"DMP\"";
+            await WriteDmpProblem(context, StatusCodes.Status401Unauthorized, ex.Message, ex);
+        }
         catch (DmpAuthException ex)
         {
             _logger.LogError(ex, "Erreur d'authentification DMP");

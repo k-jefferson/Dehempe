@@ -25,8 +25,9 @@ internal sealed class VihfService : IVihfService
     private const string Hl7Ns  = "urn:hl7-org:v3";
 
     // Code-system OIDs ANS
-    private const string OidRoleNomenclature       = "1.2.250.1.71.1.2.7";
-    private const string OidPurposeOfUse           = "1.2.250.1.213.1.1.4.248";
+    private const string OidRoleNomenclature        = "1.2.250.1.71.1.2.7";  // G15 — professions de santé
+    private const string OidSpecialityNomenclature  = "1.2.250.1.71.4.2.5";  // R01 — spécialités
+    private const string OidPurposeOfUse            = "1.2.250.1.213.1.1.4.248";
     private const string OidIssuerFormatX509       = "urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName";
     private const string OidAuthnContextSmartcard  = "urn:oasis:names:tc:SAML:2.0:ac:classes:SmartcardPKI";
 
@@ -110,7 +111,8 @@ internal sealed class VihfService : IVihfService
 
         AddStringAttr(doc, stmt, "Identifiant_Structure",     ctx.OrganizationId);
         AddStringAttr(doc, stmt, "Secteur_Activite",          ctx.OrganizationSector);
-        AddRoleAttr(  doc, stmt,                              ctx.PractitionerRole, ctx.PractitionerRoleLabel);
+        AddRoleAttr(  doc, stmt,                              ctx.PractitionerRole, ctx.PractitionerRoleLabel,
+                                                              ctx.PractitionerSpecialityCode, ctx.PractitionerSpecialityLabel);
         AddStringAttr(doc, stmt, "VIHF_Version",              "3.0");
         AddStringAttr(doc, stmt, "Authentification_mode",     "DIRECTE");
         AddStringAttr(doc, stmt, "urn:oasis:names:tc:xacml:2.0:resource:resource-id",
@@ -142,20 +144,39 @@ internal sealed class VihfService : IVihfService
         parent.AppendChild(attr);
     }
 
-    private static void AddRoleAttr(XmlDocument doc, XmlElement parent, string code, string displayName)
+    private static void AddRoleAttr(
+        XmlDocument doc, XmlElement parent,
+        string code, string displayName,
+        string? specialityCode, string? specialityLabel)
     {
         var attr = doc.CreateElement("saml2", "Attribute", SamlNs);
         attr.SetAttribute("Name", "urn:oasis:names:tc:xacml:2.0:subject:role");
 
-        var val = doc.CreateElement("saml2", "AttributeValue", SamlNs);
-        var role = doc.CreateElement("Role", Hl7Ns);
-        role.SetAttribute("code",        code);
-        role.SetAttribute("codeSystem",  OidRoleNomenclature);
-        role.SetAttribute("displayName", displayName);
-        role.SetAttribute("type", XsiNs, "CE");
+        // Premier AttributeValue : profession (G15)
+        var val1 = doc.CreateElement("saml2", "AttributeValue", SamlNs);
+        var role1 = doc.CreateElement("Role", Hl7Ns);
+        role1.SetAttribute("code",           code);
+        role1.SetAttribute("codeSystem",     OidRoleNomenclature);
+        role1.SetAttribute("codeSystemName", "G15");
+        role1.SetAttribute("displayName",    displayName);
+        role1.SetAttribute("type", XsiNs, "CE");
+        val1.AppendChild(role1);
+        attr.AppendChild(val1);
 
-        val.AppendChild(role);
-        attr.AppendChild(val);
+        // Second AttributeValue : spécialité (R01) — obligatoire pour Médecins et Pharmaciens
+        if (!string.IsNullOrWhiteSpace(specialityCode))
+        {
+            var val2 = doc.CreateElement("saml2", "AttributeValue", SamlNs);
+            var role2 = doc.CreateElement("Role", Hl7Ns);
+            role2.SetAttribute("code",           specialityCode);
+            role2.SetAttribute("codeSystem",     OidSpecialityNomenclature);
+            role2.SetAttribute("codeSystemName", "R01");
+            role2.SetAttribute("displayName",    specialityLabel ?? specialityCode);
+            role2.SetAttribute("type", XsiNs, "CE");
+            val2.AppendChild(role2);
+            attr.AppendChild(val2);
+        }
+
         parent.AppendChild(attr);
     }
 

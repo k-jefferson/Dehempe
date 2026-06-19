@@ -1,5 +1,6 @@
 using Dehempe.Application.Common.Interfaces;
 using Dehempe.Domain.ValueObjects;
+using Dehempe.Infrastructure.Dmp.Auth.Pkcs11;
 using Dehempe.Infrastructure.Dmp.Soap;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -24,21 +25,25 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
     private const string DmpInsOid = "1.2.250.1.213.1.4.10";
 
     private readonly ICpsAuthService _cpsAuth;
+    private readonly Pkcs11CpsKeyStore _pkcs11;
     private readonly CpsOptions _cpsOptions;
     private readonly DmpOptions _dmpOptions;
     private readonly IHttpContextAccessor _http;
     private readonly ILogger<CpsVihfContextAccessor> _logger;
 
     private CpsPractitionerIdentity? _identity;
+    private string? _cachedSpecialityCode;
 
     public CpsVihfContextAccessor(
         ICpsAuthService cpsAuth,
+        Pkcs11CpsKeyStore pkcs11,
         IOptions<CpsOptions> cpsOptions,
         IOptions<DmpOptions> dmpOptions,
         IHttpContextAccessor http,
         ILogger<CpsVihfContextAccessor> logger)
     {
         _cpsAuth    = cpsAuth;
+        _pkcs11     = pkcs11;
         _cpsOptions = cpsOptions.Value;
         _dmpOptions = dmpOptions.Value;
         _http       = http;
@@ -50,10 +55,14 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
         var identity = GetIdentity();
         var ins      = ResolvePatientIns(patientIns);
 
+        var specialityCode = GetSpecialityCode();
+
         return new VihfContext(
-            PractitionerRole:       identity.RoleCode,
-            PractitionerRoleLabel:  identity.RoleLabel,
-            PractitionerIdentifier: identity.Identifier,
+            PractitionerRole:             identity.RoleCode,
+            PractitionerRoleLabel:        identity.RoleLabel,
+            PractitionerSpecialityCode:   specialityCode,
+            PractitionerSpecialityLabel:  specialityCode,
+            PractitionerIdentifier:       identity.Identifier,
             PractitionerName:       identity.Name,
             OrganizationId:         _cpsOptions.OrganizationId,
             OrganizationName:       identity.OrgName,
@@ -80,6 +89,13 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
             _identity.Name, _identity.Identifier, _identity.RoleCode, _identity.RoleLabel, _identity.OrgName);
 
         return _identity;
+    }
+
+    private string GetSpecialityCode()
+    {
+        if (_cachedSpecialityCode is not null) return _cachedSpecialityCode;
+        _cachedSpecialityCode = _pkcs11.ReadSpecialityCode();
+        return _cachedSpecialityCode;
     }
 
     private Ins ResolvePatientIns(Ins? patientIns)

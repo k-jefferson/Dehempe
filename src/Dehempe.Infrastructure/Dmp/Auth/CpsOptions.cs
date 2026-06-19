@@ -32,13 +32,20 @@ public sealed class CpsOptions
     public string OrganizationId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Chemin vers la librairie PKCS#11 du middleware CPS.
-    /// Sur macOS : <c>/usr/local/lib/libcps3_pkcs11_osx.dylib</c>.
-    /// Sur Windows : <c>C:\Windows\System32\cps3_pkcs11_w64.dll</c>.
-    /// Renseigner pour déléguer signature + mTLS au token sans extraction de clé.
+    /// Override optionnel du chemin vers la librairie PKCS#11 du middleware CPS.
+    /// Laisser vide pour auto-détection (Pkcs11CpsKeyStore sonde les emplacements connus
+    /// par plateforme — <c>/usr/local/lib/libcps3_pkcs11_osx.dylib</c> sur macOS,
+    /// <c>C:\Windows\System32\cps3_pkcs11_w64.dll</c> sur Windows, etc.).
     /// </summary>
     public string? Pkcs11LibraryPath { get; set; }
 
-    /// <summary>Code PIN à 4 chiffres de la carte CPS (utilisé pour le login PKCS#11).</summary>
+    /// <summary>
+    /// Code PIN de la carte CPS.
+    /// <para>
+    /// <b>À ne pas renseigner en production</b> : le PIN est censé être saisi par le porteur
+    /// au moment où le certificat CPS est utilisé pour la négociation mTLS, pas stocké en config.
+    /// Champ conservé uniquement comme fallback de dev pour les scénarios de signature isolée.
+    /// </para>
+    /// </summary>
     public string? Pkcs11Pin { get; set; }
 }

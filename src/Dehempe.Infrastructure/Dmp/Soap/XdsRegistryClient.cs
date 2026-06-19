@@ -23,8 +23,9 @@ internal sealed class XdsRegistryClient : XdsSoapClientBase
         ICpsAuthService cpsAuth,
         IOptions<DmpOptions> options,
         IVihfContextAccessor vihfCtxAccessor,
-        ILogger<XdsRegistryClient> logger)
-        : base(http, vihf, cpsAuth, logger)
+        ILogger<XdsRegistryClient> logger,
+        ISoapRequestCapture capture)
+        : base(http, vihf, cpsAuth, logger, capture)
     {
         _options = options.Value;
         _vihfCtxAccessor = vihfCtxAccessor;

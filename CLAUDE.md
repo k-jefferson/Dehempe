@@ -81,7 +81,84 @@ Two parsers coexist for CPS certs and they are **not interchangeable**:
 - `Dmp/Auth/CpsCertificateParser.cs` — used by `CpsVihfContextAccessor` to derive the practitioner identity for VIHF assertions. Assumes the classic CPS3 DN shape (`CN=NOM PRENOM, SERIALNUMBER=…, OU=ROLE`).
 - The inline `ParseSubject` in `CpsCardReaderService` — used by `/api/cps/card`. Walks the DER via `AsnReader` to handle the multi-AVA Subject (`title`/`GN`/`SN`/`CN`) of newer CPS3 certs.
 
-The next planned change is to **replace the macOS Swift/CTK path with PKCS#11** via Pkcs11Interop and the already-installed `libcps3_pkcs11_osx.dylib` (under `/usr/local/lib/`). The current `MacOsCtkTokenCertificateProvider` is a transitional fallback — do not invest further in it unless the PKCS#11 route gets vetoed.
+The CTK/Swift provider (`MacOsCtkTokenCertificateProvider`) is now a **transitional fallback only**. The primary path for VIHF signing AND speciality extraction is PKCS#11 (see next section). Do not invest in CTK unless PKCS#11 stops working.
+
+## CPS via PKCS#11 — pipeline complet
+
+C'est le chemin principal pour tout ce qui nécessite la **clé privée** ou des **données privées** de la carte CPS (signature VIHF, mTLS, etc.). Implémenté dans `Dehempe.Infrastructure/Dmp/Auth/Pkcs11/`.
+
+### Auto-détection de la librairie
+
+`Pkcs11CpsKeyStore.ResolveLibraryPath` sonde les emplacements connus par plateforme dans cet ordre :
+
+- **macOS** : `/usr/local/lib/libcps3_pkcs11_osx.dylib`, puis `/Library/Frameworks/cps3.framework/cps3_pkcs11`
+- **Windows** : `C:\Windows\System32\cps3_pkcs11_w64.dll`, puis `C:\Program Files\santeestoolbox\cps3_pkcs11_w64.dll`, puis `C:\Windows\System32\cps3_pkcs11.dll`
+- **Linux** : `/usr/lib/libcps3_pkcs11.so`, puis `/usr/local/lib/libcps3_pkcs11.so`
+
+`Cps:Pkcs11LibraryPath` n'est qu'un **override** optionnel pour forcer un chemin. Ne pas le renseigner en config sauf cas spécifique — l'auto-détection couvre les installs ANS standards.
+
+### Init en deux phases
+
+`Pkcs11CpsKeyStore` est **singleton** dans la DI. Sa session reste ouverte pour toute la vie du process. Init découpée pour ne demander le PIN qu'au dernier moment :
+
+1. **Phase publique** (`EnsureLibraryLoaded`, sans PIN) — charge la lib, ouvre la session, trouve le **certificat d'authentification** par `CKA_ID` (dernier octet = `0x20` ; la clé de signature porte `0x10`), mémorise le `CKA_ID` pour appariement ultérieur. Lit aussi les objets `CKO_DATA` publics (`CKA_PRIVATE=false`), dont `CPS_INFO_PS`.
+2. **Phase login** (`EnsureLoggedIn`, PIN requis) — déclenchée par `SignWithAuthKey` à la première signature uniquement. Recherche ensuite la **clé privée** correspondante. Les `CKO_PRIVATE_KEY` portent `CKA_PRIVATE=true` et sont **invisibles tant qu'on n'est pas logué** — d'où la séparation.
+
+**Ne JAMAIS** rechercher `CKO_PRIVATE_KEY` dans la phase publique : l'appel renvoie 0 objet sans erreur, ce qui produit un message d'erreur trompeur. Le test fait passer le build, pas le runtime.
+
+### Lecture de la spécialité — objet `CPS_INFO_PS`
+
+Le code spécialité ANS (ex: `SM26` = médecine générale, table R01 / OID `1.2.250.1.71.4.2.5`) **n'est pas dans le certificat X.509**. Il est dans un objet de données PKCS#11 public sur la carte, lu par `Pkcs11CpsKeyStore.ReadSpecialityCode()` :
+
+```
+CKA_CLASS   = CKO_DATA
+CKA_TOKEN   = true
+CKA_PRIVATE = false        ← public, AUCUN PIN requis
+CKA_LABEL   = "CPS_INFO_PS"
+```
+
+Convention CPS3 confirmée par le code exemple ANS (`PsSignatureProvider.getCodeSpecialite`) : **le code spécialité occupe les 4 derniers caractères** de la valeur UTF-8 brute (qui contient aussi RPPS/Nom/Prénom en clair, séparés par des octets de contrôle BER).
+
+Le code est injecté dans `VihfContext.PractitionerSpecialityCode` par `CpsVihfContextAccessor` (cache local — lecture une seule fois par durée de vie de la requête HTTP) et utilisé dans le VIHF (voir section suivante).
+
+Le **secteur d'activité** vit dans `CPS_ACTIVITY_01_PS` à `CPS_ACTIVITY_15_PS` (4 derniers caractères aussi) — non implémenté à ce jour, le projet utilise `SA07` (libéral) en config. Ces objets sont `CKA_PRIVATE=true` et nécessitent donc le login.
+
+### Format du `<Role>` dans le VIHF (très strict)
+
+Le DMP rejette le VIHF si le rôle n'est pas envoyé comme **deux** `<AttributeValue>` distincts dans le même `<Attribute>`, avec ces nomenclatures précises :
+
+```xml
+<saml2:Attribute Name="urn:oasis:names:tc:xacml:2.0:subject:role">
+  <saml2:AttributeValue>
+    <Role code="10"   codeSystem="1.2.250.1.71.1.2.7" codeSystemName="G15"
+          displayName="Médecin" xsi:type="CE" xmlns="urn:hl7-org:v3" />
+  </saml2:AttributeValue>
+  <saml2:AttributeValue>
+    <Role code="SM26" codeSystem="1.2.250.1.71.4.2.5" codeSystemName="R01"
+          displayName="..." xsi:type="CE" xmlns="urn:hl7-org:v3" />
+  </saml2:AttributeValue>
+</saml2:Attribute>
+```
+
+- 1ʳᵉ valeur = **profession** (G15, OID `1.2.250.1.71.1.2.7`). `codeSystemName="G15"` est obligatoire.
+- 2ᵉ valeur = **spécialité** (R01, OID `1.2.250.1.71.4.2.5`). **Obligatoire pour Médecins et Pharmaciens** — sans elle, le DMP répond *« Aucune spécialité dans le vihf. Spécialité obligatoire pour les Médecins... »*.
+
+L'implémentation est dans `VihfService.AddRoleAttr` ; ne pas régresser sur ces deux points.
+
+### Code PIN — flux frontend → API
+
+Le middleware ANS sur macOS **n'expose pas** `CKF_PROTECTED_AUTHENTICATION_PATH`, donc PKCS#11 ne peut pas déclencher de dialog natif. L'API est un service backend, elle ne peut pas non plus afficher de fenêtre. Le PIN **doit** donc venir du frontend via le header HTTP **`X-Cps-Pin`** (constante `Pkcs11CpsKeyStore.PinHeaderName`).
+
+Cycle de vie attendu côté client :
+
+1. Première requête sans header → l'API tente le login → `DmpPinRequiredException` → réponse **`401 Unauthorized`** avec `errorCode = "CpsPinRequired"` et `WWW-Authenticate: CpsPin realm="DMP"`.
+2. Le frontend détecte ce code, affiche son dialog de saisie, et **rejoue** la requête avec `X-Cps-Pin: <pin>`.
+3. Login PKCS#11 effectué, **la session reste ouverte** (singleton). Les requêtes suivantes au même process n'ont plus besoin du header tant que la carte reste insérée.
+4. Si la carte est arrachée puis réinsérée → la session devient invalide ; le keystore devra rouvrir et reloguer (non géré actuellement, à surveiller).
+
+Côté .NET, `Pkcs11CpsKeyStore` lit le header via `IHttpContextAccessor`. Il accepte un `Cps:Pkcs11Pin` en fallback dev **uniquement** — ce champ NE DOIT PAS être renseigné en production (il bypasse complètement le flux frontend).
+
+`DmpPinRequiredException` est mappée par `ExceptionHandlingMiddleware` en `401`. Toute nouvelle exception d'auth doit s'aligner sur ce contrat pour rester compatible avec le frontend.
 
 ## DMP SOAP conventions
 
@@ -123,7 +200,7 @@ Layered via the standard ASP.NET Core mechanism:
 - `appsettings.Local.json` (gitignored) or env vars override everything — use this for real CPS credentials.
 
 Key sections:
-- `Cps` — `CertificatePath` + `CertificatePassword` (.p12) OR `CertificateThumbprint` (store lookup). `OrganizationId` is the OID of the structure, format `1.2.250.1.71.4.2.2/<FINESS>`.
+- `Cps` — `CertificatePath` + `CertificatePassword` (.p12) OR `CertificateThumbprint` (store lookup). `OrganizationId` is the OID of the structure, format `1.2.250.1.71.4.2.2/<FINESS>`. **`Pkcs11LibraryPath` and `Pkcs11Pin` must stay empty in normal usage** — the library path is auto-detected (see PKCS#11 section), and the PIN comes from the frontend via the `X-Cps-Pin` header at runtime. Renseigner `Pkcs11Pin` est un fallback de dev ; en production cela bypasse l'UI de saisie et ne doit jamais être committé.
 - `Dmp` — endpoint URLs, `RepositoryUniqueId`, `HomeCommunityId`.
 - `ApiKey` — leave empty to disable API key auth in dev.
 

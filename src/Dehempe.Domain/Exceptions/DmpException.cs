@@ -46,3 +46,17 @@ public class DmpAuthException : DmpException
     public DmpAuthException(string message, Exception? inner = null)
         : base(message, inner ?? new Exception(message), "XDSRegistryNotAvailable") { }
 }
+
+/// <summary>
+/// Émise quand le PIN de la carte CPS est requis pour effectuer l'opération en cours
+/// (login PKCS#11) et qu'aucun PIN n'a été fourni par le frontend.
+/// Le frontend doit demander le PIN à l'utilisateur et rejouer la requête avec le header
+/// <c>X-Cps-Pin</c>.
+/// </summary>
+public class DmpPinRequiredException : DmpException
+{
+    public DmpPinRequiredException()
+        : base("Le PIN de la carte CPS est requis. Le frontend doit le demander à l'utilisateur " +
+               "et le transmettre dans le header HTTP X-Cps-Pin.",
+               "CpsPinRequired") { }
+}

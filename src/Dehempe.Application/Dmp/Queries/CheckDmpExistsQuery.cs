@@ -54,7 +54,8 @@ internal sealed class CheckDmpExistsQueryHandler
         IsAuthorizationValid:          r.IsAuthorizationValid,
         IsAttachedToTreatingPhysician: r.IsAttachedToTreatingPhysician,
         Patient:                       r.Patient is null ? null : MapPatient(r.Patient),
-        ErrorMessage:                  r.ErrorMessage);
+        ErrorMessage:                  r.ErrorMessage,
+        Request:                       null);
 
     private static DmpPatientDto MapPatient(DmpPatientInfo p) => new(
         InsC:               p.InsC,

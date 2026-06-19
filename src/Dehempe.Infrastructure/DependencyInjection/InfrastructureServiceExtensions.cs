@@ -24,6 +24,7 @@ public static class InfrastructureServiceExtensions
         services.AddSingleton<Pkcs11CpsKeyStore>();
         services.AddSingleton<ICpsAuthService, CpsAuthService>();
         services.AddScoped<IVihfService, VihfService>();
+        services.AddScoped<ISoapRequestCapture, SoapRequestCapture>();
 
         // IVihfContextAccessor lit l'identité depuis le certificat CPS branché à la machine
         services.AddHttpContextAccessor();

@@ -11,7 +11,8 @@ public record DmpExistenceDto(
     bool?  IsAuthorizationValid,
     bool?  IsAttachedToTreatingPhysician,
     DmpPatientDto? Patient,
-    string? ErrorMessage);
+    string? ErrorMessage,
+    string? Request);
 
 public record DmpPatientDto(
     string?   InsC,

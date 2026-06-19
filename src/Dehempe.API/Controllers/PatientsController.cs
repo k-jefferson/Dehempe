@@ -1,3 +1,4 @@
+using Dehempe.Application.Common.Interfaces;
 using Dehempe.Application.Dmp.DTOs;
 using Dehempe.Application.Dmp.Queries;
 using Dehempe.Domain.ValueObjects;
@@ -11,8 +12,13 @@ namespace Dehempe.API.Controllers;
 public sealed class PatientsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ISoapRequestCapture _soapCapture;
 
-    public PatientsController(IMediator mediator) => _mediator = mediator;
+    public PatientsController(IMediator mediator, ISoapRequestCapture soapCapture)
+    {
+        _mediator    = mediator;
+        _soapCapture = soapCapture;
+    }
 
     /// <summary>
     /// TD 0.2 — Vérifie l'existence du DMP d'un patient.
@@ -20,7 +26,7 @@ public sealed class PatientsController : ControllerBase
     /// </summary>
     /// <param name="ins">NIR (15 chiffres) ou NIA du patient.</param>
     /// <param name="insOid">OID de l'INS. Défaut : 1.2.250.1.213.1.4.8 (NIR).</param>
-    /// <returns>Statut du DMP (existant / inexistant), informations patient si DMP trouvé.</returns>
+    /// <returns>Statut du DMP (existant / inexistant), informations patient si DMP trouvé. Le champ <c>request</c> contient toujours le XML SOAP brut envoyé au DMP.</returns>
     /// <response code="200">Test exécuté avec succès — voir <c>exists</c>.</response>
     /// <response code="400">INS invalide.</response>
     /// <response code="502">Erreur retournée par le DMP.</response>
@@ -34,6 +40,6 @@ public sealed class PatientsController : ControllerBase
         CancellationToken ct = default)
     {
         var result = await _mediator.Send(new CheckDmpExistsQuery(ins, insOid), ct);
-        return Ok(result);
+        return Ok(result with { Request = _soapCapture.LastRequest });
     }
 }

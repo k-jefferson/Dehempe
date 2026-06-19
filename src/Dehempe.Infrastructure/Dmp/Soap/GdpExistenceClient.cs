@@ -26,8 +26,9 @@ internal sealed class GdpExistenceClient : XdsSoapClientBase, IDmpExistenceRepos
         ICpsAuthService cpsAuth,
         IOptions<DmpOptions> options,
         IVihfContextAccessor vihfCtxAccessor,
-        ILogger<GdpExistenceClient> logger)
-        : base(http, vihf, cpsAuth, logger)
+        ILogger<GdpExistenceClient> logger,
+        ISoapRequestCapture capture)
+        : base(http, vihf, cpsAuth, logger, capture)
     {
         _options         = options.Value;
         _vihfCtxAccessor = vihfCtxAccessor;

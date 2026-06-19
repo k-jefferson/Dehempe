@@ -18,18 +18,21 @@ internal abstract class XdsSoapClientBase
     private readonly HttpClient _http;
     private readonly IVihfService _vihf;
     private readonly ICpsAuthService _cpsAuth;
+    private readonly ISoapRequestCapture _capture;
     protected readonly ILogger Logger;
 
     protected XdsSoapClientBase(
         HttpClient http,
         IVihfService vihf,
         ICpsAuthService cpsAuth,
-        ILogger logger)
+        ILogger logger,
+        ISoapRequestCapture capture)
     {
-        _http  = http;
-        _vihf  = vihf;
+        _http    = http;
+        _vihf    = vihf;
         _cpsAuth = cpsAuth;
-        Logger = logger;
+        Logger   = logger;
+        _capture = capture;
     }
 
     protected async Task<XmlDocument> SendSoapAsync(
@@ -41,6 +44,7 @@ internal abstract class XdsSoapClientBase
     {
         var vihfAssertion = await _vihf.BuildVihfAssertionAsync(vihfCtx, ct);
         var envelope      = BuildEnvelope(soapAction, body, vihfAssertion);
+        _capture.LastRequest = envelope;
         string? responseBody = null;
 
         try

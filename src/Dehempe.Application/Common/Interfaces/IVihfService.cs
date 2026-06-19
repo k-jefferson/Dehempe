@@ -20,6 +20,12 @@ public record VihfContext(
     /// <summary>Libellé du rôle (displayName). Ex: "Médecin".</summary>
     string PractitionerRoleLabel,
 
+    /// <summary>Code spécialité ANS (nomenclature 1.2.250.1.71.4.2.5). Ex: "SM26". Null si non renseigné.</summary>
+    string? PractitionerSpecialityCode,
+
+    /// <summary>Libellé de la spécialité. Ex: "Qualifié en Médecine générale (SM)". Null si non renseigné.</summary>
+    string? PractitionerSpecialityLabel,
+
     /// <summary>Identifiant RPPS ou ADELI du praticien.</summary>
     string PractitionerIdentifier,
 
