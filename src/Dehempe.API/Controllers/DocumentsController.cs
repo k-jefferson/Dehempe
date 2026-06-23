@@ -15,14 +15,17 @@ public sealed class DocumentsController : ControllerBase
     public DocumentsController(IMediator mediator) => _mediator = mediator;
 
     /// <summary>
-    /// Liste les métadonnées des documents DMP d'un patient (ITI-18).
+    /// Liste les documents <c>Approved</c> du DMP d'un patient (TD3.1 / ITI-18 FindDocuments).
     /// </summary>
-    /// <param name="ins">NIR ou NIA du patient (15 chiffres pour le NIR).</param>
+    /// <remarks>
+    /// Le filtre temporel porte sur la date de soumission, approximée par la date de création XDS
+    /// (<c>creationTime</c>). Le statut est toujours forcé à <c>Approved</c> (non paramétrable).
+    /// Spécification de référence : <c>specs/recherche-documents.md</c>.
+    /// </remarks>
+    /// <param name="ins">NIR (15 chiffres) ou NIA du patient.</param>
     /// <param name="insOid">OID de l'INS. Défaut : 1.2.250.1.213.1.4.8 (NIR).</param>
-    /// <param name="createdAfter">Filtre sur la date de création (ISO 8601).</param>
-    /// <param name="createdBefore">Filtre sur la date de création (ISO 8601).</param>
-    /// <param name="status">APPROVED ou DEPRECATED. Défaut : APPROVED.</param>
-    /// <param name="classCode">Un ou plusieurs codes de classe (répéter le paramètre).</param>
+    /// <param name="dateDebut">Borne basse de la fenêtre (ISO 8601). Défaut : aujourd'hui − 30 jours.</param>
+    /// <param name="dateFin">Borne haute de la fenêtre (ISO 8601). Défaut : aujourd'hui.</param>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DocumentEntryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -30,19 +33,15 @@ public sealed class DocumentsController : ControllerBase
     public async Task<IActionResult> GetDocuments(
         string ins,
         [FromQuery] string insOid = InsOidValues.Nir,
-        [FromQuery] DateTimeOffset? createdAfter = null,
-        [FromQuery] DateTimeOffset? createdBefore = null,
-        [FromQuery] string? status = null,
-        [FromQuery(Name = "classCode")] List<string>? classCode = null,
+        [FromQuery] DateTimeOffset? dateDebut = null,
+        [FromQuery] DateTimeOffset? dateFin = null,
         CancellationToken ct = default)
     {
         var result = await _mediator.Send(new GetDocumentListQuery(
             Ins: ins,
             InsOid: insOid,
-            CreatedAfter: createdAfter,
-            CreatedBefore: createdBefore,
-            Status: status,
-            ClassCodes: classCode
+            DateDebut: dateDebut,
+            DateFin: dateFin
         ), ct);
 
         return Ok(result);

@@ -16,14 +16,6 @@ namespace Dehempe.Infrastructure.Dmp.Auth;
 /// </summary>
 internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
 {
-    /// <summary>
-    /// OID utilisé par le DMP pour l'INS dans les messages HL7 V3 (cf. exemple TD 0.2).
-    /// Cohabite avec les OIDs « source » <see cref="InsOidValues.Nir"/> (1.4.8) et
-    /// <see cref="InsOidValues.Nia"/> (1.4.9) ; le DMP attend ce 1.4.10 dans la
-    /// resource-id du VIHF et dans le patientIdentifier de la requête.
-    /// </summary>
-    private const string DmpInsOid = "1.2.250.1.213.1.4.10";
-
     /// <summary>OID de la nomenclature « secteur d'activité » (TRE_R03). Suffixe du champ Secteur_Activite.</summary>
     private const string SectorOid = "1.2.250.1.71.4.2.4";
 
@@ -73,7 +65,7 @@ internal sealed class CpsVihfContextAccessor : IVihfContextAccessor
             OrganizationName:       identity.OrgName,
             OrganizationSector:     sector,
             PatientIns:             ins.Value,
-            PatientInsOid:          DmpInsOid,
+            PatientInsOid:          XdsConstants.DmpInsOid,
             LpsId:                  _dmpOptions.LpsId,
             LpsName:                _dmpOptions.LpsSoftwareName,
             LpsVersion:             _dmpOptions.LpsVersion,

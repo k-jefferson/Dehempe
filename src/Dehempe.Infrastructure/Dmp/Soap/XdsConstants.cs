@@ -46,8 +46,20 @@ internal static class XdsConstants
     public const string GdpServiceNs           = "asip:ci-sis:gdp:2010";
     public const string Iti0_2Action           = "urn:hl7-org:v3:PRPA_IN201307UV02";
 
-    /// <summary>OID racine utilisée par le DMP pour identifier le patient dans les messages HL7 V3 GDP.</summary>
-    public const string GdpInsRoot             = "1.2.250.1.213.1.4.10";
+    /// <summary>
+    /// OID du domaine d'identité « INS » du DMP. Le DMP attend cet OID — et NON l'OID « source »
+    /// NIR (1.2.250.1.213.1.4.8) ou NIA (1.2.250.1.213.1.4.9) — partout où le patient est
+    /// identifié : resource-id du VIHF, patientIdentifier HL7 V3 (TD 0.2) ET slot CX
+    /// <c>$XDSDocumentEntryPatientId</c> des requêtes XDS (TD3.1). Source : exemple officiel ANS
+    /// (TD3.1) et kit de référence (<c>Dmp.cs</c> / <c>XDSb_CVA.cs</c>).
+    /// </summary>
+    public const string DmpInsOid              = "1.2.250.1.213.1.4.10";
+
+    /// <summary>Composant CX.5 (code type d'identifiant) du patientId XDS du DMP : « NH ».</summary>
+    public const string PatientIdCx5TypeCode   = "NH";
+
+    /// <summary>Alias historique de <see cref="DmpInsOid"/> pour les messages HL7 V3 GDP (TD 0.2).</summary>
+    public const string GdpInsRoot             = DmpInsOid;
 
     /// <summary>OID du système destinataire DMP (champ <c>receiver/device/id</c>).</summary>
     public const string GdpReceiverDeviceOid   = "1.2.250.1.213.4.1.1.1";
