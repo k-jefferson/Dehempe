@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Déhempé is a standalone ASP.NET Core 7 API that reads patient records from the French DMP (Dossier Médical Partagé) via IHE XDS.b SOAP, authenticated through the practitioner's CPS smart card. It is intentionally NOT linked to WEDA — it runs on the practitioner's machine and uses the locally inserted CPS card for identity.
 
+## Frontend — Déhempé Web (`src/web`)
+
+The repo also contains **`src/web`**: an **Angular 21 (standalone, zoneless) + Angular Material 3** SPA that calls this API so the practitioner can browse the DMP from a browser. Current state = **scaffold only**: Material 3 theme + responsive navigation shell + a *dormant* API/auth layer; **no business screen is implemented yet** (the home page is a placeholder).
+
+- **Spec-driven — read the specs first.** The **`specs/`** folder (Markdown) is the source of truth for the frontend: product vision, the **API contract** (`specs/architecture/api-contract.md`), the **CPS/PIN auth flow** (`specs/architecture/auth-and-pin-flow.md`), the **Material 3 design system** (`specs/design-system/*`), and one fiche per feature (`specs/features/F0x-*.md`). **Before implementing or modifying anything in `src/web`, read `specs/README.md` and the relevant specs**, and keep them in sync when behaviour changes.
+- **Run**: `npm --prefix src/web start` (→ http://localhost:4200). A dev proxy (`src/web/proxy.conf.json`) forwards `/api` to `https://localhost:7270`, so run the API (https profile) too. Preview profile `Déhempé Web (Angular)` is in `.claude/launch.json`. **Build**: `npm --prefix src/web run build`.
+- **Conventions** (detail in `specs/architecture/frontend-architecture.md`): standalone components with `OnPush` + Signals, functional HTTP interceptors, the **PIN flow** (`401 CpsPinRequired` → `X-Cps-Pin` replay) under `src/web/src/app/core/auth/`, **Material 3 tokens only** (palette generated from seed `#1565C0` in `src/web/src/styles/_theme-colors.scss`). UI in **French**, like the logs.
+
 ## Commands
 
 Build / run / test target the solution `Dehempe.sln`:

@@ -1,0 +1,34 @@
+<header class="home__header">
+  <h1 class="mat-headline-small">Bienvenue dans Déhempé</h1>
+  <p class="home__subtitle mat-body-large">
+    Consultez le Dossier Médical Partagé de vos patients à l'aide de votre carte CPS.
+  </p>
+</header>
+
+<mat-card appearance="outlined" class="home__intro">
+  <mat-card-content>
+    <p class="mat-body-medium">
+      Le socle technique est en place : design system Material&nbsp;3, navigation et couche d'accès
+      à l'API <strong>Dehempe.API</strong>. Les fonctionnalités ci-dessous seront ajoutées
+      progressivement, conformément aux spécifications du dossier <code>specs/</code>.
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<section class="home__features" aria-label="Fonctionnalités prévues">
+  @for (f of features; track f.code) {
+    <mat-card appearance="outlined" class="home__feature">
+      <mat-card-content>
+        <div class="home__feature-head">
+          <mat-icon class="home__feature-icon" aria-hidden="true">{{ f.icon }}</mat-icon>
+          <span class="home__feature-title mat-title-medium">{{ f.title }}</span>
+          <span class="home__feature-code mat-label-small">{{ f.code }}</span>
+        </div>
+        <p class="home__feature-desc mat-body-medium">{{ f.description }}</p>
+        <mat-chip-set>
+          <mat-chip>À venir</mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

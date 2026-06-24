@@ -1,0 +1,56 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    #drawer
+    class="shell__nav"
+    [mode]="sidenavMode()"
+    [opened]="!isHandset()"
+  >
+    <div class="shell__brand">
+      <mat-icon class="shell__brand-icon" aria-hidden="true">health_and_safety</mat-icon>
+      <span class="shell__brand-text mat-title-medium">Déhempé</span>
+    </div>
+
+    <mat-nav-list>
+      @for (item of nav; track item.label) {
+        @if (item.path) {
+          <a
+            mat-list-item
+            [routerLink]="item.path"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [activated]="rla.isActive"
+          >
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        } @else {
+          <a mat-list-item disabled aria-disabled="true">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+            <span matListItemMeta class="shell__nav-hint mat-label-small">{{ item.hint }}</span>
+          </a>
+        }
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="shell__content">
+    <mat-toolbar class="shell__toolbar">
+      @if (isHandset()) {
+        <button matIconButton aria-label="Ouvrir le menu" (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <span class="shell__title mat-title-medium">Déhempé — Accès DMP</span>
+      <span class="shell__spacer"></span>
+      <button matIconButton aria-label="Carte CPS du praticien" disabled>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <main class="shell__main">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Code PIN</h2>
+
+<mat-dialog-content>
+  <p class="pin-dialog__message">{{ message }}</p>
+
+  <mat-form-field appearance="outline" class="pin-dialog__field">
+    <mat-label>Code PIN</mat-label>
+    <input
+      matInput
+      type="password"
+      inputmode="numeric"
+      autocomplete="off"
+      aria-label="Code PIN de la carte CPS"
+      cdkFocusInitial
+      [ngModel]="pin()"
+      (ngModelChange)="pin.set($event)"
+      (keyup.enter)="validate()"
+    />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button matButton (click)="cancel()">Annuler</button>
+  <button matButton="filled" [disabled]="!pin().trim()" (click)="validate()">
+    Valider le code
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,42 @@
+.home__header {
+  margin-bottom: 24px;
+}
+
+.home__subtitle {
+  margin: 8px 0 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.home__intro {
+  margin-bottom: 24px;
+}
+
+.home__features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.home__feature-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.home__feature-icon {
+  color: var(--mat-sys-primary);
+}
+
+.home__feature-title {
+  flex: 1 1 auto;
+}
+
+.home__feature-code {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.home__feature-desc {
+  margin: 0 0 12px;
+  color: var(--mat-sys-on-surface-variant);
+}

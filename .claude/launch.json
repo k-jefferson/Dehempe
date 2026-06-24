@@ -12,6 +12,12 @@
       "runtimeExecutable": "dotnet",
       "runtimeArgs": ["run", "--project", "src/Dehempe.API", "--launch-profile", "https"],
       "port": 7270
+    },
+    {
+      "name": "Déhempé Web (Angular)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "src/web", "start"],
+      "port": 4200
     }
   ]
 }
