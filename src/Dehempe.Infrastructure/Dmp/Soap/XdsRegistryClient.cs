@@ -71,8 +71,14 @@ internal sealed class XdsRegistryClient : XdsSoapClientBase
         adhocQuery.SetAttribute("id", XdsConstants.FindDocumentsQuery);
         query.AppendChild(adhocQuery);
 
+        // Format CX du patientId attendu par le DMP : '<INS>^^^&<OID INS DMP>&ISO^NH'.
+        // - valeur MONO-valuée → PAS de parenthèses (réservées aux slots multi-valués comme le statut) ;
+        // - OID = domaine d'identité INS du DMP (1.2.250.1.213.1.4.10), et NON l'OID source NIR/NIA ;
+        // - composant CX.5 = « NH ».
+        // Doit rester cohérent avec la resource-id du VIHF (même OID), sinon le DMP répond
+        // SOAP Fault XDSPatientIdDoesNotMatch. Cf. exemple officiel TD3.1 et kit ANS.
         AddSlot(doc, adhocQuery, XdsConstants.SlotPatientId,
-            $"('{patientIns.Value}^^^&{patientIns.Oid.ToOidString()}&ISO')");
+            $"'{patientIns.Value}^^^&{XdsConstants.DmpInsOid}&ISO^{XdsConstants.PatientIdCx5TypeCode}'");
 
         var statusValues = new List<string>();
         if (criteria?.Status is DocumentStatus.Approved or null)
@@ -83,13 +89,17 @@ internal sealed class XdsRegistryClient : XdsSoapClientBase
             statusValues.Add($"'{XdsConstants.StatusApproved}'");
         AddSlot(doc, adhocQuery, XdsConstants.SlotStatus, $"({string.Join(",", statusValues)})");
 
+        // Les dates/heures XDS sont codées en UTC (SEL-MP-037 EX_3.1-1070) : on normalise
+        // en UTC avant de formater au format DTM IHE yyyyMMddHHmmss.
         if (criteria?.CreatedAfter is not null)
             AddSlot(doc, adhocQuery, XdsConstants.SlotCreationTimeFrom,
-                criteria.CreatedAfter.Value.ToString("yyyyMMddHHmmss"));
+                criteria.CreatedAfter.Value.UtcDateTime.ToString("yyyyMMddHHmmss",
+                    System.Globalization.CultureInfo.InvariantCulture));
 
         if (criteria?.CreatedBefore is not null)
             AddSlot(doc, adhocQuery, XdsConstants.SlotCreationTimeTo,
-                criteria.CreatedBefore.Value.ToString("yyyyMMddHHmmss"));
+                criteria.CreatedBefore.Value.UtcDateTime.ToString("yyyyMMddHHmmss",
+                    System.Globalization.CultureInfo.InvariantCulture));
 
         if (criteria?.ClassCodes?.Count > 0)
             AddSlot(doc, adhocQuery, XdsConstants.SlotClassCode,

@@ -296,6 +296,25 @@ When asked to implement a new DMP transaction (TD-x.y), the canonical workflow i
 3. Cross-check the matrix in `PDT-INF-526` to know which CPS profile may invoke it.
 4. Look at `DMP-LPS-Code-Exemple_C#dotNET-v2.06.01/` for an implementation pattern, then translate to this project's hand-built SOAP style.
 
+## Specs fonctionnelles (`specs/`) — source de vérité par cas d'usage
+
+Certaines fonctionnalités ont une **spécification fonctionnelle et technique dédiée** dans le
+dossier `specs/`. **Ces fichiers font autorité** : avant de travailler sur le cas d'usage
+correspondant, **lis la spec ; et pour toute évolution, mets d'abord la spec à jour, puis le
+code** (les deux doivent rester cohérents). C'est ce qui garantit la consistance dans le temps,
+quel que soit le prompt ou la session.
+
+| Cas d'usage | Spec | Transaction | Route |
+|---|---|---|---|
+| Recherche / liste des documents d'un patient | [`specs/recherche-documents.md`](specs/recherche-documents.md) | TD3.1 (ITI-18 `FindDocuments`) | `GET /api/patients/{ins}/documents` |
+
+Décisions actées pour la **recherche de documents (TD3.1)**, à ne pas régresser sans relire la spec :
+- filtre temporel `dateDebut`/`dateFin` mappé sur `creationTime` XDS (**approximation** de la date
+  de soumission — la vraie date de soumission imposerait la combinaison `FindSubmissionSets` +
+  `GetAssociations` + `GetDocuments`, cf. SEL-MP-037 §3.5.1.3) ;
+- défauts : `dateDebut` = aujourd'hui − 30 j, `dateFin` = aujourd'hui ;
+- statut **toujours forcé à `Approved`** (non paramétrable).
+
 ## Config
 
 Layered via the standard ASP.NET Core mechanism. **Tous les `src/Dehempe.API/appsettings*.json` sont gitignored** car ils contiennent des données sensibles (OID de structure / FINESS, endpoints DMP par environnement, éventuellement un PIN de dev). Le `.gitignore` ne laisse passer qu'un futur `appsettings.template.json` (sans secret). À l'installation, chaque poste doit reconstituer ses fichiers `appsettings.json`, `appsettings.Development.json` et éventuellement `appsettings.Local.json` localement — soit à la main, soit via env vars (préfixe ASP.NET Core standard : `Dmp__RegistryEndpoint`, `Cps__OrganizationId`, etc.).
