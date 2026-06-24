@@ -41,6 +41,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
     c.OperationFilter<CpsPinHeaderOperationFilter>();
+    c.OperationFilter<DocumentDateRangeDefaultsOperationFilter>();
     var xmlPath = Path.Combine(AppContext.BaseDirectory,
         $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml");
     if (File.Exists(xmlPath)) c.IncludeXmlComments(xmlPath);

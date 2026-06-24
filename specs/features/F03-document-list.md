@@ -9,20 +9,23 @@ pour le consulter (F04).
 
 ## 2. Périmètre API
 
-- `GET /api/patients/{ins}/documents?insOid&createdAfter&createdBefore&status&classCode` → `DocumentEntry[]`.
-- `classCode` est **répétable**. `status` défaut `APPROVED`. Dates ISO 8601.
+- `GET /api/patients/{ins}/documents?insOid&createdAfter&createdBefore&classCode` → `DocumentList`
+  (enveloppe `{ documents, dmpRequest, dmpResponse }`).
+- `classCode` est **répétable**. Seuls les documents `APPROVED` sont retournés (pas de filtre de statut).
+  Dates ISO 8601 ; défaut Swagger : `createdAfter` = J−30, `createdBefore` = aujourd'hui.
+- **Diagnostic** : si `documents` est vide, `dmpRequest`/`dmpResponse` portent le XML SOAP brut (sinon `null`)
+  → utile pour l'état vide (afficher la réponse DMP dans un panneau « détails techniques » repliable).
 - Auth : **PIN requis** (F05).
 
 ## 3. User stories & critères d'acceptation
 
 ### US-03.1 — Voir les documents
 **En tant que** praticien, **je veux** la liste des documents avec leurs métadonnées clés **afin de** repérer ce qui m'intéresse.
-- [ ] Colonnes : titre (fallback si `null`), type (`typeCode`/`classCode` lisibles), date (`creationTime`, `dd/MM/yyyy`), auteur (`authorPerson`/`authorInstitution`), statut.
+- [ ] Colonnes : titre (fallback si `null`), type (`typeCode`/`classCode` lisibles), date (`creationTime`, `dd/MM/yyyy`), auteur (`authorPerson`/`authorInstitution`).
 - [ ] Une icône de type est dérivée du `mimeType` (PDF, etc.).
 
 ### US-03.2 — Filtrer
-- [ ] Filtre statut `APPROVED` (défaut) / `DEPRECATED`.
-- [ ] Filtre période (`createdAfter` / `createdBefore`).
+- [ ] Filtre période (`createdAfter` / `createdBefore`), pré-rempli J−30 → aujourd'hui.
 - [ ] Filtre par `classCode` (multi-valeurs).
 
 ### US-03.3 — Trier & paginer
@@ -39,7 +42,7 @@ pour le consulter (F04).
 
 - Conserver `uniqueId` + `repositoryUniqueId` (+ `homeCommunityId`) de chaque entrée : indispensables à F04.
 - Ne pas afficher de date si `null` (afficher « — »).
-- `status DEPRECATED` visuellement distinct (badge), mais lisible.
+- Tous les documents retournés sont `APPROVED` (l'API n'interroge pas les `DEPRECATED`).
 
 ## 5. UI / composants (Material 3)
 

@@ -39,11 +39,12 @@
 
 - Path : `ins`. Query :
   - `insOid` (défaut NIR)
-  - `createdAfter`, `createdBefore` : ISO 8601 (filtre date de création)
-  - `status` : `APPROVED` (défaut) | `DEPRECATED`
+  - `createdAfter`, `createdBefore` : ISO 8601 (filtre date de création). Défaut Swagger : `createdAfter` = aujourd'hui − 30 jours, `createdBefore` = aujourd'hui.
   - `classCode` : **répétable** (un ou plusieurs codes de classe) → `?classCode=x&classCode=y`
+- **Statut** : seuls les documents `APPROVED` sont interrogés (pas de paramètre de statut).
 - **Auth** : **PIN requis**.
-- **200** → `DocumentEntry[]` · **400** → INS invalide · **404** → patient/DMP introuvable.
+- **200** → `DocumentList` (enveloppe `{ documents: DocumentEntry[], dmpRequest, dmpResponse }`) · **400** → INS invalide · **404** → patient/DMP introuvable.
+- **Diagnostic** : quand `documents` est **vide**, `dmpRequest` et `dmpResponse` contiennent le **XML SOAP brut** (requête envoyée + réponse reçue du DMP) pour comprendre l'absence de résultat ; sinon ils valent `null`.
 
 ### 4. `GET /api/patients/{ins}/documents/{uniqueId}/content` — contenu / ITI-43 (F04)
 
@@ -107,7 +108,7 @@ export interface DocumentEntry {
   repositoryUniqueId: string;
   homeCommunityId: string | null;
   title: string | null;
-  status: string;                    // 'APPROVED' | 'DEPRECATED'
+  status: string;                    // toujours 'APPROVED' (seul statut interrogé)
   classCode: string | null;
   typeCode: string | null;
   formatCode: string | null;
@@ -117,6 +118,13 @@ export interface DocumentEntry {
   serviceStopTime: string | null;    // ISO 8601
   authorInstitution: string | null;
   authorPerson: string | null;
+}
+
+// Réponse de la liste (enveloppe). dmpRequest/dmpResponse : XML SOAP brut, remplis seulement si documents est vide.
+export interface DocumentList {
+  documents: DocumentEntry[];
+  dmpRequest: string | null;
+  dmpResponse: string | null;
 }
 ```
 

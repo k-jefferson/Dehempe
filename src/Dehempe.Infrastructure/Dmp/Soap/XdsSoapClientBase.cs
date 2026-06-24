@@ -82,6 +82,7 @@ internal abstract class XdsSoapClientBase
             using (response)
             {
                 responseBody     = await response.Content.ReadAsStringAsync(ct);
+                _capture.LastResponse = responseBody;
                 var contentType  = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
                 var isXmlish     = contentType.Contains("xml", StringComparison.OrdinalIgnoreCase)
                                    || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)

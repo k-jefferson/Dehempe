@@ -7,4 +7,7 @@ namespace Dehempe.Application.Common.Interfaces;
 public interface ISoapRequestCapture
 {
     string? LastRequest { get; set; }
+
+    /// <summary>Réponse SOAP brute (XML) reçue du DMP, même en HTTP 200.</summary>
+    string? LastResponse { get; set; }
 }

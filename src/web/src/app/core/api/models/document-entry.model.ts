@@ -7,7 +7,7 @@ export interface DocumentEntry {
   repositoryUniqueId: string;
   homeCommunityId: string | null;
   title: string | null;
-  /** 'APPROVED' | 'DEPRECATED'. */
+  /** Toujours 'APPROVED' (seul statut interrogé par l'API). */
   status: string;
   classCode: string | null;
   typeCode: string | null;
@@ -21,17 +21,21 @@ export interface DocumentEntry {
   authorPerson: string | null;
 }
 
-/** Statuts de document XDS. */
-export const DocumentStatus = {
-  Approved: 'APPROVED',
-  Deprecated: 'DEPRECATED',
-} as const;
-
 /** Filtres de la liste de documents (cf. DocumentsController.GetDocuments). */
 export interface DocumentListFilter {
   insOid?: string;
   createdAfter?: string;
   createdBefore?: string;
-  status?: string;
   classCode?: string[];
+}
+
+/**
+ * Réponse de la liste de documents — calqué sur DocumentListDto (enveloppe).
+ * `dmpRequest` / `dmpResponse` ne sont remplis (XML SOAP brut) que lorsque `documents` est
+ * vide, pour diagnostiquer une absence de résultat ; sinon ils valent `null`.
+ */
+export interface DocumentList {
+  documents: DocumentEntry[];
+  dmpRequest: string | null;
+  dmpResponse: string | null;
 }

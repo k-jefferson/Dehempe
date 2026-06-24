@@ -7,19 +7,12 @@ using MediatR;
 
 namespace Dehempe.Application.Documents.Queries;
 
-/// <summary>
-/// TD3.1 (ITI-18 / FindDocuments) — liste les documents <c>Approved</c> du DMP d'un patient
-/// sur une fenêtre temporelle.
-/// Le filtre temporel porte sur la date de soumission, approximée par la <c>creationTime</c> XDS.
-/// Spécification de référence : <c>specs/recherche-documents.md</c>.
-/// </summary>
-/// <param name="DateDebut">Borne basse de la fenêtre. Défaut appliqué côté handler : aujourd'hui − 30 jours.</param>
-/// <param name="DateFin">Borne haute de la fenêtre. Défaut appliqué côté handler : aujourd'hui.</param>
 public record GetDocumentListQuery(
     string Ins,
     string InsOid,
-    DateTimeOffset? DateDebut = null,
-    DateTimeOffset? DateFin = null
+    DateTimeOffset? CreatedAfter = null,
+    DateTimeOffset? CreatedBefore = null,
+    IReadOnlyList<string>? ClassCodes = null
 ) : IRequest<IReadOnlyList<DocumentEntryDto>>;
 
 public sealed class GetDocumentListQueryValidator : AbstractValidator<GetDocumentListQuery>
@@ -36,19 +29,16 @@ public sealed class GetDocumentListQueryValidator : AbstractValidator<GetDocumen
             .Must(oid => oid == InsOidValues.Nir || oid == InsOidValues.Nia)
             .WithMessage($"L'OID INS doit être {InsOidValues.Nir} (NIR) ou {InsOidValues.Nia} (NIA).");
 
-        RuleFor(q => q.DateDebut)
-            .Must((q, _) => q.DateDebut <= q.DateFin)
-            .When(q => q.DateDebut.HasValue && q.DateFin.HasValue)
-            .WithMessage("dateDebut doit être antérieure ou égale à dateFin.");
+        RuleFor(q => q.CreatedAfter)
+            .Must((q, _) => q.CreatedAfter <= q.CreatedBefore)
+            .When(q => q.CreatedAfter.HasValue && q.CreatedBefore.HasValue)
+            .WithMessage("createdAfter doit être antérieure ou égale à createdBefore.");
     }
 }
 
 internal sealed class GetDocumentListQueryHandler
     : IRequestHandler<GetDocumentListQuery, IReadOnlyList<DocumentEntryDto>>
 {
-    /// <summary>Fenêtre par défaut (en jours) appliquée quand aucune date n'est fournie (cf. spec §3.2).</summary>
-    private const int DefaultWindowDays = 30;
-
     private readonly IDmpDocumentRepository _repository;
 
     public GetDocumentListQueryHandler(IDmpDocumentRepository repository)
@@ -62,16 +52,13 @@ internal sealed class GetDocumentListQueryHandler
             ? Ins.CreateNir(request.Ins)
             : Ins.CreateNia(request.Ins);
 
-        // Fenêtre par défaut : 30 derniers jours glissants, ancrés en UTC (cf. spec §3.2).
-        var now       = DateTimeOffset.UtcNow;
-        var dateDebut = request.DateDebut ?? now.AddDays(-DefaultWindowDays);
-        var dateFin   = request.DateFin   ?? now;
-
-        // Statut toujours forcé à Approved (EX_3.1-1030 ; cf. spec §3.2) — non paramétrable.
+        // L'API n'expose plus de filtre de statut : seuls les documents APPROVED sont interrogés.
         var criteria = new DocumentSearchCriteria(
-            CreatedAfter:  dateDebut,
-            CreatedBefore: dateFin,
-            Status:        DocumentStatus.Approved);
+            CreatedAfter:  request.CreatedAfter,
+            CreatedBefore: request.CreatedBefore,
+            Status:        DocumentStatus.Approved,
+            ClassCodes:    request.ClassCodes
+        );
 
         var entries = await _repository.FindDocumentsAsync(ins, criteria, cancellationToken);
         return entries.Select(ToDto).ToList();
