@@ -45,7 +45,8 @@ specs/
 │   ├── F02-patient-dmp-existence.md← test d'existence du DMP (TD 0.2)
 │   ├── F03-document-list.md        ← liste des documents DMP
 │   ├── F04-document-viewer.md      ← consultation / téléchargement d'un document
-│   └── F05-pin-entry.md            ← saisie du code PIN (transverse)
+│   ├── F05-pin-entry.md            ← saisie du code PIN (transverse)
+│   └── F06-patient-list.md         ← liste des patients (sélecteur sidenav, jeu d'essai local)
 └── _templates/
     └── feature.template.md         ← gabarit d'une nouvelle feature
 ```
@@ -59,5 +60,6 @@ specs/
 | 🔵 En cours | Implémentation partielle. |
 | ⚪ Idée | Pas encore spécifié en détail. |
 
-> État au moment de la mise en place du projet : le **scaffold** (thème M3 + shell de navigation
-> + couche API) est en place ; **aucune feature métier n'est encore implémentée** (toutes 🟡).
+> État : le **scaffold** (thème M3 + shell de navigation + couche API) est en place. **F06**
+> (liste des patients dans le sidenav) est **implémentée** ; les autres features métier (F01–F05)
+> restent 🟡 Spécifié.

@@ -7,21 +7,35 @@
   border-right: 1px solid var(--mat-sys-outline-variant);
 }
 
+// Le contenu du sidenav est une colonne flex : marque figée en haut, liste patients défilante.
+.shell__nav ::ng-deep .mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .shell__brand {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 0 0 auto;
   height: 64px;
   padding: 0 16px;
   box-sizing: border-box;
+  color: var(--mat-sys-on-surface);
+  text-decoration: none;
+}
+
+.shell__brand:hover {
+  background: var(--mat-sys-surface-container);
 }
 
 .shell__brand-icon {
   color: var(--mat-sys-primary);
 }
 
-.shell__nav-hint {
-  color: var(--mat-sys-on-surface-variant);
+.shell__patients {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .shell__toolbar {

@@ -3,19 +3,11 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
-
-interface NavItem {
-  label: string;
-  icon: string;
-  /** Route absolue. Absent = entrée « à venir » (désactivée). */
-  path?: string;
-  hint?: string;
-}
+import { PatientList } from '../../features/patient-list/patient-list';
 
 /** Shell applicatif : toolbar + navigation latérale responsive (cf. specs/design-system/layout-navigation.md). */
 @Component({
@@ -24,12 +16,11 @@ interface NavItem {
   imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
+    PatientList,
   ],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
@@ -43,10 +34,4 @@ export class Shell {
     { initialValue: false },
   );
   readonly sidenavMode = computed<'over' | 'side'>(() => (this.isHandset() ? 'over' : 'side'));
-
-  readonly nav: readonly NavItem[] = [
-    { label: 'Accueil', icon: 'home', path: '/' },
-    { label: 'Patient / DMP', icon: 'badge', hint: 'Bientôt' },
-    { label: 'Documents', icon: 'folder_shared', hint: 'Bientôt' },
-  ];
 }

@@ -11,8 +11,13 @@ Structure unique pour toute l'app (`layout/shell`) :
 - **`mat-sidenav`** latérale gauche :
   - Desktop (≥ `medium`) : mode `side`, ouverte, ancrée.
   - Mobile (< `medium`) : mode `over`, fermée par défaut, ouverte au bouton menu.
-  - `mat-nav-list` avec les entrées principales (Accueil, Patient/DMP, Documents…), item actif
-    via `routerLinkActive`.
+  - En-tête de **marque « Déhempé »** cliquable (retour Accueil, `routerLink="/"`).
+  - **Contenu principal = liste des patients** (cf. [F06](../features/F06-patient-list.md)) : un champ
+    de recherche épinglé en haut + une liste verticale défilante (un élément par patient, coloré
+    selon le sexe). Cette liste **remplace** l'ancien `mat-nav-list` (entrées Accueil / Patient / Documents).
+  - *Historique* : tant que F06 n'était pas spécifiée, le sidenav portait un `mat-nav-list` avec item
+    actif via `routerLinkActive`. Si un menu de navigation redevient nécessaire (plusieurs écrans
+    routés), le réintroduire **en complément** de la liste patients, pas à sa place.
 - **Zone de contenu** : `<router-outlet>` dans `mat-sidenav-content`, padding cohérent, largeur de
   lecture **bornée** (`max-width` ~ 1100–1200px, centrée) pour ne pas étirer le texte.
 

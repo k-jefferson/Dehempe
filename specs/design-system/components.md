@@ -47,6 +47,7 @@ ne pas réimplémenter un bouton/carte/dialog maison.
 | Chargement court | `mat-progress-bar` (indéterminée) en tête de zone, ou `mat-spinner`. |
 | Chargement de liste | squelettes ou spinner centré + message « Interrogation du DMP… ». |
 | Message transitoire | `mat-snack-bar` (succès/erreur non bloquante). |
+| Infobulle au survol (aide, détail) | `matTooltip` (texte ; `matTooltipClass` pour un contenu pré-formaté, ex. JSON de test en F06). |
 | Confirmation / saisie modale | `mat-dialog` (ex. dialog PIN F05). |
 | **Vide** (0 document, pas de DMP) | bloc « empty state » : icône + titre + courte explication + action. |
 | **Erreur** | bloc dédié (icône `error` token `error`), message clair, bouton « Réessayer ». |

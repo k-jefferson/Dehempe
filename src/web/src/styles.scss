@@ -16,6 +16,12 @@ html {
       density: 0,
     )
   );
+
+  // Couleurs « sexe patient » (F06) — Material 3 n'a pas de palette rose : unique paire de tokens
+  // applicatifs dédiée, lisible en clair ET sombre (cf. specs/features/F06-patient-list.md).
+  // Le bleu (sexe masculin) réutilise le token M3 primary-container, pas de token ajouté ici.
+  --app-sex-female-container: light-dark(#fbe3ec, #4b2531);
+  --app-sex-female-on-container: light-dark(#3e1f28, #fbe3ec);
 }
 
 html,
@@ -34,4 +40,18 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+// Infobulle JSON de la liste des patients (F06). Rendue dans un overlay CDK hors encapsulation
+// → style global. JSON brut indenté, lisible (donnée de test).
+.patient-list__tooltip .mdc-tooltip__surface {
+  max-width: min(440px, 92vw);
+  max-height: 70vh;
+  overflow: auto;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, "Roboto Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.45;
 }

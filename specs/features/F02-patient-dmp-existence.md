@@ -12,6 +12,10 @@ informations d'identité retournées, afin de décider s'il peut consulter ses d
 - `GET /api/patients/{ins}/dmp?insOid={oid}` → `DmpExistence` (cf. [api-contract](../architecture/api-contract.md)).
 - Auth : **PIN requis** → la 1ʳᵉ requête peut déclencher le dialog PIN (F05).
 
+> **Lien avec F06** : l'INS peut être saisi à la main (US-02.1) **ou**, à terme, **pré-rempli** depuis la
+> sélection d'un patient de la [liste F06](F06-patient-list.md) (jeu d'essai local). Ce câblage
+> sélection → pré-remplissage est hors périmètre F06 v1 et reste à spécifier.
+
 ## 3. User stories & critères d'acceptation
 
 ### US-02.1 — Saisir un INS et lancer le test

@@ -5,34 +5,12 @@
     [mode]="sidenavMode()"
     [opened]="!isHandset()"
   >
-    <div class="shell__brand">
+    <a class="shell__brand" routerLink="/" aria-label="Accueil — Déhempé">
       <mat-icon class="shell__brand-icon" aria-hidden="true">health_and_safety</mat-icon>
       <span class="shell__brand-text mat-title-medium">Déhempé</span>
-    </div>
+    </a>
 
-    <mat-nav-list>
-      @for (item of nav; track item.label) {
-        @if (item.path) {
-          <a
-            mat-list-item
-            [routerLink]="item.path"
-            routerLinkActive
-            #rla="routerLinkActive"
-            [routerLinkActiveOptions]="{ exact: true }"
-            [activated]="rla.isActive"
-          >
-            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-            <span matListItemTitle>{{ item.label }}</span>
-          </a>
-        } @else {
-          <a mat-list-item disabled aria-disabled="true">
-            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-            <span matListItemTitle>{{ item.label }}</span>
-            <span matListItemMeta class="shell__nav-hint mat-label-small">{{ item.hint }}</span>
-          </a>
-        }
-      }
-    </mat-nav-list>
+    <app-patient-list class="shell__patients" />
   </mat-sidenav>
 
   <mat-sidenav-content class="shell__content">

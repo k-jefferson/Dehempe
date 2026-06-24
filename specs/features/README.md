@@ -10,6 +10,7 @@ Toute nouvelle fonctionnalité **doit** avoir sa fiche avant implémentation.
 | **F03** | [Liste des documents (ITI-18)](F03-document-list.md) | `GET /api/patients/{ins}/documents` | Oui | 🟡 Spécifié |
 | **F04** | [Consultation d'un document (ITI-43)](F04-document-viewer.md) | `GET …/documents/{uniqueId}/content` | Oui | 🟡 Spécifié |
 | **F05** | [Saisie du code PIN (transverse)](F05-pin-entry.md) | en-tête `X-Cps-Pin` (transverse) | — | 🟡 Spécifié |
+| **F06** | [Liste des patients (sélecteur)](F06-patient-list.md) | aucun (données locales) | Non | 🟢 Implémenté |
 
 ## Parcours global
 
@@ -17,11 +18,17 @@ Toute nouvelle fonctionnalité **doit** avoir sa fiche avant implémentation.
 F01 (identité praticien, au démarrage)
         │
         ▼
+F06 (liste des patients, sidenav — jeu d'essai local)
+        │  (sélection → pré-remplissage INS, à venir)
+        ▼
 F02 (saisie INS → existence DMP) ──── F05 (dialog PIN, déclenché au 1er appel DMP)
         │
         ▼
 F03 (liste documents) ───► F04 (consulter / télécharger un document)
 ```
 
-> État initial du projet : scaffold (thème M3 + shell + couche API) en place ; **aucune** de ces
-> features n'est encore implémentée.
+> **F06** alimente le sidenav avec un **jeu d'essai local** (`src/web/src/data/patients-dmp.json`) :
+> c'est une feature de navigation/test qui **ne consomme pas** l'API DMP.
+
+> État : scaffold (thème M3 + shell + couche API) en place. **F06** (liste des patients) est
+> **implémentée** ; F01–F05 restent à implémenter.

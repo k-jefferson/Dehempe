@@ -1,0 +1,51 @@
+<div class="patient-list__search">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="patient-list__field">
+    <mat-label>Rechercher un patient</mat-label>
+    <mat-icon matIconPrefix aria-hidden="true">search</mat-icon>
+    <input
+      matInput
+      type="text"
+      autocomplete="off"
+      [value]="query()"
+      (input)="onSearch($event)"
+      aria-label="Rechercher un patient par nom ou prénom"
+    />
+    @if (query()) {
+      <button matIconButton matSuffix aria-label="Effacer la recherche" (click)="clear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+</div>
+
+@if (filtered().length > 0) {
+  <mat-list class="patient-list__list">
+    @for (row of filtered(); track row.id) {
+      <mat-list-item
+        class="patient-list__item"
+        [class.patient-list__item--male]="row.sexe === 'M'"
+        [class.patient-list__item--female]="row.sexe === 'F'"
+        [class.patient-list__item--other]="row.sexe === 'other'"
+        [matTooltip]="row.json"
+        matTooltipClass="patient-list__tooltip"
+        matTooltipPosition="after"
+      >
+        <mat-icon matListItemIcon [attr.aria-label]="row.sexLabel">{{ row.sexIcon }}</mat-icon>
+        <span matListItemTitle>{{ row.nom }} {{ row.prenom }}</span>
+        <span matListItemLine>
+          @if (row.dateDeNaissance) {
+            {{ row.dateDeNaissance | date: 'dd/MM/yyyy' }}
+          } @else {
+            —
+          }
+        </span>
+      </mat-list-item>
+    }
+  </mat-list>
+} @else {
+  <div class="patient-list__empty">
+    <mat-icon aria-hidden="true">search_off</mat-icon>
+    <p class="mat-body-medium">Aucun patient ne correspond à votre recherche.</p>
+    <button matButton (click)="clear()">Effacer la recherche</button>
+  </div>
+}

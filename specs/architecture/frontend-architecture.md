@@ -30,6 +30,8 @@ src/web/src/
 ├── styles.scss                 ← thème M3 global (mat.theme) + resets + utilitaires
 ├── styles/
 │   └── _theme-colors.scss      ← palettes M3 générées depuis le seed #1565C0
+├── data/
+│   └── patients-dmp.json       ← jeu d'essai local des patients (source de F06, hors API)
 ├── environments/
 │   ├── environment.ts          ← prod : apiBaseUrl, apiKey
 │   └── environment.development.ts
@@ -46,12 +48,16 @@ src/web/src/
     │   │   ├── pin.interceptor.ts    ← 401 CpsPinRequired → dialog → rejeu X-Cps-Pin
     │   │   ├── api-key.interceptor.ts← ajoute X-Api-Key si environment.apiKey
     │   │   └── pin-dialog/           ← composant dialog M3 (F05)
+    │   ├── patients/           ← données patients LOCALES (jeu d'essai, hors API)
+    │   │   ├── test-patient.ts       ← interface calquée sur data/patients-dmp.json
+    │   │   └── patients-dataset.ts   ← (PatientsDataset) charge le JSON, expose un signal (F06)
     │   └── http/
     │       └── api-base.interceptor.ts (optionnel : préfixe apiBaseUrl)
     ├── layout/
-    │   └── shell/              ← toolbar + sidenav responsive (mat-sidenav)
-    ├── features/               ← une feature = un dossier (F01…F04 à venir)
-    │   └── home/               ← page d'accueil (placeholder au démarrage)
+    │   └── shell/              ← toolbar + sidenav responsive ; le sidenav héberge la liste patients (F06)
+    ├── features/               ← une feature = un dossier (F01…F06 à venir)
+    │   ├── home/               ← page d'accueil (placeholder au démarrage)
+    │   └── patient-list/       ← liste de patients filtrable, rendue dans le sidenav (F06)
     └── shared/                 ← composants/pipes/directives réutilisables transverses
 ```
 
@@ -60,7 +66,11 @@ src/web/src/
 - `features/*` peut dépendre de `core/*`, `shared/*`, `@angular/material`.
 - `core/*` ne dépend **pas** de `features/*`.
 - `shared/*` = présentationnel et générique, **sans** logique métier ni appel API.
-- Les **appels HTTP** se font **uniquement** via les services `core/api/*` (jamais `HttpClient` direct dans une feature).
+- Les **appels HTTP** vers `Dehempe.API` se font **uniquement** via les services `core/api/*` (jamais `HttpClient` direct dans une feature).
+- **Donnée locale statique** (jeu d'essai patients, F06) : exposée par `core/patients/*` (et **non**
+  `core/api/*`, car ce n'est pas un endpoint backend). Le JSON est embarqué (`src/data/patients-dmp.json`) ;
+  selon l'implémentation il est **importé** (`resolveJsonModule`) ou lu via `HttpClient` depuis les assets
+  — à déclarer dans `angular.json` si servi en asset. Aucune donnée patient locale n'est persistée sur disque.
 
 ## État & données
 
