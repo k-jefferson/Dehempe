@@ -86,13 +86,17 @@ GET /api/patients/{ins}/documents
 |---|---|---|---|---|---|
 | `ins` | route | string | ✅ | — | INS du patient. NIR = 15 chiffres. |
 | `insOid` | query | string | ❌ | `1.2.250.1.213.1.4.8` (NIR) | OID de l'INS : NIR (`…4.8`) ou NIA (`…4.9`). |
-| `dateDebut` | query | date/heure ISO 8601 | ❌ | **aujourd'hui − 30 jours** | Borne basse de la fenêtre (date de soumission, *cf. §2.1*). |
-| `dateFin` | query | date/heure ISO 8601 | ❌ | **aujourd'hui** | Borne haute de la fenêtre. |
+| `createdAfter` | query | date/heure ISO 8601 | ❌ | aucun (*pré-rempli J−30 dans Swagger*) | Borne basse de la fenêtre (date de soumission approximée par `creationTime`, *cf. §2.1*). |
+| `createdBefore` | query | date/heure ISO 8601 | ❌ | aucun (*pré-rempli « aujourd'hui » dans Swagger*) | Borne haute de la fenêtre. |
+| `classCode` | query | string **répétable** | ❌ | — | Un ou plusieurs codes de classe XDS : `?classCode=x&classCode=y`. |
 
 - **Statut** : **toujours forcé à `Approved`** (`urn:oasis:names:tc:ebxml-regrep:StatusType:Approved`).
   Ce n'est **pas** un paramètre exposé (conforme à EX_3.1-1030, qui exige a minima les documents actifs).
-- **Fenêtre par défaut** : si ni `dateDebut` ni `dateFin` ne sont fournis, la recherche porte sur
-  les **30 derniers jours glissants** (`[maintenant − 30 j ; maintenant]`, ancrés en UTC).
+- **Défauts de dates** : **aucun défaut n'est appliqué côté API**. Si `createdAfter` / `createdBefore`
+  ne sont pas fournis, **aucun slot temporel n'est envoyé** au DMP (pas de filtre de date). Le
+  pré-remplissage J−30 → aujourd'hui est **uniquement** une commodité de Swagger UI
+  (`DocumentDateRangeDefaultsOperationFilter`, recalculé à chaque génération du document Swagger) ;
+  il n'affecte **pas** les appels directs à l'API.
 - Les bornes fournies sont interprétées comme des instants ; elles sont converties en **UTC** puis
   formatées `yyyyMMddHHmmss` pour les slots XDS.
 
@@ -100,27 +104,35 @@ GET /api/patients/{ins}/documents
 
 - `ins` non vide ; si `insOid` = NIR → exactement 15 chiffres (`^\d{15}$`).
 - `insOid` ∈ { `1.2.250.1.213.1.4.8`, `1.2.250.1.213.1.4.9` }.
-- `dateDebut ≤ dateFin` lorsque les deux sont fournis.
+- `createdAfter ≤ createdBefore` lorsque les deux sont fournis.
 
 ### 3.4. Réponse `200 OK`
 
-`application/json` — tableau de `DocumentEntryDto` :
+`application/json` — enveloppe `DocumentListDto` :
 
 ```jsonc
-[
-  {
-    "uniqueId": "1.2.250.1.999...",          // DocumentEntry.uniqueId (→ TD3.2)
-    "repositoryUniqueId": "1.2.250.1.999...",// dépôt XDS (→ TD3.2 / ITI-43)
-    "homeCommunityId": "urn:oid:1.2.250...", // optionnel
-    "title": "Compte rendu de consultation",
-    "status": "Approved",
-    "classCode": "...", "typeCode": "...", "formatCode": "...",
-    "mimeType": "text/xml",
-    "creationTime": "2026-06-01T08:30:00+00:00",
-    "serviceStartTime": "...", "serviceStopTime": "...",
-    "authorInstitution": "...", "authorPerson": "..."
-  }
-]
+{
+  "documents": [
+    {
+      "uniqueId": "1.2.250.1.999...",          // DocumentEntry.uniqueId (→ TD3.2)
+      "repositoryUniqueId": "1.2.250.1.999...",// dépôt XDS (→ TD3.2 / ITI-43)
+      "homeCommunityId": "urn:oid:1.2.250...", // optionnel
+      "title": "Compte rendu de consultation",
+      "status": "Approved",
+      "classCode": "...", "typeCode": "...", "formatCode": "...",
+      "mimeType": "text/xml",
+      "creationTime": "2026-06-01T08:30:00+00:00",
+      "serviceStartTime": "...", "serviceStopTime": "...",
+      "authorInstitution": "...", "authorPerson": "..."
+    }
+  ],
+
+  // Diagnostic d'état vide : XML SOAP brut échangé avec le DMP (requête envoyée + réponse
+  // reçue). Renseignés UNIQUEMENT quand `documents` est vide ; null dès qu'au moins un
+  // document est renvoyé.
+  "dmpRequest": null,
+  "dmpResponse": null
+}
 ```
 
 > Les dates sont renvoyées en `DateTimeOffset` (UTC) ; **le frontend les convertit en heure
@@ -144,15 +156,17 @@ GET /api/patients/{ins}/documents
 
 ```
 DocumentsController.GetDocuments (API)
+  • emballe le résultat dans DocumentListDto ; si la liste est vide, y joint le XML SOAP
+    brut capturé (ISoapRequestCapture) → dmpRequest / dmpResponse
   └─ MediatR → GetDocumentListQuery (Application)
        └─ GetDocumentListQueryHandler
             • parse INS (NIR/NIA)
-            • applique les défauts dateDebut = now−30j, dateFin = now
-            • Status = Approved (forcé)
+            • Status = Approved (forcé) ; transmet createdAfter / createdBefore / classCodes tels quels
             └─ IDmpDocumentRepository.FindDocumentsAsync (Domain)
                  └─ DmpDocumentRepository → XdsRegistryClient.FindDocumentsAsync (Infra)
                       • VIHF (CpsVihfContextAccessor) + enveloppe SOAP 1.2 (XdsSoapClientBase)
                       • POST ITI-18 vers Dmp:RegistryEndpoint
+                      • slots dates (UTC) + classCode ajoutés seulement s'ils sont fournis
                       • parse les <rim:ExtrinsicObject> → DocumentEntry
 ```
 
@@ -164,30 +178,38 @@ DocumentsController.GetDocuments (API)
 |---|---|
 | `$XDSDocumentEntryPatientId` | `'{ins}^^^&{oid}&ISO'` |
 | `$XDSDocumentEntryStatus` | `('urn:oasis:names:tc:ebxml-regrep:StatusType:Approved')` (forcé) |
-| `$XDSDocumentEntryCreationTimeFrom` | `dateDebut` → UTC → `yyyyMMddHHmmss` |
-| `$XDSDocumentEntryCreationTimeTo` | `dateFin` → UTC → `yyyyMMddHHmmss` |
+| `$XDSDocumentEntryCreationTimeFrom` | `createdAfter` → UTC → `yyyyMMddHHmmss` *(slot omis si absent)* |
+| `$XDSDocumentEntryCreationTimeTo` | `createdBefore` → UTC → `yyyyMMddHHmmss` *(slot omis si absent)* |
+| `$XDSDocumentEntryClassCode` | `classCode` (répétable) → `('c1','c2')` *(slot omis si aucun code)* |
 
 ### 4.3. Fichiers concernés
 
 | Fichier | Rôle |
 |---|---|
-| `src/Dehempe.API/Controllers/DocumentsController.cs` | route + paramètres `dateDebut`/`dateFin` |
-| `src/Dehempe.Application/Documents/Queries/GetDocumentListQuery.cs` | query + handler (défauts + statut Approved) + validator |
-| `src/Dehempe.Application/Documents/DTOs/DocumentEntryDto.cs` | DTO de sortie (inchangé) |
-| `src/Dehempe.Domain/Interfaces/IDmpDocumentRepository.cs` | `DocumentSearchCriteria` (inchangé) |
-| `src/Dehempe.Infrastructure/Dmp/Soap/XdsRegistryClient.cs` | construction `FindDocuments` + format UTC des dates |
+| `src/Dehempe.API/Controllers/DocumentsController.cs` | route + paramètres `createdAfter`/`createdBefore`/`classCode` ; emballage `DocumentListDto` + capture SOAP |
+| `src/Dehempe.API/Swagger/DocumentDateRangeDefaultsOperationFilter.cs` | pré-remplit les défauts de dates (J−30 → aujourd'hui) dans Swagger UI **uniquement** |
+| `src/Dehempe.Application/Documents/Queries/GetDocumentListQuery.cs` | query + handler (statut Approved forcé, dates/classCodes transmis) + validator (INS, ordre des dates) |
+| `src/Dehempe.Application/Documents/DTOs/DocumentEntryDto.cs` | DTO d'une entrée (inchangé) |
+| `src/Dehempe.Application/Documents/DTOs/DocumentListDto.cs` | enveloppe de réponse `{ documents, dmpRequest, dmpResponse }` |
+| `src/Dehempe.Application/Common/Interfaces/ISoapRequestCapture.cs`<br>`src/Dehempe.Infrastructure/Dmp/Soap/SoapRequestCapture.cs` | capture scopée du XML SOAP brut (requête + réponse) pour le diagnostic d'état vide |
+| `src/Dehempe.Domain/Interfaces/IDmpDocumentRepository.cs` | `DocumentSearchCriteria` (champ `ClassCodes` utilisé) |
+| `src/Dehempe.Infrastructure/Dmp/Soap/XdsRegistryClient.cs` | construction `FindDocuments` : slots dates (UTC) + `classCode`, omis si absents |
 
 ---
 
 ## 5. Exemple
 
-**Requête** — documents actifs des 30 derniers jours :
+**Requête** — tous les documents actifs (aucun filtre temporel) :
 ```
 GET /api/patients/207058575627097/documents
 ```
 **Requête** — fenêtre explicite :
 ```
-GET /api/patients/207058575627097/documents?dateDebut=2026-01-01&dateFin=2026-03-31
+GET /api/patients/207058575627097/documents?createdAfter=2026-01-01&createdBefore=2026-03-31
+```
+**Requête** — filtre par classe (paramètre répétable) :
+```
+GET /api/patients/207058575627097/documents?classCode=ABC&classCode=DEF
 ```
 
 ---
@@ -196,7 +218,7 @@ GET /api/patients/207058575627097/documents?dateDebut=2026-01-01&dateFin=2026-03
 
 - **Vraie date de soumission** (combinaison `FindSubmissionSets` + `GetAssociations` + `GetDocuments`) — cf. §2.1 et §7.
 - **Filtres optionnels EX_3.1-1030** : documents archivés (`…StatusType:Archived` de l'OID asip), masqués (`confidentialityCode = MASQUE_PS`), non-visibles patient/représentants, obsolètes (`Deprecated`). Non exposés : la route renvoie **uniquement** les documents `Approved`.
-- **Filtres `typeCode` / `classCode`** (RG_3020) — non exposés en v1.
+- **Filtre `typeCode`** (RG_3020) — non exposé en v1. *(Le filtre `classCode` est désormais exposé, cf. §3.2 / §4.2.)*
 - **Recherche depuis la dernière connexion** (EX_3.1-1020) — non implémenté.
 - **`DMP_3.1b`** (recherche de l'`entryUUID` via `GetDocuments` en `ObjectRef`) — autre cas d'usage, hors de cette route.
 
@@ -245,6 +267,6 @@ Pour passer à la sémantique exacte (§3.5.1.3, p.116), implémenter la combina
 > ⚠️ Les UUID/slots ci-dessus sont à **confirmer dans `[IHE-TF2A] §3.18`** et l'annexe WSDL
 > (`docs/package dmp/annexe-wsdl-schema/`) avant implémentation.
 
-Le paramètre d'API (`dateDebut`/`dateFin`) resterait inchangé ; seul le mapping interne
+Le paramètre d'API (`createdAfter`/`createdBefore`) resterait inchangé ; seul le mapping interne
 (repository + nouveaux clients SOAP) évoluerait. Les nouvelles requêtes stockées et le parsing
 des associations devront être ajoutés à `XdsConstants` et à l'infrastructure SOAP.
