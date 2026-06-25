@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PatientsDataset } from '../../core/patients/patients-dataset';
 
 type Sexe = 'M' | 'F' | 'other';
@@ -19,8 +20,10 @@ interface PatientRow {
   sexe: Sexe;
   sexIcon: string;
   sexLabel: string;
-  /** JSON complet du patient, indenté (infobulle). */
-  json: string;
+  /** INS (`matriculeInsNir` stringifié) ou `null` → patient non navigable (cf. F07 US-07.3). */
+  ins: string | null;
+  /** Infobulle : JSON complet du patient (préfixé d'un avertissement si pas d'INS). */
+  tooltip: string;
   /** Champ normalisé (nom + prénom) pour la recherche insensible casse/accents. */
   haystack: string;
 }
@@ -48,6 +51,8 @@ function normalize(value: string): string {
     MatInputModule,
     MatButtonModule,
     MatTooltipModule,
+    RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './patient-list.html',
   styleUrl: './patient-list.scss',
@@ -64,6 +69,8 @@ export class PatientList {
       const nom = p.nomUtilise ?? p.nomDeNaissance ?? '';
       const prenom = p.prenomUtilise ?? p.prenomDeNaissance ?? '';
       const sexe: Sexe = p.sexe === 'M' ? 'M' : p.sexe === 'F' ? 'F' : 'other';
+      const ins = p.matriculeInsNir == null ? null : String(p.matriculeInsNir).trim() || null;
+      const json = JSON.stringify(p, null, 2);
       return {
         id: p.idPatient,
         nom,
@@ -72,7 +79,8 @@ export class PatientList {
         sexe,
         sexIcon: sexe === 'M' ? 'male' : sexe === 'F' ? 'female' : 'person',
         sexLabel: sexe === 'M' ? 'Homme' : sexe === 'F' ? 'Femme' : 'Sexe non précisé',
-        json: JSON.stringify(p, null, 2),
+        ins,
+        tooltip: ins ? json : `INS indisponible — DMP non consultable\n\n${json}`,
         haystack: normalize(`${nom} ${prenom}`),
       };
     }),

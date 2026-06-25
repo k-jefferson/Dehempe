@@ -46,7 +46,8 @@ specs/
 │   ├── F03-document-list.md        ← liste des documents DMP
 │   ├── F04-document-viewer.md      ← consultation / téléchargement d'un document
 │   ├── F05-pin-entry.md            ← saisie du code PIN (transverse)
-│   └── F06-patient-list.md         ← liste des patients (sélecteur sidenav, jeu d'essai local)
+│   ├── F06-patient-list.md         ← liste des patients (sélecteur sidenav, jeu d'essai local)
+│   └── F07-patient-document-navigation.md ← sélection d'un patient → ses documents
 └── _templates/
     └── feature.template.md         ← gabarit d'une nouvelle feature
 ```
@@ -60,6 +61,6 @@ specs/
 | 🔵 En cours | Implémentation partielle. |
 | ⚪ Idée | Pas encore spécifié en détail. |
 
-> État : le **scaffold** (thème M3 + shell de navigation + couche API) est en place. **F06**
-> (liste des patients dans le sidenav) est **implémentée** ; les autres features métier (F01–F05)
-> restent 🟡 Spécifié.
+> État : le **scaffold** (thème M3 + shell de navigation + couche API) est en place. **F06** (liste des
+> patients) et **F07** (sélection → documents) sont **implémentées** ; **F03** (liste des documents) est
+> **en cours** ; F01, F02, F04, F05 restent 🟡 Spécifié.

@@ -15,6 +15,10 @@ Structure unique pour toute l'app (`layout/shell`) :
   - **Contenu principal = liste des patients** (cf. [F06](../features/F06-patient-list.md)) : un champ
     de recherche épinglé en haut + une liste verticale défilante (un élément par patient, coloré
     selon le sexe). Cette liste **remplace** l'ancien `mat-nav-list` (entrées Accueil / Patient / Documents).
+  - **Sélection → documents** (cf. [F07](../features/F07-patient-document-navigation.md)) : cliquer un
+    patient ouvre **ses documents (F03)** dans la zone de contenu (route `patient/:ins/documents`) ;
+    l'élément actif est mis en évidence (`routerLinkActive`). En mode `over` (mobile), la sélection
+    **referme** le sidenav. Les patients sans INS ne sont pas navigables.
   - *Historique* : tant que F06 n'était pas spécifiée, le sidenav portait un `mat-nav-list` avec item
     actif via `routerLinkActive`. Si un menu de navigation redevient nécessaire (plusieurs écrans
     routés), le réintroduire **en complément** de la liste patients, pas à sa place.
@@ -53,7 +57,8 @@ Chaque écran commence par un en-tête homogène :
 
 ## Navigation entre écrans
 
-- Profondeur faible. Parcours type : Accueil → Patient (INS) → Documents → Document.
+- Profondeur faible. Parcours type : Accueil → **sélection d'un patient (sidenav, F07)** → Documents →
+  Document (la saisie manuelle d'INS reste un chemin alternatif).
 - Conserver l'INS/patient en contexte (en-tête) quand on descend dans les documents.
 - Bouton retour explicite quand on entre dans un sous-écran (visionneuse).
 

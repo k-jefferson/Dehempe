@@ -19,29 +19,59 @@
 </div>
 
 @if (filtered().length > 0) {
-  <mat-list class="patient-list__list">
+  <mat-nav-list class="patient-list__list">
     @for (row of filtered(); track row.id) {
-      <mat-list-item
-        class="patient-list__item"
-        [class.patient-list__item--male]="row.sexe === 'M'"
-        [class.patient-list__item--female]="row.sexe === 'F'"
-        [class.patient-list__item--other]="row.sexe === 'other'"
-        [matTooltip]="row.json"
-        matTooltipClass="patient-list__tooltip"
-        matTooltipPosition="after"
-      >
-        <mat-icon matListItemIcon [attr.aria-label]="row.sexLabel">{{ row.sexIcon }}</mat-icon>
-        <span matListItemTitle>{{ row.nom }} {{ row.prenom }}</span>
-        <span matListItemLine>
-          @if (row.dateDeNaissance) {
-            {{ row.dateDeNaissance | date: 'dd/MM/yyyy' }}
-          } @else {
-            —
-          }
-        </span>
-      </mat-list-item>
+      @if (row.ins) {
+        <a
+          mat-list-item
+          class="patient-list__item"
+          [class.patient-list__item--male]="row.sexe === 'M'"
+          [class.patient-list__item--female]="row.sexe === 'F'"
+          [class.patient-list__item--other]="row.sexe === 'other'"
+          [routerLink]="['/patient', row.ins, 'documents']"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [activated]="rla.isActive"
+          [class.patient-list__item--active]="rla.isActive"
+          [matTooltip]="row.tooltip"
+          matTooltipClass="patient-list__tooltip"
+          matTooltipPosition="after"
+        >
+          <mat-icon matListItemIcon [attr.aria-label]="row.sexLabel">{{ row.sexIcon }}</mat-icon>
+          <span matListItemTitle>{{ row.nom }} {{ row.prenom }}</span>
+          <span matListItemLine>
+            @if (row.dateDeNaissance) {
+              {{ row.dateDeNaissance | date: 'dd/MM/yyyy' }}
+            } @else {
+              —
+            }
+          </span>
+        </a>
+      } @else {
+        <mat-list-item
+          class="patient-list__item patient-list__item--disabled"
+          [class.patient-list__item--male]="row.sexe === 'M'"
+          [class.patient-list__item--female]="row.sexe === 'F'"
+          [class.patient-list__item--other]="row.sexe === 'other'"
+          [matTooltip]="row.tooltip"
+          matTooltipClass="patient-list__tooltip"
+          matTooltipPosition="after"
+          disabled
+        >
+          <mat-icon matListItemIcon [attr.aria-label]="row.sexLabel">{{ row.sexIcon }}</mat-icon>
+          <span matListItemTitle>{{ row.nom }} {{ row.prenom }}</span>
+          <span matListItemLine>
+            @if (row.dateDeNaissance) {
+              {{ row.dateDeNaissance | date: 'dd/MM/yyyy' }}
+            } @else {
+              —
+            }
+          </span>
+          <mat-icon matListItemMeta aria-hidden="true">link_off</mat-icon>
+        </mat-list-item>
+      }
     }
-  </mat-list>
+  </mat-nav-list>
 } @else {
   <div class="patient-list__empty">
     <mat-icon aria-hidden="true">search_off</mat-icon>

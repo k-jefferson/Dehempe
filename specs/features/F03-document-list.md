@@ -1,11 +1,23 @@
 # F03 — Liste des documents (ITI-18)
 
-> **Statut** : 🟡 Spécifié · **Priorité** : Haute · **Dépend de** : F02, F05 · **Endpoints** : `GET /api/patients/{ins}/documents`
+> **Statut** : 🔵 En cours · **Priorité** : Haute · **Dépend de** : F05 · **Accès** : sélection patient ([F07](F07-patient-document-navigation.md)) ou saisie INS ([F02](F02-patient-dmp-existence.md)) · **Endpoints** : `GET /api/patients/{ins}/documents`
 
 ## 1. Objectif
 
 Pour le **praticien**, **lister les documents du DMP** d'un patient, les filtrer, et en sélectionner un
 pour le consulter (F04).
+
+> **Accès & contexte** : l'écran est ouvert via la **route `patient/:ins/documents`**, atteinte en
+> **sélectionnant un patient** dans le sidenav ([F07](F07-patient-document-navigation.md)) — ou, à défaut,
+> depuis la saisie d'INS ([F02](F02-patient-dmp-existence.md)). L'INS provient du **paramètre de route**
+> (`:ins`). L'en-tête rappelle le patient courant (**nom/prénom** issus du jeu d'essai [F06](F06-patient-list.md),
+> lookup par INS ; **INS** affiché), sans exiger un passage préalable par F02.
+
+> **État d'implémentation (incrément 1)** : liste fonctionnelle — en-tête contextualisé, fenêtre
+> J−30 → aujourd'hui, tableau **triable + paginé** (type / titre / date / auteur, icône dérivée du
+> `mimeType`), états chargement / vide (+ panneau diagnostic `dmpRequest`/`dmpResponse`) / 404 / erreur.
+> **Reste à faire** : filtre `classCode` multi-valeurs (US-03.2) et ouverture d'un document vers la
+> visionneuse F04 (US-03.5).
 
 ## 2. Périmètre API
 
@@ -21,8 +33,8 @@ pour le consulter (F04).
 
 ### US-03.1 — Voir les documents
 **En tant que** praticien, **je veux** la liste des documents avec leurs métadonnées clés **afin de** repérer ce qui m'intéresse.
-- [ ] Colonnes : titre (fallback si `null`), type (`typeCode`/`classCode` lisibles), date (`creationTime`, `dd/MM/yyyy`), auteur (`authorPerson`/`authorInstitution`).
-- [ ] Une icône de type est dérivée du `mimeType` (PDF, etc.).
+- [x] Colonnes : titre (fallback si `null`), type (`typeCode`/`classCode` lisibles), date (`creationTime`, `dd/MM/yyyy`), auteur (nom lisible dérivé du HL7 `authorPerson`/`authorInstitution`).
+- [x] Une icône de type est dérivée du `mimeType` (PDF, etc.).
 
 ### US-03.2 — Filtrer
 - [ ] Filtre période (`createdAfter` / `createdBefore`), pré-rempli J−30 → aujourd'hui.
@@ -43,6 +55,9 @@ pour le consulter (F04).
 - Conserver `uniqueId` + `repositoryUniqueId` (+ `homeCommunityId`) de chaque entrée : indispensables à F04.
 - Ne pas afficher de date si `null` (afficher « — »).
 - Tous les documents retournés sont `APPROVED` (l'API n'interroge pas les `DEPRECATED`).
+- **Auteur lisible** : `authorPerson` est un HL7 **XCN** (`id^nom^prénom^…^&autorité&ISO^type`) → afficher
+  « Prénom Nom » (repli sur l'identifiant si pas de nom) ; `authorInstitution` (XON) en repli (1re
+  composante). La **valeur brute** reste consultable en infobulle (police mono).
 
 ## 5. UI / composants (Material 3)
 

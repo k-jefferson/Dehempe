@@ -55,9 +55,10 @@ src/web/src/
     │       └── api-base.interceptor.ts (optionnel : préfixe apiBaseUrl)
     ├── layout/
     │   └── shell/              ← toolbar + sidenav responsive ; le sidenav héberge la liste patients (F06)
-    ├── features/               ← une feature = un dossier (F01…F06 à venir)
+    ├── features/               ← une feature = un dossier (F01…F07 à venir)
     │   ├── home/               ← page d'accueil (placeholder au démarrage)
-    │   └── patient-list/       ← liste de patients filtrable, rendue dans le sidenav (F06)
+    │   ├── patient-list/       ← liste de patients filtrable + sélection→documents (F06/F07), sidenav
+    │   └── documents/          ← liste des documents d'un patient (F03/F04, à venir)
     └── shared/                 ← composants/pipes/directives réutilisables transverses
 ```
 
@@ -87,8 +88,11 @@ src/web/src/
   '' → shell
        ├── ''            → home (accueil / état carte CPS)
        ├── 'patient'     → recherche + existence DMP (F02)        [lazy]
-       └── 'patient/:ins/documents' → liste + visionneuse (F03/F04) [lazy]
+       └── 'patient/:ins/documents' → liste + visionneuse (F03/F04) [lazy]  ← cible de la sélection F07
   ```
+- **Sélection patient (F07)** : les items de `patient-list` sont des liens
+  `routerLink="/patient/{{ins}}/documents"` (`mat-nav-list`, item actif via `routerLinkActive`).
+  L'INS vient de `matriculeInsNir` (stringifié) ; les patients sans INS ne sont pas navigables.
 
 ## Qualité
 

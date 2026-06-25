@@ -55,3 +55,15 @@ body {
   font-size: 11px;
   line-height: 1.45;
 }
+
+// Infobulles « techniques » des documents (F03) : codes de type et valeur brute HL7 de l'auteur.
+// Multi-lignes préservées, police mono, alignées à gauche.
+.documents__tech-tip .mdc-tooltip__surface {
+  max-width: min(420px, 92vw);
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, "Roboto Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.45;
+}

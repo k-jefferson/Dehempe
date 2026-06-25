@@ -1,12 +1,12 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { map } from 'rxjs';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { filter, map } from 'rxjs';
 import { PatientList } from '../../features/patient-list/patient-list';
 
 /** Shell applicatif : toolbar + navigation latérale responsive (cf. specs/design-system/layout-navigation.md). */
@@ -27,6 +27,10 @@ import { PatientList } from '../../features/patient-list/patient-list';
 })
 export class Shell {
   private readonly breakpoints = inject(BreakpointObserver);
+  private readonly router = inject(Router);
+
+  /** Tiroir latéral — refermé après navigation en mode mobile (`over`). */
+  private readonly sidenav = viewChild(MatSidenav);
 
   /** Navigation en mode 'over' sous ~960px (tablette / mobile). */
   readonly isHandset = toSignal(
@@ -34,4 +38,19 @@ export class Shell {
     { initialValue: false },
   );
   readonly sidenavMode = computed<'over' | 'side'>(() => (this.isHandset() ? 'over' : 'side'));
+
+  constructor() {
+    // Sélection d'un patient (F07) → navigation : en mode mobile, refermer le tiroir pour
+    // révéler le contenu. Sur desktop (side), le tiroir reste ancré.
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        if (this.isHandset()) {
+          this.sidenav()?.close();
+        }
+      });
+  }
 }

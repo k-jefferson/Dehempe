@@ -27,9 +27,9 @@ et le rôle sont lus sur la carte — voir `auth-and-pin-flow.md`).
 ## Parcours cible (vue d'ensemble)
 
 1. **Démarrage** — l'app détecte la carte CPS insérée et affiche l'identité du praticien (porteur).
-2. **Recherche patient** — le praticien saisit l'INS (NIR/NIA) du patient.
+2. **Choix du patient** — le praticien **sélectionne un patient** dans la liste du sidenav (jeu d'essai local), ce qui ouvre directement ses documents — ou saisit son INS (NIR/NIA) à la main.
 3. **PIN** — au premier appel DMP, l'app demande le code PIN de la carte (puis le mémorise pour la session).
-4. **Test d'existence** — l'app indique si le patient a un DMP, et quelques infos d'identité.
+4. **Test d'existence** *(via la saisie manuelle d'INS)* — l'app indique si le patient a un DMP, et quelques infos d'identité.
 5. **Documents** — l'app liste les documents du DMP, filtrables, et permet d'en **consulter / télécharger** le contenu.
 
 ## Périmètre (v1)

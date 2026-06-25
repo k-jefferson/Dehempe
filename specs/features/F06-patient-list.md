@@ -1,13 +1,14 @@
 # F06 — Liste des patients (sélecteur, données de test)
 
-> **Statut** : 🟢 Implémenté · **Priorité** : Haute · **Dépend de** : — (alimentera F02/F03) · **Endpoints** : aucun (données locales)
+> **Statut** : 🟢 Implémenté · **Priorité** : Haute · **Dépend de** : — · **Sélection câblée par** : [F07](F07-patient-document-navigation.md) · **Endpoints** : aucun (données locales)
 
 ## 1. Objectif
 
 Pour le **praticien**, afficher dans la **navigation latérale** (sidenav) une **liste verticale de
 patients** issue d'un **jeu d'essai local**, repérable d'un coup d'œil et **filtrable par nom/prénom**,
-afin de choisir rapidement un patient de test (préparation des parcours F02 « existence DMP » et
-F03 « documents »).
+afin de choisir rapidement un patient — point d'entrée vers **ses documents** (la sélection est câblée
+par [F07](F07-patient-document-navigation.md), qui ouvre la liste de documents F03 ; la saisie manuelle
+d'INS F02 reste un chemin alternatif).
 
 Cette liste **remplace** le menu de navigation actuel du sidenav (entrées *Accueil*, *Patient / DMP*,
 *Documents*) — voir [§8 Impacts](#8-impacts).
@@ -91,7 +92,8 @@ Cette liste **remplace** le menu de navigation actuel du sidenav (entrées *Accu
 - **Recherche** : `mat-form-field` `appearance="outline"`, `matInput`, icône `search` en préfixe,
   bouton d'effacement `matIconButton` (`aria-label` « Effacer la recherche ») en suffixe. Épinglée
   en haut (la liste défile dessous).
-- **Liste** : `mat-list` (ou `mat-nav-list` si la sélection est câblée plus tard) ; un `mat-list-item`
+- **Liste** : `mat-nav-list` (la sélection est câblée par [F07](F07-patient-document-navigation.md) :
+  `<a mat-list-item routerLink>` + état actif `routerLinkActive`) ; un `mat-list-item`
   par patient avec : icône de sexe (`matListItemIcon`), titre = `Nom Prénom` (`matListItemTitle`),
   ligne secondaire = date de naissance (`matListItemLine`).
 - **Couleur de fond par sexe** (cf. [foundations](../design-system/foundations.md), règle « tokens, pas de hex ») :
@@ -140,17 +142,20 @@ Cette liste **remplace** le menu de navigation actuel du sidenav (entrées *Accu
   contenu du sidenav mise à jour (liste de patients + recherche au lieu du `mat-nav-list`).
 - **Spec** [architecture/frontend-architecture](../architecture/frontend-architecture.md) : arborescence
   (ajout `features/patient-list`, `core/patients`) + mention de la **source de données locale**.
-- **F02** [Existence DMP](F02-patient-dmp-existence.md) : la liste devient un **point d'entrée** possible
-  vers la saisie d'INS (pré-remplissage à terme) — voir la note « Lien avec F06 » de F02.
+- **F07** [Sélection → documents](F07-patient-document-navigation.md) : câble la sélection — cliquer un
+  patient ouvre ses documents (F03) dans la zone de contenu. La liste passe en `mat-nav-list` (item actif).
+- **F02** [Existence DMP](F02-patient-dmp-existence.md) : reste un **chemin alternatif** (saisie manuelle
+  d'INS) ; il n'est plus sur le chemin de la sélection (qui va directement aux documents via F07).
 
 ## 9. Décisions actées (validées avant implémentation)
 
 Décisions validées avec le demandeur :
 
-1. **Sélection sans action** : cliquer un patient **ne navigue pas** et ne « sélectionne » rien dans
-   cette v1 (le besoin exprimé = afficher / filtrer / colorer / infobulle). Le câblage
-   sélection → F02/F03 (pré-remplir l'INS, ouvrir l'existence DMP) est **hors périmètre F06**, traité
-   **plus tard**.
+1. **Sélection → documents (mis à jour)** : ⚠️ La décision initiale « sélection sans action » de la v1
+   F06 est **levée**. Le câblage sélection → documents est désormais **spécifié par
+   [F07](F07-patient-document-navigation.md)** : cliquer un patient ouvre la liste de ses documents (F03)
+   dans la zone de contenu (la liste devient `mat-nav-list` avec item actif). L'affichage / filtrage /
+   couleur / infobulle de F06 sont inchangés.
 2. **Disparition du menu** : *Patient / DMP* et *Documents* (entrées « Bientôt ») disparaissent du
    sidenav ; *Accueil* passe sur la marque cliquable.
 3. **Couleur femme = token applicatif `--app-sex-female-*`** (M3 n'a pas de rose) ; homme = token M3

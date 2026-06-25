@@ -1,0 +1,122 @@
+:host {
+  display: block;
+}
+
+.documents__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.documents__heading h1 {
+  margin: 0 0 4px;
+}
+
+.documents__subtitle {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-medium);
+}
+
+.documents__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+// États transverses (chargement / vide / 404) centrés.
+.documents__state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  p {
+    margin: 0;
+    max-width: 42ch;
+  }
+}
+
+.documents__error {
+  margin: 0 auto;
+  max-width: 520px;
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  mat-icon {
+    color: var(--mat-sys-error);
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.documents__table {
+  width: 100%;
+  background: transparent;
+}
+
+.documents__type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.documents__muted {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// Bloc diagnostic (XML SOAP brut) sous l'état vide — aligné à gauche, défilant.
+.documents__diag {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 16px;
+  text-align: left;
+
+  h3 {
+    margin: 12px 0 4px;
+  }
+
+  pre {
+    max-height: 320px;
+    overflow: auto;
+    margin: 0;
+    padding: 12px;
+    border-radius: var(--mat-sys-corner-small);
+    background: var(--mat-sys-surface-container);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: ui-monospace, "Roboto Mono", "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
+
+mat-paginator {
+  margin-top: 8px;
+  background: transparent;
+}

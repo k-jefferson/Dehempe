@@ -1,0 +1,150 @@
+<header class="documents__header">
+  <div class="documents__heading">
+    <h1 class="mat-headline-small">Documents du patient</h1>
+    <p class="documents__subtitle">
+      @if (patientName(); as name) {
+        <strong>{{ name }}</strong> ·
+      }
+      <span>INS {{ ins() }}</span>
+      @if (!loading() && !hardError() && !notFound()) {
+        · {{ total() }} document{{ total() > 1 ? 's' : '' }}
+      }
+    </p>
+  </div>
+  <button matButton (click)="reload()" [disabled]="loading()" aria-label="Actualiser la liste">
+    <mat-icon>refresh</mat-icon>
+    Actualiser
+  </button>
+</header>
+
+<form class="documents__filters" (submit)="$event.preventDefault()">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Du</mat-label>
+    <input
+      matInput
+      [matDatepicker]="fromPicker"
+      [value]="from()"
+      (dateChange)="onFrom($event.value)"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="fromPicker" />
+    <mat-datepicker #fromPicker />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Au</mat-label>
+    <input
+      matInput
+      [matDatepicker]="toPicker"
+      [value]="to()"
+      (dateChange)="onTo($event.value)"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="toPicker" />
+    <mat-datepicker #toPicker />
+  </mat-form-field>
+
+  <button matButton type="button" (click)="resetFilters()">
+    <mat-icon>restart_alt</mat-icon>
+    Réinitialiser
+  </button>
+</form>
+
+@if (loading()) {
+  <div class="documents__state" role="status">
+    <mat-spinner diameter="36" />
+    <p class="mat-body-medium">Interrogation du DMP…</p>
+  </div>
+} @else if (hardError(); as e) {
+  <mat-card appearance="outlined" class="documents__error">
+    <mat-card-content>
+      <mat-icon aria-hidden="true">error</mat-icon>
+      <p class="mat-body-medium">{{ e.message }}</p>
+      <button matButton (click)="reload()">Réessayer</button>
+    </mat-card-content>
+  </mat-card>
+} @else if (notFound()) {
+  <div class="documents__state">
+    <mat-icon aria-hidden="true">person_off</mat-icon>
+    <p class="mat-body-medium">Aucun DMP trouvé pour ce patient (ou patient introuvable).</p>
+  </div>
+} @else if (total() === 0) {
+  <div class="documents__state">
+    <mat-icon aria-hidden="true">folder_off</mat-icon>
+    <p class="mat-body-medium">Ce DMP ne contient aucun document pour les filtres choisis.</p>
+    <button matButton (click)="resetFilters()">Réinitialiser les filtres</button>
+    @if (diagnostic(); as d) {
+      <mat-accordion class="documents__diag">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Détails techniques (échange DMP)</mat-panel-title>
+          </mat-expansion-panel-header>
+          @if (d.request) {
+            <h3 class="mat-title-small">Requête envoyée</h3>
+            <pre>{{ d.request }}</pre>
+          }
+          @if (d.response) {
+            <h3 class="mat-title-small">Réponse reçue</h3>
+            <pre>{{ d.response }}</pre>
+          }
+          @if (!d.request && !d.response) {
+            <p class="mat-body-medium">Aucun détail technique fourni par l'API.</p>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
+  </div>
+} @else {
+  <table
+    mat-table
+    [dataSource]="pagedRows()"
+    matSort
+    [matSortActive]="sort().active"
+    [matSortDirection]="sort().direction"
+    (matSortChange)="onSort($event)"
+    class="documents__table"
+  >
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="documents__type" [matTooltip]="row.typeTooltip" matTooltipClass="documents__tech-tip">
+          <mat-icon aria-hidden="true">{{ row.icon }}</mat-icon>
+          <span>{{ row.type }}</span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Titre</th>
+      <td mat-cell *matCellDef="let row" [class.documents__muted]="!row.hasTitle">{{ row.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="creationTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let row">
+        @if (row.creationTime) {
+          {{ row.creationTime | date: 'dd/MM/yyyy' }}
+        } @else {
+          <span class="documents__muted">—</span>
+        }
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Auteur</th>
+      <td mat-cell *matCellDef="let row" [matTooltip]="row.authorTooltip" matTooltipClass="documents__tech-tip">
+        {{ row.author }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="total()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [pageSizeOptions]="[10, 25, 50]"
+    (page)="onPage($event)"
+    aria-label="Pagination des documents"
+  />
+}
