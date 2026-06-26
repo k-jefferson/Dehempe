@@ -168,6 +168,7 @@ DocumentsController.GetDocuments (API)
                       • POST ITI-18 vers Dmp:RegistryEndpoint
                       • slots dates (UTC) + classCode ajoutés seulement s'ils sont fournis
                       • parse les <rim:ExtrinsicObject> → DocumentEntry
+                        (uniqueId lu sur l'ExternalIdentifier OID, PAS l'attribut id — cf. §7.3)
 ```
 
 ### 4.2. Mapping paramètres → requête `FindDocuments` (ITI-18)
@@ -193,7 +194,8 @@ DocumentsController.GetDocuments (API)
 | `src/Dehempe.Application/Documents/DTOs/DocumentListDto.cs` | enveloppe de réponse `{ documents, dmpRequest, dmpResponse }` |
 | `src/Dehempe.Application/Common/Interfaces/ISoapRequestCapture.cs`<br>`src/Dehempe.Infrastructure/Dmp/Soap/SoapRequestCapture.cs` | capture scopée du XML SOAP brut (requête + réponse) pour le diagnostic d'état vide |
 | `src/Dehempe.Domain/Interfaces/IDmpDocumentRepository.cs` | `DocumentSearchCriteria` (champ `ClassCodes` utilisé) |
-| `src/Dehempe.Infrastructure/Dmp/Soap/XdsRegistryClient.cs` | construction `FindDocuments` : slots dates (UTC) + `classCode`, omis si absents |
+| `src/Dehempe.Infrastructure/Dmp/Soap/XdsRegistryClient.cs` | construction `FindDocuments` (slots dates UTC + `classCode`) **et** parsing réponse → `DocumentEntry` (`uniqueId` lu sur l'`ExternalIdentifier` OID, cf. §7.3) |
+| `src/Dehempe.Infrastructure/Dmp/Soap/XdsConstants.cs` | UUID des schemes XDS, dont `DocumentEntryUniqueIdScheme` (uniqueId) et `DocumentEntryPatientIdScheme` |
 
 ---
 
@@ -249,6 +251,26 @@ L'OID est mutualisé dans `XdsConstants.DmpInsOid` (réutilisé par le VIHF et l
 ### 7.2. `creationTime` ≠ date de soumission
 
 Voir §2.1. Documenté comme approximation assumée.
+
+### 7.3. `uniqueId` (OID) vs `entryUUID` (`urn:uuid:`) — ✅ corrigé
+
+Un `<rim:ExtrinsicObject>` porte **deux** identifiants à ne pas confondre :
+
+| Identifiant | Où | Format | Usage |
+|---|---|---|---|
+| **entryUUID** | attribut `id` / `lid` de l'`ExtrinsicObject` | `urn:uuid:…` | ID symbolique **interne** au registre (`GetAssociations`, `GetDocuments`, cf. §8) |
+| **uniqueId** | `<rim:ExternalIdentifier identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab">/@value` | OID (`1.2.250.1.999…`) | `DocumentUniqueId` attendu par l'**ITI-43** (récupération du contenu, F04) |
+
+Le scaffolding initial mappait `DocumentEntry.UniqueId` sur l'attribut `id` (donc l'entryUUID). La
+liste F03 s'affichait, mais l'ouverture d'un document (F04 / ITI-43) renvoyait le SOAP Fault
+**`XDSDocumentUniqueIdError`** (`codeContext="uniqueId=urn:uuid:…"`) : le DMP ne reconnaît pas un
+entryUUID en `DocumentUniqueId`.
+
+**Correction appliquée** : `XdsRegistryClient.MapToDocumentEntry` lit désormais `UniqueId` depuis
+l'`ExternalIdentifier` de scheme `XdsConstants.DocumentEntryUniqueIdScheme`
+(`urn:uuid:2e82c1f6-…`), et conserve l'attribut `id` dans `EntryUuid` (réservé aux requêtes du §8).
+Confirmé par l'exemple officiel ANS (`TD3.1 - Recherche de document_réponse.xml`) où chaque
+`ExtrinsicObject` expose les deux `ExternalIdentifier` (patientId `…58a6f841…` + uniqueId `…2e82c1f6…`).
 
 ---
 

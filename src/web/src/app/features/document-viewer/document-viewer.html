@@ -1,0 +1,136 @@
+<header class="viewer__header">
+  <button matIconButton (click)="back()" aria-label="Retour à la liste des documents">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <div class="viewer__heading">
+    @if (state(); as s) {
+      <h1 class="mat-headline-small viewer__title">
+        {{ s.kind !== 'loading' ? s.title : 'Chargement…' }}
+      </h1>
+    }
+    @if (cdaLevel(); as level) {
+      <span class="viewer__badge mat-label-small">
+        @switch (level) {
+          @case ('N1') { Document encapsulé }
+          @case ('N3') { Document structuré CDA }
+          @default { Format inconnu }
+        }
+      </span>
+    }
+  </div>
+
+  <button
+    matButton
+    (click)="download()"
+    [disabled]="state().kind === 'loading'"
+    aria-label="Télécharger le document"
+  >
+    <mat-icon>download</mat-icon>
+    Télécharger
+  </button>
+</header>
+
+<div class="viewer__content">
+
+  @switch (state().kind) {
+
+    @case ('loading') {
+      <div class="viewer__state" role="status">
+        <mat-spinner diameter="36" />
+        <p class="mat-body-medium">{{ state().kind === 'loading' ? $any(state()).label : '' }}</p>
+      </div>
+    }
+
+    @case ('pdf') {
+      <!-- CDA N1 — PDF encapsulé affiché nativement -->
+      <object
+        class="viewer__pdf"
+        [data]="$any(state()).safeUrl"
+        type="application/pdf"
+        aria-label="Visionneuse PDF"
+      >
+        <!-- Fallback si l'objet PDF n'est pas supporté -->
+        <div class="viewer__state">
+          <mat-icon aria-hidden="true">picture_as_pdf</mat-icon>
+          <p class="mat-body-medium">Le navigateur ne peut pas afficher ce PDF directement.</p>
+          <button matButton (click)="download()">
+            <mat-icon>download</mat-icon>
+            Télécharger le PDF
+          </button>
+        </div>
+      </object>
+    }
+
+    @case ('n3') {
+      <!-- CDA N3 — rendu HTML via XSL ANS -->
+      <div class="viewer__cda-html" [innerHTML]="$any(state()).html"></div>
+    }
+
+    @case ('n1-other') {
+      <!-- CDA N1 — type non-PDF mais affichable (image, texte) -->
+      <div class="viewer__state">
+        <mat-icon aria-hidden="true">description</mat-icon>
+        <p class="mat-body-medium">
+          Type : <code>{{ $any(state()).mediaType }}</code><br/>
+          Ce type de document n'est pas prévisualisable ici.
+        </p>
+        <button matButton (click)="download()">
+          <mat-icon>download</mat-icon>
+          Télécharger
+        </button>
+      </div>
+    }
+
+    @case ('unsupported') {
+      <!-- Aperçu indisponible : XML inconnu ou transformation XSL échouée -->
+      <div class="viewer__state">
+        <mat-icon aria-hidden="true">preview_off</mat-icon>
+        <p class="mat-body-medium">Aperçu indisponible pour ce document.</p>
+        <button matButton (click)="download()">
+          <mat-icon>download</mat-icon>
+          Télécharger le document
+        </button>
+      </div>
+    }
+
+    @case ('error') {
+      <mat-card appearance="outlined" class="viewer__error">
+        <mat-card-content>
+          <mat-icon aria-hidden="true">error</mat-icon>
+          <p class="mat-body-medium">{{ $any(state()).message }}</p>
+
+          @if (errorDmpDetails()?.soapResponse || errorDmpDetails()?.soapRequest) {
+            @let details = errorDmpDetails()!;
+            <mat-accordion class="viewer__soap-details">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="mat-label-medium">Détails</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                @if (details.soapResponse) {
+                  <h3 class="mat-title-small viewer__soap-title">Réponse DMP</h3>
+                  <pre class="viewer__soap-block">{{ details.soapResponse }}</pre>
+                }
+                @if (details.soapRequest) {
+                  <h3 class="mat-title-small viewer__soap-title">Requête envoyée</h3>
+                  <pre class="viewer__soap-block">{{ details.soapRequest }}</pre>
+                }
+                @if (!details.soapResponse && !details.soapRequest) {
+                  <p class="mat-body-small">Aucun détail technique disponible.</p>
+                }
+              </mat-expansion-panel>
+            </mat-accordion>
+          }
+
+          <button matButton (click)="back()">
+            <mat-icon>arrow_back</mat-icon>
+            Retour à la liste
+          </button>
+        </mat-card-content>
+      </mat-card>
+    }
+
+  }
+
+</div>

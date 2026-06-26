@@ -17,6 +17,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/documents/documents').then((m) => m.Documents),
         title: 'Documents du patient — Déhempé',
       },
+      // F04 : visionneuse de document CDA R2 (N1 PDF ou N3 structuré via XSL ANS).
+      {
+        path: 'patient/:ins/documents/:uniqueId',
+        loadComponent: () => import('./features/document-viewer/document-viewer').then((m) => m.DocumentViewer),
+        title: 'Document — Déhempé',
+      },
       // F02 : { path: 'patient', loadComponent: ... }
     ],
   },

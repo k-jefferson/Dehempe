@@ -272,6 +272,18 @@ Every outbound XDS request is built by `XdsSoapClientBase`:
 3. The assertion is injected as a WS-Security header on a SOAP 1.2 envelope; `SOAPAction` matches the ITI URI in `XdsConstants`.
 4. Errors are detected by inspecting the `<RegistryResponse>` status and any `<RegistryError>` codes — translate these to `DmpPatientNotFoundException` / `DmpDocumentNotFoundException` / `DmpException` for `ExceptionHandlingMiddleware` to map.
 
+### Two XDS identifiers — `uniqueId` (OID) vs `entryUUID` (`urn:uuid:`)
+
+A `<rim:ExtrinsicObject>` returned by ITI-18 carries **two** distinct identifiers and they are NOT interchangeable:
+- **entryUUID** = the `id`/`lid` attribute (`urn:uuid:…`), the registry's internal symbolic id (used by `GetAssociations`/`GetDocuments`).
+- **uniqueId** = the `<rim:ExternalIdentifier identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab">/@value` (OID form, e.g. `1.2.250.1.999…`), which is what **ITI-43 `DocumentUniqueId` expects** to retrieve content.
+
+`XdsRegistryClient.MapToDocumentEntry` reads `DocumentEntry.UniqueId` from the ExternalIdentifier (constant `XdsConstants.DocumentEntryUniqueIdScheme`) and keeps the `id` attribute in `EntryUuid`. **Never** map `UniqueId` to the `id` attribute — sending an entryUUID as `DocumentUniqueId` makes the DMP answer the SOAP Fault `XDSDocumentUniqueIdError`.
+
+### ITI-43 responses are MTOM/XOP (multipart) — not plain XML
+
+Unlike ITI-18 (plain SOAP XML), the DMP returns ITI-43 `RetrieveDocumentSetResponse` as a **`multipart/related` (MTOM/XOP)** body — even for SOAP Faults. The SOAP envelope is the root part; the document bytes are a separate binary MIME part referenced by `<xop:Include href="cid:…"/>` inside `<ihe:Document>`. `XdsSoapClientBase.SendSoapWithAttachmentsAsync` reads the response as **bytes** (never `ReadAsStringAsync` — it would corrupt binary parts), delegates to `MtomParser.Parse` to split the root XML + attachments-by-Content-ID, and `XdsRepositoryClient.ParseRetrieveResponse` resolves the `xop:Include` href (URL-decoded `cid:`) against the attachment map (falling back to inline base64 if a non-MTOM response is ever returned). Covered by `MtomParserTests`. **Do not** route ITI-43 through the plain `SendSoapAsync` path — it would throw `NON_SOAP_RESPONSE` because `multipart/related` is not XML-ish.
+
 INS OIDs: NIR (15 digits) = `1.2.250.1.213.1.4.8`, NIA = `1.2.250.1.213.1.4.9`. The choice is driven by `Ins` value length, not by configuration.
 
 `RepositoryUniqueId` and `HomeCommunityId` in `appsettings*.json` are **OIDs imposed by the ANS** for the targeted DMP environment (test or prod). They are not free identifiers to invent — when in doubt, copy from the ANS integration guide rather than generating new values.

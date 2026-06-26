@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { DocumentList, DocumentListFilter } from './models';
 
@@ -30,22 +30,26 @@ export class DocumentsApi {
   }
 
   /**
-   * GET …/documents/{uniqueId}/content — contenu binaire (ITI-43).
-   * `observe: 'response'` pour lire le Content-Type et un éventuel nom de fichier.
+   * GET …/documents/{uniqueId}/content — XML CDA R2 brut (ITI-43).
+   *
+   * L'API renvoie toujours un document CDA R2 (`application/xml`), quel que soit le type réel
+   * du contenu médical. Le parsing CDA (niveau N1 / N3) est effectué côté frontend par `CdaService`.
    */
   getContent(
     ins: string,
     uniqueId: string,
     repositoryUniqueId: string,
     homeCommunityId?: string | null,
-  ): Observable<HttpResponse<Blob>> {
+  ): Promise<string> {
     let params = new HttpParams().set('repositoryUniqueId', repositoryUniqueId);
     if (homeCommunityId) {
       params = params.set('homeCommunityId', homeCommunityId);
     }
-    return this.http.get(
-      `${this.base}/api/patients/${encodeURIComponent(ins)}/documents/${encodeURIComponent(uniqueId)}/content`,
-      { params, responseType: 'blob', observe: 'response' },
+    return firstValueFrom(
+      this.http.get(
+        `${this.base}/api/patients/${encodeURIComponent(ins)}/documents/${encodeURIComponent(uniqueId)}/content`,
+        { params, responseType: 'text' },
+      ),
     );
   }
 }

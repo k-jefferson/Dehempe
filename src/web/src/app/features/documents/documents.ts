@@ -24,6 +24,7 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 import { DocumentsApi } from '../../core/api/documents-api';
 import { DocumentEntry } from '../../core/api/models';
 import { PatientsDataset } from '../../core/patients/patients-dataset';
@@ -86,6 +87,7 @@ type State =
 export class Documents {
   private readonly api = inject(DocumentsApi);
   private readonly dataset = inject(PatientsDataset);
+  private readonly router = inject(Router);
 
   /** INS du patient, lié au paramètre de route `:ins`. */
   readonly ins = input.required<string>();
@@ -207,6 +209,23 @@ export class Documents {
   }
   reload(): void {
     this.reloadNonce.update((n) => n + 1);
+  }
+
+  openDocument(row: DocRow): void {
+    const ins = this.ins();
+    const doc = this.loaded()?.documents.find((d) => d.uniqueId === row.uniqueId);
+    if (!doc) return;
+    this.router.navigate(
+      ['/patient', ins, 'documents', encodeURIComponent(doc.uniqueId)],
+      {
+        queryParams: {
+          repositoryUniqueId: doc.repositoryUniqueId,
+          ...(doc.homeCommunityId ? { homeCommunityId: doc.homeCommunityId } : {}),
+          title: doc.title ?? row.title,
+          ...(doc.formatCode ? { formatCode: doc.formatCode } : {}),
+        },
+      },
+    );
   }
 }
 

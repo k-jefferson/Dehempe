@@ -157,13 +157,24 @@ internal sealed class XdsRegistryClient : XdsSoapClientBase
             node.SelectSingleNode($"rim:Classification[@classificationScheme='{scheme}']/@nodeRepresentation", ns)?.Value
             ?? string.Empty;
 
+        string ExternalId(string scheme) =>
+            node.SelectSingleNode($"rim:ExternalIdentifier[@identificationScheme='{scheme}']/@value", ns)?.Value
+            ?? string.Empty;
+
         var status = node.Attributes?["status"]?.Value ?? string.Empty;
+        var entryUuid = node.Attributes?["id"]?.Value;
+
+        // Le DocumentUniqueId (format OID) attendu par l'ITI-43 est porté par l'ExternalIdentifier
+        // dédié, et NON par l'attribut id (= entryUUID urn:uuid:...). Cf. XdsConstants.DocumentEntryUniqueIdScheme.
+        var uniqueId = ExternalId(XdsConstants.DocumentEntryUniqueIdScheme);
 
         return new DocumentEntry
         {
-            UniqueId           = new DocumentUniqueId(node.Attributes?["id"]?.Value ?? Guid.NewGuid().ToString()),
+            UniqueId           = new DocumentUniqueId(
+                                     !string.IsNullOrEmpty(uniqueId) ? uniqueId
+                                     : entryUuid ?? Guid.NewGuid().ToString()),
             RepositoryUniqueId = new RepositoryUniqueId(Slot("repositoryUniqueId")),
-            EntryUuid          = node.Attributes?["id"]?.Value,
+            EntryUuid          = entryUuid,
             HomeCommunityId    = node.Attributes?["home"]?.Value,
             PatientIns         = ins,
             Title              = node.SelectSingleNode("rim:Name/rim:LocalizedString/@value", ns)?.Value,

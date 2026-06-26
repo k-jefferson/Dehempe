@@ -36,7 +36,11 @@ CDA <nonXMLBody>
 ```
 
 - Décoder le base64 → `Blob` JavaScript avec le `mediaType` lu dans l'attribut `@mediaType`.
-- Créer un `objectURL` sur ce blob → `<object>` ou `<iframe>` natif du navigateur.
+- Créer un `objectURL` sur ce blob → `<object>` natif du navigateur.
+- ⚠️ **`<object [data]>` est un contexte « resource URL »** : Angular rejette une string `blob:` brute
+  (erreur `NG0904`, zone vide). Le binding doit recevoir un `SafeResourceUrl` produit par
+  `DomSanitizer.bypassSecurityTrustResourceUrl(objectUrl)`. Conserver l'URL brute à part pour
+  `URL.revokeObjectURL` à la destruction.
 - Le `mimeType` renvoyé par l'API HTTP (`Content-Type`) est `application/xml` (le CDA) — **ne pas** l'utiliser pour déduire le type du contenu encapsulé : toujours lire `@mediaType` dans le XML.
 
 ### 2.3 Rendu N3 — transformation XSL ANS

@@ -25,4 +25,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Expose les types internal (ex. MtomParser) au projet de tests. -->
+    <InternalsVisibleTo Include="Dehempe.Infrastructure.Tests" />
+  </ItemGroup>
+
 </Project>

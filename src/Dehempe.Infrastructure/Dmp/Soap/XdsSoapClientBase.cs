@@ -35,7 +35,26 @@ internal abstract class XdsSoapClientBase
         _capture = capture;
     }
 
+    /// <summary>
+    /// Résultat d'un échange SOAP : le document XML racine et, le cas échéant, les pièces
+    /// jointes MTOM/XOP indexées par Content-ID normalisé (sans &lt;&gt;, URL-décodé).
+    /// </summary>
+    protected sealed record SoapResult(XmlDocument Xml, IReadOnlyDictionary<string, byte[]> Attachments);
+
+    /// <summary>Envoi SOAP simple — ne renvoie que le XML racine (cas ITI-18, GDP).</summary>
     protected async Task<XmlDocument> SendSoapAsync(
+        string endpoint,
+        string soapAction,
+        XmlElement body,
+        VihfContext vihfCtx,
+        CancellationToken ct)
+        => (await SendSoapWithAttachmentsAsync(endpoint, soapAction, body, vihfCtx, ct)).Xml;
+
+    /// <summary>
+    /// Envoi SOAP renvoyant le XML racine ET les pièces jointes MTOM (cas ITI-43 : le contenu
+    /// du document est transmis en pièce jointe binaire référencée par <c>xop:Include</c>).
+    /// </summary>
+    protected async Task<SoapResult> SendSoapWithAttachmentsAsync(
         string endpoint,
         string soapAction,
         XmlElement body,
@@ -81,13 +100,32 @@ internal abstract class XdsSoapClientBase
 
             using (response)
             {
-                responseBody     = await response.Content.ReadAsStringAsync(ct);
+                var mediaType = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+                var isMultipart = mediaType.Contains("multipart", StringComparison.OrdinalIgnoreCase);
+
+                // ITI-43 répond en MTOM/XOP : le corps est un multipart/related dont la 1re partie
+                // est l'enveloppe SOAP (xop+xml) et les suivantes les pièces jointes binaires
+                // (le contenu du document). Il faut lire en octets pour ne pas corrompre le binaire.
+                IReadOnlyDictionary<string, byte[]> attachments = EmptyAttachments;
+                if (isMultipart)
+                {
+                    var raw = await response.Content.ReadAsByteArrayAsync(ct);
+                    var parsed = MtomParser.Parse(raw, response.Content.Headers.ContentType!);
+                    responseBody = parsed.RootXml;
+                    attachments  = parsed.Attachments;
+                }
+                else
+                {
+                    responseBody = await response.Content.ReadAsStringAsync(ct);
+                }
+
                 _capture.LastResponse = responseBody;
-                var contentType  = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
-                var isXmlish     = contentType.Contains("xml", StringComparison.OrdinalIgnoreCase)
-                                   || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)
-                                   || responseBody.TrimStart().StartsWith("<soap", StringComparison.OrdinalIgnoreCase)
-                                   || responseBody.TrimStart().StartsWith("<s:", StringComparison.OrdinalIgnoreCase);
+
+                var isXmlish = isMultipart
+                               || mediaType.Contains("xml", StringComparison.OrdinalIgnoreCase)
+                               || responseBody.TrimStart().StartsWith("<?xml", StringComparison.Ordinal)
+                               || responseBody.TrimStart().StartsWith("<soap", StringComparison.OrdinalIgnoreCase)
+                               || responseBody.TrimStart().StartsWith("<s:", StringComparison.OrdinalIgnoreCase);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -99,13 +137,13 @@ internal abstract class XdsSoapClientBase
                     if (!isXmlish)
                         throw new DmpException(
                             $"Erreur HTTP {(int)response.StatusCode} lors de l'appel DMP ({soapAction}). " +
-                            $"Content-Type={contentType}. Body={Truncate(responseBody, 500)}",
+                            $"Content-Type={mediaType}. Body={Truncate(responseBody, 500)}",
                             response.StatusCode.ToString());
                 }
 
                 if (!isXmlish)
                     throw new DmpException(
-                        $"Le DMP a répondu en HTTP {(int)response.StatusCode} avec un Content-Type « {contentType} » " +
+                        $"Le DMP a répondu en HTTP {(int)response.StatusCode} avec un Content-Type « {mediaType} » " +
                         $"(non-SOAP). Probable : mauvais path d'endpoint pour {soapAction}. " +
                         $"Body[0..400]={Truncate(responseBody, 400)}",
                         "NON_SOAP_RESPONSE");
@@ -113,7 +151,7 @@ internal abstract class XdsSoapClientBase
                 var doc = new XmlDocument();
                 doc.LoadXml(responseBody);
                 CheckRegistryError(doc);
-                return doc;
+                return new SoapResult(doc, attachments);
             }
         }
         catch (DmpException ex)
@@ -127,6 +165,9 @@ internal abstract class XdsSoapClientBase
             throw;
         }
     }
+
+    private static readonly IReadOnlyDictionary<string, byte[]> EmptyAttachments
+        = new Dictionary<string, byte[]>();
 
     private static string Truncate(string s, int max)
         => s.Length <= max ? s : s[..max] + "…";

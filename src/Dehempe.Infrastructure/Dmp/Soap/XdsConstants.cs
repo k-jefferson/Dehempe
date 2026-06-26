@@ -7,6 +7,7 @@ internal static class XdsConstants
     public const string EbRs3Ns    = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0";
     public const string EbQ3Ns     = "urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0";
     public const string IheXdsNs   = "urn:ihe:iti:xds-b:2007";
+    public const string XopNs      = "http://www.w3.org/2004/08/xop/include";
     public const string WsaNs      = "http://www.w3.org/2005/08/addressing";
     public const string WssNs      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
     public const string WsuNs      = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
@@ -28,6 +29,15 @@ internal static class XdsConstants
     public const string FormatCodeScheme             = "urn:uuid:a09d5840-386c-46f2-b5ad-9fdf87b75cc4";
     public const string PracticeSettingCodeScheme    = "urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead";
     public const string HealthcareFacilityTypeScheme = "urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1";
+
+    // ExternalIdentifier schemes (identifiants externes d'un ExtrinsicObject XDS).
+    // ATTENTION : le XDSDocumentEntry.uniqueId — celui attendu en DocumentUniqueId par l'ITI-43 —
+    // est porté par cet ExternalIdentifier (format OID), PAS par l'attribut id de l'ExtrinsicObject
+    // (qui est l'entryUUID symbolique du registre, format urn:uuid:...). Confondre les deux
+    // déclenche le SOAP Fault XDSDocumentUniqueIdError à la récupération. Cf. exemple officiel
+    // TD3.1 (DMP_LPS_Exemple de messages).
+    public const string DocumentEntryUniqueIdScheme  = "urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab";
+    public const string DocumentEntryPatientIdScheme = "urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427";
 
     // Statuts document
     public const string StatusApproved   = "urn:oasis:names:tc:ebxml-regrep:StatusType:Approved";

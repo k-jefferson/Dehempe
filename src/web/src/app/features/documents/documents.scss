@@ -120,3 +120,16 @@ mat-paginator {
   margin-top: 8px;
   background: transparent;
 }
+
+.documents__row--clickable {
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-low);
+  }
+
+  &:focus {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: -2px;
+  }
+}

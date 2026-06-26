@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Xml;
 using Dehempe.Application.Common.Interfaces;
 using Dehempe.Domain.Entities;
@@ -41,7 +42,7 @@ internal sealed class XdsRepositoryClient : XdsSoapClientBase
         var body = BuildRetrieveBody(doc, uniqueId, repositoryUniqueId, homeCommunityId ?? _options.HomeCommunityId);
         var vihfCtx = _vihfCtxAccessor.GetContext(patientIns);
 
-        var response = await SendSoapAsync(
+        var response = await SendSoapWithAttachmentsAsync(
             _options.RepositoryEndpoint,
             XdsConstants.Iti43Action,
             body,
@@ -78,27 +79,58 @@ internal sealed class XdsRepositoryClient : XdsSoapClientBase
         return retrieve;
     }
 
-    private static DocumentContent ParseRetrieveResponse(
-        XmlDocument response,
+    private DocumentContent ParseRetrieveResponse(
+        SoapResult response,
         DocumentUniqueId uniqueId,
         RepositoryUniqueId repositoryUniqueId)
     {
-        var ns = new XmlNamespaceManager(response.NameTable);
+        var ns = new XmlNamespaceManager(response.Xml.NameTable);
         ns.AddNamespace("ihe", XdsConstants.IheXdsNs);
+        ns.AddNamespace("xop", XdsConstants.XopNs);
 
-        var docNode = response.SelectSingleNode("//ihe:DocumentResponse", ns);
+        var docNode = response.Xml.SelectSingleNode("//ihe:DocumentResponse", ns);
         if (docNode is null)
             throw new DmpDocumentNotFoundException(uniqueId.Value);
 
         var mimeType = docNode.SelectSingleNode("ihe:mimeType", ns)?.InnerText ?? "application/octet-stream";
-        var docData  = docNode.SelectSingleNode("ihe:Document", ns)?.InnerText ?? string.Empty;
+
+        // Le contenu peut être transmis de deux façons :
+        //  - MTOM/XOP : <ihe:Document><xop:Include href="cid:..."/></ihe:Document> → octets en pièce jointe ;
+        //  - base64 inline : <ihe:Document>BASE64</ihe:Document> (cas dégradé sans MTOM).
+        var xopHref = docNode.SelectSingleNode("ihe:Document/xop:Include/@href", ns)?.Value;
+        byte[] data;
+        if (!string.IsNullOrEmpty(xopHref))
+        {
+            var cid = MtomParser.NormalizeCid(xopHref);
+            if (!response.Attachments.TryGetValue(cid, out var bytes))
+            {
+                // Repli : si une seule pièce jointe, c'est forcément le document.
+                if (response.Attachments.Count == 1)
+                    bytes = response.Attachments.Values.First();
+                else
+                    throw new DmpException(
+                        $"Pièce jointe MTOM introuvable pour le document (cid={cid}, " +
+                        $"{response.Attachments.Count} pièce(s) jointe(s) reçue(s)).",
+                        "MTOM_CID_NOT_FOUND");
+            }
+            data = bytes;
+        }
+        else
+        {
+            var docData = docNode.SelectSingleNode("ihe:Document", ns)?.InnerText?.Trim() ?? string.Empty;
+            data = Convert.FromBase64String(docData);
+        }
+
+        Logger.LogInformation(
+            "Document {UniqueId} récupéré ({Size} octets, {MimeType}).",
+            uniqueId.Value, data.Length, mimeType);
 
         return new DocumentContent
         {
             UniqueId           = uniqueId,
             RepositoryUniqueId = repositoryUniqueId,
             MimeType           = mimeType,
-            Data               = Convert.FromBase64String(docData)
+            Data               = data
         };
     }
 }
