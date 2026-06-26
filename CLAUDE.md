@@ -280,6 +280,17 @@ INS OIDs: NIR (15 digits) = `1.2.250.1.213.1.4.8`, NIA = `1.2.250.1.213.1.4.9`. 
 
 The `docs/package dmp/` folder holds the official Assurance Maladie documentation set — committed in the repo. **Always consult it before implementing or modifying any DMP feature** rather than guessing from sample code or memory:
 
+### Format CDA R2 (CI-SIS)
+
+The `docs/CI-SIS/` folder holds the CI-SIS interoperability framework documentation. **Always consult it before implementing or modifying any feature that involves reading, displaying, or processing CDA documents** (F04 document viewer, future structured content extraction, etc.):
+
+- **`CI-SIS_CONTENU_VOLET-STRUCTURATION-MINIMALE_V1.16.8.pdf`** — defines the minimal structuring profile for CDA R2 documents exchanged via the DMP. All documents returned by the DMP (`GET .../documents/{uniqueId}/content`) are CDA R2:
+  - **Niveau 1** : non-structured content; the CDA wraps a non-XML body (typically a base64-encoded PDF in `<nonXMLBody>`).
+  - **Niveau 3** : structured content; the CDA body is XML (`<structuredBody>`) with coded sections.
+  - The ANS publishes a reference XSL stylesheet for rendering N3 CDA documents in a browser — use it when implementing the document viewer (F04).
+
+**When working on F04 or any CDA-related feature**, read this spec before writing code. Do not attempt to parse or render CDA content from memory or assumptions.
+
 - **`SEL-MP-037 DMPi v2.10.0 sans MR.pdf`** — the main DMPi specification (DMP interface). The authoritative source for transactions, message shapes, and business rules. The `avec MR` variant is the same spec annotated with revision marks.
 - **`PDT-INF-526 - Matrice des droits fonctionnels v1.8.pdf`** — which transaction is allowed for which CPS profile / access context (normal / urgence / bris-de-glace). Check this before adding a route that calls a new TD.
 - **`PDT-INF-527 - Accès Web au système DMP v1.7.pdf`** — web access flows, useful for cross-referencing the SOAP equivalents.
